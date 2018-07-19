@@ -1,0 +1,33 @@
+{
+	"complete": 1,
+	"modules": [
+		{
+			"id": "eit",
+			"services": [
+				"1a5980e2f43cd2867d7696a14af56f8d",
+				"ae6a7b684f0437a3fd174ce7734198d8"
+			]
+		},
+		{
+			"id": "uk_freesat"
+		},
+		{
+			"id": "uk_freeview"
+		},
+		{
+			"id": "viasat_baltic"
+		},
+		{
+			"id": "opentv-ausat"
+		},
+		{
+			"id": "opentv-skynz"
+		},
+		{
+			"id": "opentv-skyit"
+		},
+		{
+			"id": "opentv-skyuk"
+		}
+	]
+}
