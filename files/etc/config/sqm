@@ -1,0 +1,13 @@
+
+config queue 'eth0'
+	option qdisc_advanced '0'
+	option linklayer 'none'
+	option interface 'eth0.20'
+	option download '300000'
+	option upload '300000'
+	option debug_logging '0'
+	option verbosity '5'
+	option qdisc 'fq_codel'
+	option script 'piece_of_cake.qos'
+	option enabled '0'
+

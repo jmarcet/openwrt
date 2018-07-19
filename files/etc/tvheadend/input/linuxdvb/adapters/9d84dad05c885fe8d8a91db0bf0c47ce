@@ -1,0 +1,28 @@
+{
+	"rootpath": "/dev/dvb/adapter0",
+	"frontends": {
+		"DVB-T #0": {
+			"lna": false,
+			"pids_max": 32,
+			"powersave": true,
+			"tune_repeats": 0,
+			"skip_bytes": 0,
+			"ibuf_size": 188000,
+			"status_period": 1000,
+			"old_status": true,
+			"enabled": true,
+			"priority": 0,
+			"spriority": 0,
+			"displayname": "Realtek RTL2832 (DVB-T) : DVB-T #0",
+			"ota_epg": true,
+			"initscan": true,
+			"idlescan": true,
+			"networks": [
+				"101fdc87afeffc34c02d20f01f9c21b6"
+			],
+			"linked": "",
+			"type": "DVB-T",
+			"uuid": "acffee244a8ee1c5b03d496c76f6976d"
+		}
+	}
+}

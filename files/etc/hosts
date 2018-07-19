@@ -1,0 +1,14 @@
+127.0.0.1 localhost
+
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+
+2a01:c50e:b800:4d00:8e3b:adff:fe1f:1da8 nighthawk
+2a01:c50e:b800:4d00:be5f:f4ff:fe4a:2dce himawari
+2a01:c50e:b800:4d00:5a00:e3ff:fe49:8207 yoga
+2a01:c50e:b800:4d00:3aa4:edff:fe6e:dbe3 kenzo
+2a01:c50e:b800:4d00:0d78:608f:33eb:6f5d charlotte
+
+62.36.225.150 sip.orange.es
+62.37.236.178 proxy2.orange.es www-default.orange.es

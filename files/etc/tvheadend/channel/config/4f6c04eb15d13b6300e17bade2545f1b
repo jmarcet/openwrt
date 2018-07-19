@@ -1,0 +1,17 @@
+{
+	"enabled": true,
+	"number": 2,
+	"icon": "picon://1_0_19_206_3F2_22D4_EEEE0000_0_0_0.png",
+	"epgauto": true,
+	"dvr_pre_time": 0,
+	"dvr_pst_time": 0,
+	"services": [
+		"d20363e2a68f54e22c267b6baed94b07"
+	],
+	"tags": [
+		"7e85e0b870f91902d5141e88d319b9e0",
+		"513008fce778cd99bd3b48274772eec7",
+		"4b3c4d911f8bdb30d272913a5a793cbf"
+	],
+	"bouquet": ""
+}

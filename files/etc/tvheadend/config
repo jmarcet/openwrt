@@ -1,0 +1,14 @@
+{
+	"version": 17,
+	"fullversion": "4.0.9~openwrt1",
+	"satip_rtsp": "0",
+	"satip_descramble": 1,
+	"satip_weight": 100,
+	"satip_deviceid": 1,
+	"satip_uuid": "e8d4bb44-31e4-746c-28fc-efc6d0880a99",
+	"muxconfpath": "",
+	"language": "eng",
+	"prefer_picon": "false",
+	"chiconpath": "",
+	"piconpath": ""
+}

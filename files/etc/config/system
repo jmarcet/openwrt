@@ -1,0 +1,55 @@
+
+config system
+	option ttylogin '0'
+	option log_size '64'
+	option urandom_seed '0'
+	option hostname 'nighthawk'
+	option zonename 'Europe/Madrid'
+	option timezone 'CET-1CEST,M3.5.0,M10.5.0/3'
+	option log_proto 'udp'
+	option conloglevel '8'
+	option cronloglevel '8'
+
+config timeserver 'ntp'
+	option enabled '1'
+	list server '0.openwrt.pool.ntp.org'
+	list server '1.openwrt.pool.ntp.org'
+	list server '2.openwrt.pool.ntp.org'
+	list server '3.openwrt.pool.ntp.org'
+
+config led 'led_usb1'
+	option name 'USB 1'
+	option sysfs 'r7800:white:usb1'
+	option trigger 'usbport'
+	list port 'usb1-port1'
+	list port 'usb2-port1'
+
+config led 'led_usb2'
+	option name 'USB 2'
+	option sysfs 'r7800:white:usb2'
+	option trigger 'usbport'
+	list port 'usb3-port1'
+	list port 'usb4-port1'
+
+config led 'led_wan'
+	option name 'WAN'
+	option sysfs 'r7800:white:wan'
+	option trigger 'netdev'
+	option mode 'link tx rx'
+	option dev 'eth0'
+
+config led 'led_esata'
+	option name 'eSATA'
+	option sysfs 'r7800:white:esata'
+	option trigger 'ide-disk'
+
+config led 'led_wlan2g'
+	option name 'WLAN 2G'
+	option sysfs 'ath10k-phy1'
+	option trigger 'phy1tpt'
+
+config led 'led_wlan5g'
+	option name 'WLAN 5G'
+	option sysfs 'ath10k-phy0'
+	option trigger 'phy0tpt'
+
