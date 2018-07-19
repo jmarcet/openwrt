@@ -1,0 +1,64 @@
+{
+	"sid": 40001,
+	"lcn": 0,
+	"lcn_minor": 0,
+	"lcn2": 0,
+	"svcname": "Clan HD",
+	"provider": "RTVE",
+	"dvb_servicetype": 25,
+	"dvb_ignore_eit": false,
+	"prefcapid": 0,
+	"prefcapid_lock": 0,
+	"force_caid": 0,
+	"created": 1520994002,
+	"last_seen": 1520994002,
+	"enabled": true,
+	"auto": 0,
+	"priority": 0,
+	"pcr": 1501,
+	"pmt": 1500,
+	"stream": [
+		{
+			"pid": 1501,
+			"type": "H264",
+			"position": 0
+		},
+		{
+			"pid": 1503,
+			"type": "EAC3",
+			"position": 0,
+			"language": "spa",
+			"audio_type": 0
+		},
+		{
+			"pid": 1504,
+			"type": "EAC3",
+			"position": 0,
+			"language": "qaa",
+			"audio_type": 0
+		},
+		{
+			"pid": 1505,
+			"type": "EAC3",
+			"position": 0,
+			"language": "spa",
+			"audio_type": 3
+		},
+		{
+			"pid": 1511,
+			"type": "DVBSUB",
+			"position": 0,
+			"language": "spa",
+			"compositionid": 1,
+			"ancillartyid": 1
+		},
+		{
+			"pid": 1512,
+			"type": "DVBSUB",
+			"position": 0,
+			"language": "qaa",
+			"compositionid": 1,
+			"ancillartyid": 1
+		}
+	]
+}

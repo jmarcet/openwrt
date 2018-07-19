@@ -1,0 +1,87 @@
+
+config interface 'loopback'
+	option ifname 'lo'
+	option proto 'static'
+	option ipaddr '127.0.0.1'
+	option netmask '255.0.0.0'
+
+config globals 'globals'
+	option ula_prefix '2a01:c50e:b800:4d00::/60'
+
+config interface 'lan'
+	option type 'bridge'
+	option proto 'static'
+	option netmask '255.255.255.0'
+	option ipaddr '10.7.0.1'
+	option ip6ifaceid 'eui64'
+	option ifname 'eth1.1'
+	option ip6assign '64'
+	option ip6hint '0'
+	#option dns '2a01:c50e:b800:4d00:8e3b:adff:fe1f:1da8'
+
+config interface 'wan'
+	option ifname 'eth0.20'
+	option proto 'dhcp'
+	#option peerdns '1'
+
+config interface 'wan6'
+	option ifname 'eth0.20'
+	option proto 'dhcpv6'
+	option reqaddress 'try'
+	option reqprefix 'auto'
+	#option peerdns '1'
+
+config switch
+	option name 'switch0'
+	option reset '1'
+	option enable_vlan '1'
+
+config switch_vlan
+	option device 'switch0'
+	option vlan '1'
+	option ports '1 2 3 4 6t'
+	option vid '1'
+
+config switch_vlan
+	option device 'switch0'
+	option vlan '2'
+	option vid '20'
+	option ports '0t 5t'
+
+config interface 'guest'
+	option type 'bridge'
+	option proto 'static'
+	option ipaddr '192.168.7.1'
+	option netmask '255.255.255.0'
+	option ip6assign '64'
+	option ip6hint '1'
+	option ip6ifaceid '::1'
+
+config interface 'wg'
+	option proto 'wireguard'
+	option private_key 'kB5rQfRigvM9rSUjKJy4JKcE1iJ4dq/qWrYJ1ZuiQUI='
+	option listen_port '51820'
+	list addresses '10.10.0.1/8'
+	list addresses '2a01:c50e:b800:4d10::1/64'
+
+config wireguard_wg
+	option public_key 'tp79Zn/TEWXgEj3Q2MOcXltXc65i399s7n9CWhA2u0s='
+	option route_allowed_ips '1'
+	option persistent_keepalive '25'
+	list allowed_ips '10.10.0.5/32'
+	list allowed_ips '2a01:c50e:b800:4d10::5/128'
+
+config wireguard_wg
+	option public_key 'QnivOdxo9fK5f2mU4qVo9koYsaQv3gDQzWbRVoacNGs='
+	option route_allowed_ips '1'
+	option persistent_keepalive '25'
+	list allowed_ips '10.10.0.6/32'
+	list allowed_ips '2a01:c50e:b800:4d10::6/128'
+
+config wireguard_wg
+	option public_key 'DmbCXlQr7Hdrc+xw7x0YcXZAjM5/VTNQLLvgafVN4E8='
+	option route_allowed_ips '1'
+	option persistent_keepalive '25'
+	list allowed_ips '10.10.0.10/32'
+	list allowed_ips '2a01:c50e:b800:4d10::10/128'
+

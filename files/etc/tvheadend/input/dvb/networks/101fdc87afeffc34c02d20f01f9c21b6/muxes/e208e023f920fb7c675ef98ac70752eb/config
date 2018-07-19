@@ -1,0 +1,18 @@
+{
+	"delsys": "DVBT",
+	"frequency": 578000000,
+	"bandwidth": "8MHz",
+	"constellation": "QAM/64",
+	"transmission_mode": "8k",
+	"guard_interval": "1/8",
+	"hierarchy": "NONE",
+	"fec_hi": "2/3",
+	"fec_lo": "NONE",
+	"plp_id": -1,
+	"enabled": true,
+	"epg": 1,
+	"onid": 8916,
+	"tsid": 10121,
+	"scan_result": 1,
+	"pmt_06_ac3": 0
+}

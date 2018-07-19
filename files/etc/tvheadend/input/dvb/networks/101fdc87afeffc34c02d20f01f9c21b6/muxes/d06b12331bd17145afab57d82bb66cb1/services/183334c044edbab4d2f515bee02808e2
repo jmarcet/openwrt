@@ -1,0 +1,29 @@
+{
+	"sid": 157,
+	"lcn": 0,
+	"lcn_minor": 0,
+	"lcn2": 0,
+	"svcname": "EUROPA FM",
+	"provider": "A3MEDIA",
+	"dvb_servicetype": 2,
+	"dvb_ignore_eit": false,
+	"prefcapid": 0,
+	"prefcapid_lock": 0,
+	"force_caid": 0,
+	"created": 1520993778,
+	"last_seen": 1520993778,
+	"enabled": true,
+	"auto": 0,
+	"priority": 0,
+	"pcr": 1501,
+	"pmt": 1500,
+	"stream": [
+		{
+			"pid": 1501,
+			"type": "MPEG2AUDIO",
+			"position": 0,
+			"language": "spa",
+			"audio_type": 0
+		}
+	]
+}

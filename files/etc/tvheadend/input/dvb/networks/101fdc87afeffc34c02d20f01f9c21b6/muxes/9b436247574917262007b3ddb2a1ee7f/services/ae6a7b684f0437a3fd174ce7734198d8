@@ -1,0 +1,69 @@
+{
+	"sid": 1633,
+	"lcn": 0,
+	"lcn_minor": 0,
+	"lcn2": 0,
+	"svcname": "tvG2",
+	"provider": "CRTVG",
+	"dvb_servicetype": 1,
+	"dvb_ignore_eit": false,
+	"prefcapid": 0,
+	"prefcapid_lock": 0,
+	"force_caid": 0,
+	"created": 1520993598,
+	"last_seen": 1520993598,
+	"enabled": true,
+	"auto": 0,
+	"priority": 0,
+	"pcr": 180,
+	"pmt": 1026,
+	"stream": [
+		{
+			"pid": 180,
+			"type": "MPEG2VIDEO",
+			"position": 0
+		},
+		{
+			"pid": 181,
+			"type": "MPEG2AUDIO",
+			"position": 0,
+			"language": "glg",
+			"audio_type": 0
+		},
+		{
+			"pid": 182,
+			"type": "MPEG2AUDIO",
+			"position": 0,
+			"language": "qaa",
+			"audio_type": 0
+		},
+		{
+			"pid": 183,
+			"type": "TELETEXT",
+			"position": 0
+		},
+		{
+			"pid": 184,
+			"type": "DVBSUB",
+			"position": 0,
+			"language": "glg",
+			"compositionid": 1,
+			"ancillartyid": 1
+		},
+		{
+			"pid": 185,
+			"type": "DVBSUB",
+			"position": 0,
+			"language": "qaa",
+			"compositionid": 1,
+			"ancillartyid": 1
+		},
+		{
+			"pid": 9050,
+			"type": "TEXTSUB",
+			"position": 1000,
+			"language": "glg",
+			"parentpid": 183
+		}
+	]
+}

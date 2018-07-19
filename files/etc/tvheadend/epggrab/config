@@ -1,0 +1,13 @@
+{
+	"channel_rename": 1,
+	"channel_renumber": 0,
+	"channel_reicon": 0,
+	"epgdb_periodicsave": 0,
+	"cron": "# Default config (00:04 and 12:04 everyday)\n4 */12 * * *",
+	"ota_cron": "# Default config (02:04 and 14:04 everyday)\n4 2 * * *\n4 14 * * *",
+	"ota_timeout": 600,
+	"ota_initial": 1,
+	"mod_enabled": {
+		"eit": 1
+	}
+}
