@@ -1,7 +1,6 @@
 # Put your custom commands here that should be executed once
 # the system init finished. By default this file does nothing.
 
-irqbalance --pid /tmp/irqblance.pid
 pgrep -f 'socat -ly' &>/dev/null || /etc/socat.sh
 [ -e /storage ] || mkdir -p /storage
 mount himawari:/storage /storage -o noatime
