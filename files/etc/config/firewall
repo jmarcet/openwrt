@@ -64,6 +64,36 @@ config redirect
 	option src 'wan'
 	option dest 'lan'
 	option proto 'tcp'
+	option src_dport '2002'
+	option dest_ip '10.7.0.1'
+	option dest_port '2002'
+	option name 'socat@2002'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option src_dport '9981'
+	option dest_ip '10.7.0.2'
+	option dest_port '9981'
+	option name 'tvh@himawari@9981'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
+	option src_dport '9982'
+	option dest_ip '10.7.0.2'
+	option dest_port '9982'
+	option name 'tvh@himawari@9982'
+
+config redirect
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'tcp'
 	option src_dport '55054'
 	option dest_ip '10.7.0.1'
 	option dest_port '22'
@@ -174,115 +204,28 @@ config rule
 	option proto 'udp'
 	option target 'ACCEPT'
 
-config rule
-	option name 'Guest-DNS'
-	option src 'guest'
-	option proto 'tcp udp'
-	option dest_port '53'
-	option target 'ACCEPT'
-
-config rule
-	option name 'Guest-DHCP'
-	option src 'guest'
-	option proto 'udp'
-	option dest_port '67-68'
-	option target 'ACCEPT'
-
-config rule
-	option name 'Guest-DHCPv6'
-	option src 'guest'
-	option proto 'udp'
-	option dest_port '546'
-	option family 'ipv6'
-	option target 'ACCEPT'
-
-config rule
-	option target 'ACCEPT'
-	option src 'wan'
-	option dest_port '80'
-	option name 'Allow-80@himawari'
-	option family 'ipv6'
-	option dest 'lan'
-	option dest_ip '2a01:c50e:b800:4d00:be5f:f4ff:fe4a:2dce'
-	option proto 'tcp'
-
-config rule
-	option target 'ACCEPT'
-	option src 'wan'
-	option proto 'tcp'
-	option dest_port '443'
-	option name 'Allow-443@himawari'
-	option family 'ipv6'
-	option dest 'lan'
-	option dest_ip '2a01:c50e:b800:4d00:be5f:f4ff:fe4a:2dce'
-
-config rule
-	option target 'ACCEPT'
-	option src 'wan'
-	option proto 'tcp'
-	option dest_port '2000'
-	option family 'ipv6'
-	option dest_ip '2a01:c50e:b800:4d00:8e3b:adff:fe1f:1da8'
-	option name 'Allow-2000@nighthawk'
-
-config rule
-	option target 'ACCEPT'
-	option src 'wan'
-	option proto 'tcp'
-	option dest_port '2001'
-	option family 'ipv6'
-	option dest_ip '2a01:c50e:b800:4d00:8e3b:adff:fe1f:1da8'
-	option name 'Allow-2001@nighthawk'
-
-config rule
-	option target 'ACCEPT'
-	option src 'wan'
-	option proto 'udp'
-	option dest_port '51820'
-	option name 'Allow-51820'
-
-config rule
-	option target 'ACCEPT'
-	option src 'wan'
-	option proto 'tcp'
-	option dest_port '55055'
-	option name 'Allow-55055@himawari'
-	option family 'ipv6'
-	option dest_ip '2a01:c50e:b800:4d00:be5f:f4ff:fe4a:2dce'
-	option dest 'lan'
-
-config rule
-	option name 'Isolate_clients'
-	option family 'ipv6'
-	option src 'guest'
-	option dest 'guest'
-	option dest_ip '2a01:c50e:b800:4d00::/60'
-	option target 'REJECT'
-	option proto 'all'
-	option enabled '0'
-
-config rule
-	option proto 'all'
-	option src 'guest'
-	option dest 'guest'
-	option target 'REJECT'
-	option family 'ipv4'
-	option name 'Isolate_clients'
-	option dest_ip '192.168.7.0/24'
-
-config rule
-	option target 'ACCEPT'
-	option name 'wg-lan'
-	option proto 'all'
-	option src 'wg'
-	option dest 'lan'
-
 config defaults
 	option syn_flood '1'
 	option input 'ACCEPT'
 	option output 'ACCEPT'
 	option forward 'REJECT'
 	option drop_invalid '1'
+	option flow_offloading '1'
+	option flow_offloading_hw '1'
+
+config include
+	option path '/etc/firewall.user'
+
+config redirect
+	option enabled '1'
+	option target 'DNAT'
+	option src 'wan'
+	option dest 'lan'
+	option proto 'udp'
+	option src_dport '60000-60100'
+	option dest_ip '10.7.0.2'
+	option dest_port '60000-60100'
+	option name 'mosh@himawari'
 
 config zone
 	option name 'lan'
@@ -298,81 +241,62 @@ config zone
 	option forward 'REJECT'
 	option masq '1'
 	option mtu_fix '1'
-	option network 'wan wan6'
+	option network 'wan wan_6'
 
 config forwarding
 	option src 'lan'
 	option dest 'wan'
 
-config include
-	option path '/etc/firewall.user'
-
 config zone
-	option name 'guest'
+	option name 'iptv'
 	option input 'ACCEPT'
-	option forward 'REJECT'
 	option output 'ACCEPT'
-	option network 'guest'
-	option conntrack '1'
-	option log '1'
+	option forward 'REJECT'
+	option network 'iptv'
+	option mtu_fix '1'
+	option masq '1'
 
 config forwarding
-	option dest 'wan'
-	option src 'guest'
+	option src 'lan'
+	option dest 'iptv'
 
-config include 'bcp38'
-	option type 'script'
-	option path '/usr/lib/bcp38/run.sh'
-	option family 'IPv4'
-	option reload '1'
+config forwarding
+	option src 'iptv'
+	option dest 'lan'
 
 config zone
-	option name 'wg'
+	option name 'voip'
 	option input 'ACCEPT'
 	option output 'ACCEPT'
-	option network 'wg'
 	option forward 'REJECT'
+	option network 'voip'
+	option masq '1'
+	option mtu_fix '1'
+
+config forwarding
+	option src 'lan'
+	option dest 'voip'
+
+config zone
+	option name 'wg_keezel'
+	option input 'ACCEPT'
+	option output 'ACCEPT'
+	option network 'wg_keezel'
+	option forward 'REJECT'
+	option masq '1'
+	option mtu_fix '1'
 
 config forwarding
 	option dest 'lan'
-	option src 'wg'
+	option src 'wg_keezel'
 
 config forwarding
-	option dest 'wan'
-	option src 'wg'
-
-config forwarding
-	option dest 'wg'
+	option dest 'wg_keezel'
 	option src 'lan'
-
-config include 'ss_rules'
-	option path '/etc/firewall.ss-rules'
-	option reload '1'
 
 config include 'miniupnpd'
 	option type 'script'
 	option path '/usr/share/miniupnpd/firewall.include'
 	option family 'any'
 	option reload '1'
-
-config redirect
-	option target 'DNAT'
-	option src 'wan'
-	option dest 'lan'
-	option proto 'tcp udp'
-	option src_dport '3366'
-	option dest_ip '10.7.0.2'
-	option dest_port '32400'
-	option name 'plex@3366'
-
-config rule
-	option enabled '1'
-	option target 'ACCEPT'
-	option src 'wan'
-	option dest 'lan'
-	option name 'Allow-3366@himawari'
-	option family 'ipv6'
-	option src_port '3366'
-	option dest_ip '2a01:c50e:b800:4d00:be5f:f4ff:fe4a:2dce'
-	option dest_port '32400'
 
