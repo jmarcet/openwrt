@@ -4,7 +4,7 @@ config perm_rule
 	option ext_ports '1024-65535'
 	option int_ports '1024-65535'
 	option comment 'Allow high ports'
-	option int_addr '10.7.0.0/24'
+	option int_addr '192.168.137.0/24'
 
 config perm_rule
 	option action 'deny'
