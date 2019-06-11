@@ -120,7 +120,6 @@ less tmuxifier/README.md
 vim /etc/profile.d/tmux.sh 
 cp -a tmuxifier/layouts /etc/tmux-layouts
 fg
-vim /etc/profile.d/tmux.sh 
 env
 la /tmp/tmux-0/
 fg
@@ -150,4 +149,7 @@ env
 cd "/root"
 clear
 eval `resize`
+source /etc/profile
 dig +dnssec www.isoc.org
+cd /storage/src/Keezel/openwrt-upstream/
+cd bin/targets/ipq806x/generic/
