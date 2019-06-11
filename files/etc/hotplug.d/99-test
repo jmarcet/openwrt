@@ -1,0 +1,3 @@
+#!/bin/sh
+
+#logger -t DEBUG "$0 $@: action='$ACTION' devicename='$DEVICENAME' devname='$DEVNAME' devpath='$DEVPATH' product='$PRODUCT' type='$TYPE' interface='$INTERFACE'"

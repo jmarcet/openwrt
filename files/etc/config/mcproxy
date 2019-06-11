@@ -1,0 +1,10 @@
+
+config mcproxy 'mcproxy'
+	option respawn '1'
+	option protocol 'IGMPv2'
+
+config instance 'iptv'
+	option name 'iptv'
+	list upstream 'eth0.2'
+	list downstream 'br-lan'
+

@@ -1,0 +1,16 @@
+
+config global
+
+config network
+
+config access
+	option SOURCE 'ANY'
+	option keytype 'Base 64 key'
+	option hkeytype 'Base 64 key'
+	option KEY_BASE64 '7Iq1B+gvjdkoLMSKdoT83SPbDDPKR7PPJvkb8qCVKMk='
+	option HMAC_KEY_BASE64 'NkD652wvH7b81zJhU2vk/EMvjajh/CozJyyxEmRGt20uCOsfVFhKYpdunLpZXtcoYgcmo05/F2Xcxp9ybRO00Q=='
+
+config config
+	option ENABLE_IPT_FORWARDING 'y'
+	option ENABLE_NAT_DNS 'y'
+

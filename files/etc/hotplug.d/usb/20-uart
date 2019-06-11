@@ -1,0 +1,26 @@
+CP21_PRODID='10c4/ea60/100'
+FTDI_PRODID='403/6001/600'
+
+if [ "${PRODUCT}" != "${CP21_PRODID}" -a "${PRODUCT}" != "${FTDI_PRODID}" ]; then
+    #logger -t hotplug Warning usb not uart changed
+    exit
+fi
+
+if [ "${ACTION}" = "add" ]; then
+    DEVICE_NAME=$( ls /sys/$DEVPATH | grep ttyUSB )
+    [ -z "${DEVICE_NAME}" ] && exit
+    _port=${DEVICE_NAME/ttyUSB}
+
+    socat -ly openssl-listen:200${_port},bind=10.7.0.1,pf=ip4,cert=/etc/ssl/server-nighthawk.pem,cafile=/etc/ssl/client.crt,fork,crlf file:/dev/${DEVICE_NAME},b115200,setlk,raw,echo=0,crnl &
+    socat -ly openssl-listen:200${_port},bind=nighthawk,pf=ip6,cert=/etc/ssl/server-nighthawk.pem,cafile=/etc/ssl/client.crt,fork,crlf file:/dev/${DEVICE_NAME},b115200,setlk,raw,echo=0,crnl &
+    logger -t hotplug uart device $DEVICE_NAME plugged - socat launched
+fi
+
+if [ "${ACTION}" = "remove" ]; then
+    DEVICE_NAME=$( dmesg | grep "usb `basename $devpath`" | tail -2 | head -1 | sed -e "s:^.\+ttyUSB:ttyUSB:" )
+    [ -z "${DEVICE_NAME}" ] && exit
+    _port=${DEVICE_NAME/ttyUSB}
+
+    pkill -9 -f "socat -ly openssl-listen:200${_port}"
+    logger -t hotplug uart device $DEVICE_NAME removed - socat killed
+fi
