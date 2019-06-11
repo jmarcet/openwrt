@@ -40,7 +40,7 @@ config interface 'lan'
 	option proto 'static'
 	option ip6assign '60'
 	option igmp_snooping '1'
-	option ipaddr '10.7.0.1'
+	option ipaddr '192.168.137.1'
 	option netmask '255.255.255.0'
 
 config interface 'iptv'
