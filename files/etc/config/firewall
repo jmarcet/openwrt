@@ -5,7 +5,7 @@ config redirect
 	option dest 'lan'
 	option proto 'tcp'
 	option src_dport '80'
-	option dest_ip '10.7.0.2'
+	option dest_ip '192.168.137.2'
 	option dest_port '80'
 	option name '80'
 
@@ -15,7 +15,7 @@ config redirect
 	option dest 'lan'
 	option proto 'tcp'
 	option src_dport '443'
-	option dest_ip '10.7.0.2'
+	option dest_ip '192.168.137.2'
 	option dest_port '443'
 	option name '443'
 
@@ -25,7 +25,7 @@ config redirect
 	option dest 'lan'
 	option proto 'tcp udp'
 	option src_dport '6666'
-	option dest_ip '10.7.0.2'
+	option dest_ip '192.168.137.2'
 	option dest_port '6666'
 	option name '6666'
 
@@ -35,7 +35,7 @@ config redirect
 	option dest 'lan'
 	option proto 'tcp udp'
 	option src_dport '9001'
-	option dest_ip '10.7.0.2'
+	option dest_ip '192.168.137.2'
 	option dest_port '9001'
 	option name '9001'
 
@@ -45,7 +45,7 @@ config redirect
 	option dest 'lan'
 	option proto 'tcp'
 	option src_dport '2000'
-	option dest_ip '10.7.0.1'
+	option dest_ip '192.168.137.1'
 	option dest_port '2000'
 	option name 'socat@2000'
 
@@ -55,7 +55,7 @@ config redirect
 	option dest 'lan'
 	option proto 'tcp'
 	option src_dport '2001'
-	option dest_ip '10.7.0.1'
+	option dest_ip '192.168.137.1'
 	option dest_port '2001'
 	option name 'socat@2001'
 
@@ -65,7 +65,7 @@ config redirect
 	option dest 'lan'
 	option proto 'tcp'
 	option src_dport '2002'
-	option dest_ip '10.7.0.1'
+	option dest_ip '192.168.137.1'
 	option dest_port '2002'
 	option name 'socat@2002'
 
@@ -75,7 +75,7 @@ config redirect
 	option dest 'lan'
 	option proto 'tcp'
 	option src_dport '9981'
-	option dest_ip '10.7.0.2'
+	option dest_ip '192.168.137.2'
 	option dest_port '9981'
 	option name 'tvh@himawari@9981'
 
@@ -85,7 +85,7 @@ config redirect
 	option dest 'lan'
 	option proto 'tcp'
 	option src_dport '9982'
-	option dest_ip '10.7.0.2'
+	option dest_ip '192.168.137.2'
 	option dest_port '9982'
 	option name 'tvh@himawari@9982'
 
@@ -95,7 +95,7 @@ config redirect
 	option dest 'lan'
 	option proto 'tcp'
 	option src_dport '55054'
-	option dest_ip '10.7.0.1'
+	option dest_ip '192.168.137.1'
 	option dest_port '22'
 	option name 'SSH@55054'
 
@@ -105,7 +105,7 @@ config redirect
 	option dest 'lan'
 	option proto 'tcp'
 	option src_dport '55055'
-	option dest_ip '10.7.0.2'
+	option dest_ip '192.168.137.2'
 	option name 'SSH@55055'
 	option dest_port '55055'
 
@@ -223,7 +223,7 @@ config redirect
 	option dest 'lan'
 	option proto 'udp'
 	option src_dport '60000-60100'
-	option dest_ip '10.7.0.2'
+	option dest_ip '192.168.137.2'
 	option dest_port '60000-60100'
 	option name 'mosh@himawari'
 
