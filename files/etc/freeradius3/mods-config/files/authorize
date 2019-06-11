@@ -1,0 +1,19 @@
+javier	Cleartext-Password := "F4917jgmlk"
+	Reply-Message := "Hello, %{User-Name}"
+
+venus	Cleartext-Password := "_cocapepalanamini-"
+	Reply-Message := "Hello, %{User-Name}"
+
+
+DEFAULT	Framed-Protocol == PPP
+	Framed-Protocol = PPP,
+	Framed-Compression = Van-Jacobson-TCP-IP
+
+DEFAULT	Hint == "CSLIP"
+	Framed-Protocol = SLIP,
+	Framed-Compression = Van-Jacobson-TCP-IP
+
+DEFAULT	Hint == "SLIP"
+	Framed-Protocol = SLIP
+
+# On no match, the user is denied access.
