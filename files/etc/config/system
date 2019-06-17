@@ -3,7 +3,7 @@ config system
 	option ttylogin '0'
 	option log_size '64'
 	option urandom_seed '0'
-	option hostname 'nighthawk'
+	option hostname 'nighthawk.marcet.info'
 	option zonename 'Europe/Madrid'
 	option timezone 'CET-1CEST,M3.5.0,M10.5.0/3'
 	option log_proto 'udp'

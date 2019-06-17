@@ -151,5 +151,6 @@ clear
 eval `resize`
 source /etc/profile
 dig +dnssec www.isoc.org
-cd /storage/src/Keezel/openwrt-upstream/
-cd bin/targets/ipq806x/generic/
+cd /storage/src/Keezel/openwrt-upstream
+cd /storage/src/openwrt/OpenWRT/master
+cd bin/targets/ipq806x/generic
