@@ -16,13 +16,14 @@ config dnsmasq
 	option nonwildcard '1'
 	option strictorder '1'
 	option localservice '1'
+	option fqdn '1'
 	option local '/marcet.info/'
 	option domain 'marcet.info'
 	list server '127.0.0.1#5353'
 	list server '1.1.1.1'
 	list server '8.8.8.8'
-	list server '/telefonica.net/172.26.23.3'
 	list server '/movistar.es/172.26.23.3'
+	list server '/telefonica.net/172.26.23.3'
 	list server '/blog.marcet.info/8.8.8.8'
 	list server '/calendar.marcet.info/8.8.8.8'
 	list server '/docs.marcet.info/8.8.8.8'
@@ -64,8 +65,8 @@ config dhcp 'dhcptv'
 	list dhcp_option '6,172.26.23.3'
 
 config domain
-	option ip '5.9.151.185'
 	option name 'keezel-cloud'
+	option ip '5.9.151.185'
 
 config domain
 	option name 'keezel-proxy'

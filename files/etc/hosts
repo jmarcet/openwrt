@@ -4,7 +4,14 @@
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 
+192.168.137.1 nighthawk 
 192.168.137.2 himawari
+192.168.137.5 yoga
+192.168.137.6 kenzo
+192.168.137.7 charlotte
+192.168.137.8 lavender
+192.168.137.11 shield
+192.168.137.12 mibox
 
 #2a01:c50e:b800:4d00:8e3b:adff:fe1f:1da8 nighthawk
 #2a01:c50e:b800:4d00:be5f:f4ff:fe4a:2dce himawari

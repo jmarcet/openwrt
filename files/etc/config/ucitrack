@@ -53,8 +53,14 @@ config samba
 config tinyproxy
 	option init 'tinyproxy'
 
+config vpnbypass
+	option init 'vpnbypass'
+
 config adblock
 	option init 'adblock'
+
+config banip
+	option init 'banip'
 
 config https_dns_proxy
 
@@ -72,9 +78,6 @@ config udpxy
 
 config vnstat
 	option init 'vnstat'
-
-config vpnbypass
-	option init 'vpnbypass'
 
 config dnscrypt-proxy
 	option init 'dnscrypt-proxy'

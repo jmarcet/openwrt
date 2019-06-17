@@ -41,6 +41,7 @@ config interface 'lan'
 	option igmp_snooping '1'
 	option ipaddr '192.168.137.1'
 	option netmask '255.255.255.0'
+	option ipv6 '0'
 
 config interface 'iptv'
 	option ifname 'eth0.2'
