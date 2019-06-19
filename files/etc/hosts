@@ -6,7 +6,8 @@ ff02::2 ip6-allrouters
 
 192.168.137.1 nighthawk 
 192.168.137.2 himawari
-192.168.137.5 yoga
+192.168.137.4 yoga
+192.168.137.5 xps9570
 192.168.137.6 kenzo
 192.168.137.7 charlotte
 192.168.137.8 lavender
