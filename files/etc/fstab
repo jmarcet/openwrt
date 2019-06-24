@@ -1,0 +1,2 @@
+# <file system> <mount point> <type> <options> <dump> <pass>
+himawari.marcet.info:/storage /storage nfs4 _netdev,suid,dev,exec,noatime,rw,proto=tcp,soft,timeo=10 0 0

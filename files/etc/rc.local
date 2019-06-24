@@ -3,6 +3,6 @@
 
 pgrep -f 'socat -ly' &>/dev/null || /etc/socat.sh
 [ -e /storage ] || mkdir -p /storage
-mount himawari:/storage /storage -o noatime
+grep -q '^himawari.marcet.info:/storage' /proc/mounts || mount /storage
 
 exit 0

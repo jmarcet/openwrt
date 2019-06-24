@@ -75,7 +75,6 @@ config interface 'wg_keezel'
 	option proto 'wireguard'
 	option private_key 'eEoyu+/x4GGZVw/p0PcXafOOmnQBL/OXge84/q6cA38='
 	list addresses '10.1.20.11/32'
-	option force_link '1'
 
 config wireguard_wg_keezel
 	option public_key 'MqVEy57zd8xeAFgPiTH98a9+A9FuBz/S4TM5g6WRaRk='
@@ -84,5 +83,5 @@ config wireguard_wg_keezel
 	option persistent_keepalive '30'
 	list allowed_ips '10.1.11.0/24'
 	list allowed_ips '10.1.20.0/24'
-	option endpoint_port '51820'
+	option endpoint_port '37981'
 
