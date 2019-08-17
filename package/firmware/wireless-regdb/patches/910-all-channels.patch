@@ -1,13 +1,13 @@
 --- ./db.txt-orig	2018-08-14 13:34:52.208652650 +0200
 +++ ./db.txt	2018-08-15 09:29:24.477360612 +0200
 @@ -417,14 +417,11 @@ country EG: DFS-ETSI
- # http://www.minetur.gob.es/telecomunicaciones/espectro/paginas/cnaf.aspx
- 
+ # Cuadro nacional de atribución de frecuencias (CNAF)
+ # https://avancedigital.gob.es/espectro/Paginas/cnaf.aspx
  country ES: DFS-ETSI
 -	(2400 - 2483.5 @ 40), (100 mW)
--	(5150 - 5250 @ 80), (200 mW), NO-OUTDOOR, AUTO-BW
--	(5250 - 5350 @ 80), (100 mW), NO-OUTDOOR, DFS, AUTO-BW
--	(5470 - 5725 @ 160), (500 mW), DFS
+-	(5150 - 5250 @ 80), (200 mW), NO-OUTDOOR, AUTO-BW, wmmrule=ETSI
+-	(5250 - 5350 @ 80), (100 mW), NO-OUTDOOR, DFS, AUTO-BW, wmmrule=ETSI
+-	(5470 - 5725 @ 160), (500 mW), DFS, wmmrule=ETSI
 -	# Short Range Devices (SRD) (ETSI EN 300 440)
 -	(5725 - 5875 @ 80), (25 mW)
 -	# 60 GHz band channels 1-4, ref: Etsi En 302 567
@@ -25,9 +25,9 @@
  
  country NL: DFS-ETSI
 -	(2402 - 2482 @ 40), (20)
--	(5170 - 5250 @ 80), (20), NO-OUTDOOR, AUTO-BW
--	(5250 - 5330 @ 80), (20), NO-OUTDOOR, DFS, AUTO-BW
--	(5490 - 5710 @ 160), (27), DFS
+-	(5170 - 5250 @ 80), (20), NO-OUTDOOR, AUTO-BW, wmmrule=ETSI
+-	(5250 - 5330 @ 80), (20), NO-OUTDOOR, DFS, AUTO-BW, wmmrule=ETSI
+-	(5490 - 5710 @ 160), (27), DFS, wmmrule=ETSI
 -	# short range devices (ETSI EN 300 440-1)
 -	(5725 - 5875 @ 80), (25 mW)
 -	# 60 GHz band channels 1-4, ref: Etsi En 302 567
@@ -51,9 +51,9 @@
 -	(5490 - 5730 @ 160), (23), DFS
 -	(5735 - 5835 @ 80), (30)
 -	# 60g band
--	# reference: http://cfr.regstoday.com/47cfr15.aspx#47_CFR_15p255
--	# channels 1,2,3, EIRP=40dBm(43dBm peak)
--	(57240 - 63720 @ 2160), (40)
+-	# reference: section IV-D https://docs.fcc.gov/public/attachments/FCC-16-89A1.pdf
+-	# channels 1-6 EIRP=40dBm(43dBm peak)
+-	(57240 - 71000 @ 2160), (40)
 +	# All 2.4GHz / 5GHz channels at full strength
 +	(2402 - 2494 @ 40), (30)
 +	(4910 - 5835 @ 80), (30)
