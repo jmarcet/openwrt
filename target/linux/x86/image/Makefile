@@ -79,6 +79,7 @@ ifneq ($(CONFIG_GRUB_IMAGES)$(CONFIG_EFI_IMAGES),)
 		-e 's#@TERMINAL_CONFIG@#$(strip $(GRUB_TERMINAL_CONFIG))#g' \
 		-e 's#@CMDLINE@#$(strip $(call Image/cmdline/efi,$(1),$(EFI_SIGNATURE)) $(BOOTOPTS) $(GRUB_CONSOLE_CMDLINE))#g' \
 		-e 's#@TIMEOUT@#$(GRUB_TIMEOUT)#g' \
+		-e 's#@TITLE@#$(GRUB_TITLE)#g' \
 		-e 's#set root.*#search --file /boot/grub/$(IMG_PART_SIGNATURE).cfg --set=root#g' \
 		./grub.cfg > $(KDIR)/root.grub/boot/grub/grub.cfg
 	sed \
