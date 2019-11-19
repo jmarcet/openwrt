@@ -127,11 +127,11 @@ ifneq ($(CONFIG_GRUB_IMAGES)$(CONFIG_EFI_IMAGES),)
 		256
 
 	# Setup legacy bios for hybrid MBR (optional)
-	grub-bios-setup \
-		--device-map="$(KDIR)/grub2/device.map" \
-		-d "$(KDIR)/grub2" \
-		-r "hd0,msdos1" \
-		"$(BIN_DIR)/$(IMG_PREFIX)-uefi-gpt-$(1).img"
+	#grub-bios-setup \
+	#	--device-map="$(KDIR)/grub2/device.map" \
+	#	-d "$(KDIR)/grub2" \
+	#	-r "hd0,msdos1" \
+	#	"$(BIN_DIR)/$(IMG_PREFIX)-uefi-gpt-$(1).img"
 
 	# Convert the MBR partition to GPT and set EFI ROOTFS signature
 	dd if=/dev/zero of="$(BIN_DIR)/$(IMG_PREFIX)-uefi-gpt-$(1).img" bs=512 count=33 conv=notrunc oflag=append
