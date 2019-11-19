@@ -239,7 +239,7 @@ menu "Target Images"
 
 	config GRUB_TITLE
 		string "Title for the menu entry in GRUB"
-		depends on GRUB_IMAGES
+		depends on GRUB_IMAGES || EFI_IMAGES
 		default "OpenWrt"
 		help
 		  This is the title of the GRUB menu entry.
