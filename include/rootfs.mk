@@ -76,7 +76,7 @@ define prepare_rootfs
 				exit 1; \
 			fi; \
 		done; \
-		for script in $$( ls ./etc/init.d/* | grep -v -f $(TOPDIR)/disabled-services ); do \
+		for script in $$( ls ./etc/init.d/* | grep -v -f $$TOPDIR/disabled-services ); do \
 			grep '#!/bin/sh /etc/rc.common' $$script >/dev/null || continue; \
 			if ! echo " $(3) " | grep -q " $$(basename $$script) "; then \
 				IPKG_INSTROOT=$(1) $$(which bash) ./etc/rc.common $$script enable; \
