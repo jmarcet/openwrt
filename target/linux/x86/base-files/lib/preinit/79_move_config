@@ -6,7 +6,7 @@ move_config() {
 
 	. /lib/upgrade/common.sh
 
-	if export_bootdevice && export_partdevice partdev 1; then
+	if export_partdevice_label partdev openwrt_boot; then
 		mkdir -p /boot
 		mount -t ext4 -o rw,noatime "/dev/$partdev" /boot
 		if [ -f "/boot/$BACKUP_FILE" ]; then
