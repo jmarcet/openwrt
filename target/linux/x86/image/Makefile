@@ -10,9 +10,7 @@ include $(INCLUDE_DIR)/image.mk
 export PATH=$(TARGET_PATH):/sbin
 
 GRUB2_MODULES = biosdisk boot chain configfile ext2 linux ls part_msdos reboot serial test vga
-GRUB2_MODULES_LEGACY = $(GRUB2_MODULES)
-GRUB2_MODULES_LEGACY += part_gpt search fat exfat
-GRUB2_MODULES_EFI = boot chain configfile ext2 linux ls part_msdos reboot serial part_gpt part_msdos search fat exfat ext2 efi_gop efi_uga gfxterm
+GRUB2_MODULES_EFI = boot chain configfile ext2 linux ls part_gpt part_msdos reboot serial search fat exfat efi_gop efi_uga gfxterm
 GRUB2_MODULES_ISO = biosdisk boot chain configfile iso9660 linux ls part_msdos reboot serial test vga
 GRUB_TERMINALS =
 GRUB_SERIAL_CONFIG =
@@ -59,7 +57,7 @@ ifneq ($(CONFIG_GRUB_IMAGES)$(CONFIG_EFI_IMAGES),)
   endef
 
   define Image/cmdline/squashfs
-    root=$(ROOTPART) rootfstype=squashfs rootwait
+    rootfstype=squashfs rootwait
   endef
 
   ifneq ($(CONFIG_EFI_IMAGES),)
@@ -80,27 +78,14 @@ ifneq ($(CONFIG_GRUB_IMAGES)$(CONFIG_EFI_IMAGES),)
 		-e 's#@CMDLINE@#$(strip $(call Image/cmdline/efi,$(1),$(EFI_SIGNATURE)) $(BOOTOPTS) $(GRUB_CONSOLE_CMDLINE))#g' \
 		-e 's#@TIMEOUT@#$(GRUB_TIMEOUT)#g' \
 		-e 's#@TITLE@#$(GRUB_TITLE)#g' \
-		-e 's#set root.*#search --file /boot/grub/$(IMG_PART_SIGNATURE).cfg --set=root#g' \
-		./grub.cfg > $(KDIR)/root.grub/boot/grub/grub.cfg
-	$(CP) $(KDIR)/root.grub/boot/grub/grub.cfg $(KDIR)/root.grub/boot/grub/$(IMG_PART_SIGNATURE).cfg
-	grub-mkimage \
-		-d $(STAGING_DIR_HOST)/lib/grub/i386-pc \
-		-o $(KDIR)/grub2/core.img \
-		-O i386-pc \
-		-p '(hd0,gpt1)/boot/grub' \
-		-c $(KDIR)/root.grub/boot/grub/grub.cfg \
-		$(GRUB2_MODULES_LEGACY)
-	$(CP) $(STAGING_DIR_HOST)/lib/grub/i386-pc/*.img $(KDIR)/grub2/
+		./grub-efi.cfg > $(KDIR)/root.grub/boot/grub/grub.cfg
 
 	# Build the efi grub version
 	rm -rf $(KDIR)/grub2.efi/ || true
 	$(INSTALL_DIR) $(KDIR)/grub2.efi/efi/boot/
 
-	# Generate the grub search root config (grub will search for the $(IMG_PART_SIGNATURE).cfg file placed on the boot partition as grub does not support search of GPT UUID yet)
-	echo "search --file /boot/grub/$(IMG_PART_SIGNATURE).cfg --set=root" > $(KDIR)/grub2.efi/efi/boot/grub.cfg
-	echo "configfile /boot/grub/grub.cfg" >> $(KDIR)/grub2.efi/efi/boot/grub.cfg
-
 	# Create the EFI grub binary
+	sed -e 's#msdos1#gpt2#' ./grub-early.cfg > $(KDIR)/grub2.efi/efi/boot/grub.cfg
 	grub-mkimage-efi \
 		-d $(STAGING_DIR_HOST)/lib/grub/x86_64-efi \
 		-o $(KDIR)/grub2.efi/efi/boot/bootx64.efi \
@@ -114,35 +99,11 @@ ifneq ($(CONFIG_GRUB_IMAGES)$(CONFIG_EFI_IMAGES),)
 	mkfs.fat -C $(KDIR)/kernel.efi -S 512 1024
 	mcopy -s -i "$(KDIR)/kernel.efi" $(KDIR)/grub2.efi/* ::/
 
-	SIGNATURE="$(IMG_PART_SIGNATURE)" PATH="$(TARGET_PATH)" ./gen_image_efi.sh \
+	EFI_SIGNATURE="$(EFI_SIGNATURE)" SIGNATURE="$(IMG_PART_SIGNATURE)" PATH="$(TARGET_PATH)" ./gen_image_efi.sh \
 		$(BIN_DIR)/$(IMG_PREFIX)-uefi-gpt-$(1).img \
-		$(CONFIG_TARGET_KERNEL_PARTSIZE) $(KDIR)/root.grub \
 		1 $(KDIR)/kernel.efi \
-		1 \
-		$(CONFIG_TARGET_ROOTFS_PARTSIZE) $(KDIR)/root.$(1) \
-		256
-
-	# Setup legacy bios for hybrid MBR (optional)
-	#grub-bios-setup \
-	#	--device-map="$(KDIR)/grub2/device.map" \
-	#	-d "$(KDIR)/grub2" \
-	#	-r "hd0,msdos1" \
-	#	"$(BIN_DIR)/$(IMG_PREFIX)-uefi-gpt-$(1).img"
-
-	# Convert the MBR partition to GPT and set EFI ROOTFS signature
-	dd if=/dev/zero of="$(BIN_DIR)/$(IMG_PREFIX)-uefi-gpt-$(1).img" bs=512 count=33 conv=notrunc oflag=append
-	sgdisk -g "$(BIN_DIR)/$(IMG_PREFIX)-uefi-gpt-$(1).img"
-	sgdisk -t 2:EF00 "$(BIN_DIR)/$(IMG_PREFIX)-uefi-gpt-$(1).img"
-	sgdisk -t 3:EF02 "$(BIN_DIR)/$(IMG_PREFIX)-uefi-gpt-$(1).img"
-	sgdisk -u 4:$(EFI_SIGNATURE) "$(BIN_DIR)/$(IMG_PREFIX)-uefi-gpt-$(1).img"
-	sgdisk -h "$(BIN_DIR)/$(IMG_PREFIX)-uefi-gpt-$(1).img"
-
-	# Setup EFI grub
-	grub-bios-setup-efi \
-		--device-map="$(KDIR)/grub2/device.map" \
-		-d "$(KDIR)/grub2" \
-		-r "hd0,gpt1" \
-		"$(BIN_DIR)/$(IMG_PREFIX)-uefi-gpt-$(1).img"
+		$(CONFIG_TARGET_KERNEL_PARTSIZE) $(KDIR)/root.grub \
+		$(CONFIG_TARGET_ROOTFS_PARTSIZE) $(KDIR)/root.$(1)
   endef
   endif
 
