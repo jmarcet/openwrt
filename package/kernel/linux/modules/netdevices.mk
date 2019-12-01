@@ -836,6 +836,43 @@ endef
 $(eval $(call KernelPackage,gigaset))
 
 
+define KernelPackage/ipvlan
+  SUBMENU:=$(NETWORK_DEVICES_MENU)
+  TITLE:=IP-VLAN support
+  KCONFIG:=CONFIG_IPVLAN
+  FILES:=$(LINUX_DIR)/drivers/net/ipvlan/ipvlan.ko
+  AUTOLOAD:=$(call AutoProbe,ipvlan)
+endef
+
+define KernelPackage/ipvlan/description
+ A kernel module which allows one to create virtual interfaces that
+ map packets to or from specific IP addresses to a particular interface
+endef
+
+$(eval $(call KernelPackage,ipvlan))
+
+
+define KernelPackage/ipvtap
+  SUBMENU:=$(NETWORK_DEVICES_MENU)
+  TITLE:=IP-VLAN TAP support
+  DEPENDS:=+kmod-ipvlan
+  KCONFIG:=CONFIG_IPVTAP
+  FILES:= \
+    $(LINUX_DIR)/drivers/net/tap.ko \
+    $(LINUX_DIR)/drivers/net/ipvlan/ipvtap.ko
+  AUTOLOAD:=$(call AutoProbe,ipvtap)
+endef
+
+define KernelPackage/ipvtap/description
+ This adds a specialized tap character device driver that is based
+ on the IP-VLAN network interface, called ipvtap. An ipvtap device
+ can be added in the same way as a ipvlan device, using 'type
+ ipvtap', and then be accessed through the tap user space interface.
+endef
+
+$(eval $(call KernelPackage,ipvtap))
+
+
 define KernelPackage/macvlan
   SUBMENU:=$(NETWORK_DEVICES_MENU)
   TITLE:=MAC-VLAN support
