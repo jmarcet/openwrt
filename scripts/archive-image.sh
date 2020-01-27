@@ -14,17 +14,22 @@ _img=$( ls -t $_bindir/*-x86-64-uefi-gpt-squashfs.img | head -1 )
 _date=$( date -r $_img +%Y%m%d_%H%M%S )
 _subdir=$_date-`echo $_img | cut -d'-' -f3-4`
 
-_t1=$_destdir/$_subdir
+_t=$_destdir/$_subdir
+_latest=$_destdir/latest
 
-if [ -d "$_t1" ]; then
-    echo "$_t1 already exists"
+if [ -d "$_t" ]; then
+    echo "$_t already exists"
     exit 1
 fi
 
-mkdir -p $_t1
+mkdir -p $_t
 for dir in $( ls -t $_bindir/ | head -10 ); do
-    cp -a -v $_bindir/$dir $_t1/
+    cp -a -v $_bindir/$dir $_t/
 done
+
+[ -e "$_latest" ] && rm -f "$_latest"
+ln -s $_subdir $_latest
+
 )
 
 set +v
