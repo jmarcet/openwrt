@@ -56,6 +56,7 @@ platform_do_upgrade() {
 			3)
 				[ -n "$_alt" ] && partdev=$partdevalt
 				echo "Writing image to /dev/$partdev..."
+				dd if=/dev/zero of="/dev/$partdev" bs=1M skip=490 count=32 conv=fsync
 				get_image "$@" | dd of="/dev/$partdev" ibs="512" obs=1M skip="$start" count="$size" conv=fsync
 				;;
 		esac
