@@ -56,7 +56,9 @@ TARGET_LDFLAGS += -lcrypt
 
 define Package/rpcd/install
 	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) ./files/rpcd.init $(1)/etc/init.d/rpcd
+	$(if $(CONFIG_NFS_KERNEL_SERVER_KRB5), \
+		$(INSTALL_BIN) ./files/rpcd-krb5.init $(1)/etc/init.d/rpcd, \
+		$(INSTALL_BIN) ./files/rpcd.init $(1)/etc/init.d/rpcd)
 	$(INSTALL_DIR) $(1)/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/rpcd $(1)/sbin/rpcd
 	$(INSTALL_DIR) $(1)/usr/share/rpcd/acl.d
