@@ -1,0 +1,60 @@
+From 7e72f6758f2d70ba060cfb4fd2f8ba51734f89da Mon Sep 17 00:00:00 2001
+From: Pankaj Gupta <pankaj.gupta@nxp.com>
+Date: Wed, 8 Jan 2020 11:03:49 +0530
+Subject: [PATCH] enabled the support for TLS1.1 - AES128-SHA1 - AES256-SHA1
+
+& TLS1.2 offloads for:
+    - AES128-SHA256
+    - AES256-SHA256
+
+It requires kernel support for algorithms:
+
+    - tls11(hmac(sha1),cbc(aes))
+    - tls12(hmac(sha256),cbc(aes))
+
+to be provided either in software or accelerated by hardware
+such as NXP B*, P* and T* platforms.
+
+Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+---
+ crypto/cryptodev.h |  2 ++
+ ioctl.c            | 10 ++++++++++
+ 2 files changed, 12 insertions(+)
+
+diff --git a/crypto/cryptodev.h b/crypto/cryptodev.h
+index c09cce8..e66606f 100644
+--- a/crypto/cryptodev.h
++++ b/crypto/cryptodev.h
+@@ -51,6 +51,8 @@ enum cryptodev_crypto_op_t {
+ 	CRYPTO_SHA2_384,
+ 	CRYPTO_SHA2_512,
+ 	CRYPTO_SHA2_224_HMAC,
++	CRYPTO_TLS11_AES_CBC_HMAC_SHA1,
++	CRYPTO_TLS12_AES_CBC_HMAC_SHA256,
+ 	CRYPTO_ALGORITHM_ALL, /* Keep updated - see below */
+ };
+ 
+diff --git a/ioctl.c b/ioctl.c
+index 3c865bd..3d33238 100644
+--- a/ioctl.c
++++ b/ioctl.c
+@@ -159,6 +159,16 @@ crypto_create_session(struct fcrypt *fcr, struct session_op *sop)
+ 		stream = 1;
+ 		aead = 1;
+ 		break;
++	case CRYPTO_TLS11_AES_CBC_HMAC_SHA1:
++		alg_name = "tls11(hmac(sha1),cbc(aes))";
++		stream = 0;
++		aead = 1;
++		break;
++	case CRYPTO_TLS12_AES_CBC_HMAC_SHA256:
++		alg_name = "tls12(hmac(sha256),cbc(aes))";
++		stream = 0;
++		aead = 1;
++		break;
+ 	case CRYPTO_NULL:
+ 		alg_name = "ecb(cipher_null)";
+ 		stream = 1;
+-- 
+2.25.0
+
