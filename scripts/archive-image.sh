@@ -27,7 +27,7 @@ for dir in $( ls -t $_bindir/ | head -10 ); do
     cp -a -v $_bindir/$dir $_t/
 done
 
-[ -e "$_latest" ] && rm -f "$_latest"
+rm -f "$_latest" &>/dev/null
 ln -s $_subdir $_latest
 
 )
