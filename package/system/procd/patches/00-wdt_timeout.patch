@@ -1,0 +1,11 @@
+--- ./watchdog.c-orig	2020-02-11 10:07:04.000000000 +0100
++++ ./watchdog.c	2020-03-05 11:20:24.685884583 +0100
+@@ -30,7 +30,7 @@
+ 
+ static struct uloop_timeout wdt_timeout;
+ static int wdt_fd = -1;
+-static int wdt_drv_timeout = 30;
++static int wdt_drv_timeout = 45;
+ static int wdt_frequency = 5;
+ static bool wdt_magicclose = false;
+ 
