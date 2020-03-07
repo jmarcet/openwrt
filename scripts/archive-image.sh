@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DESTDIR=/storage/downloads/openwrt
+DESTDIR=/storage/backups/openwrt
 
 set -v
 
