@@ -846,8 +846,8 @@ define Package/column/install
 endef
 
 define Package/dmesg/install
-	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/dmesg $(1)/usr/bin/
+	$(INSTALL_DIR) $(1)/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/dmesg $(1)/bin/
 endef
 
 define Package/eject/install
