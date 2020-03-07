@@ -384,20 +384,20 @@ define KernelPackage/usb2
 	CONFIG_USB_EHCI_HCD_ORION=y \
 	CONFIG_USB_EHCI_HCD_AT91=y \
 	CONFIG_USB_EHCI_FSL
-  FILES:= \
-	$(LINUX_DIR)/drivers/usb/host/ehci-platform.ko
-  ifneq ($(wildcard $(LINUX_DIR)/drivers/usb/host/ehci-orion.ko),)
-    FILES+=$(LINUX_DIR)/drivers/usb/host/ehci-orion.ko
-  endif
-  ifneq ($(wildcard $(LINUX_DIR)/drivers/usb/host/ehci-atmel.ko),)
-    FILES+=$(LINUX_DIR)/drivers/usb/host/ehci-atmel.ko
-  endif
-  ifneq ($(wildcard $(LINUX_DIR)/drivers/usb/host/ehci-fsl.ko),)
-    FILES+=$(LINUX_DIR)/drivers/usb/host/ehci-fsl.ko
-  endif
-  ifneq ($(wildcard $(LINUX_DIR)/drivers/usb/host/fsl-mph-dr-of.ko),)
-    FILES+=$(LINUX_DIR)/drivers/usb/host/fsl-mph-dr-of.ko
-  endif
+  #FILES:= \
+  #      $(LINUX_DIR)/drivers/usb/host/ehci-platform.ko
+  #ifneq ($(wildcard $(LINUX_DIR)/drivers/usb/host/ehci-orion.ko),)
+  #  FILES+=$(LINUX_DIR)/drivers/usb/host/ehci-orion.ko
+  #endif
+  #ifneq ($(wildcard $(LINUX_DIR)/drivers/usb/host/ehci-atmel.ko),)
+  #  FILES+=$(LINUX_DIR)/drivers/usb/host/ehci-atmel.ko
+  #endif
+  #ifneq ($(wildcard $(LINUX_DIR)/drivers/usb/host/ehci-fsl.ko),)
+  #  FILES+=$(LINUX_DIR)/drivers/usb/host/ehci-fsl.ko
+  #endif
+  #ifneq ($(wildcard $(LINUX_DIR)/drivers/usb/host/fsl-mph-dr-of.ko),)
+  #  FILES+=$(LINUX_DIR)/drivers/usb/host/fsl-mph-dr-of.ko
+  #endif
   AUTOLOAD:=$(call AutoLoad,40,ehci-hcd ehci-platform ehci-orion ehci-atmel ehci-fsl fsl-mph-dr-of,1)
   $(call AddDepends/usb)
 endef
