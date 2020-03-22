@@ -60,8 +60,7 @@ platform_do_bootloader_upgrade() {
 			-m "/tmp/device.map" \
 			-d "/tmp/boot/boot/grub" \
 			-r "hd0,msdos1" \
-			"/dev/$diskdev" \
-		&& touch /boot/grub/upgraded
+			"/dev/$diskdev"
 
 		umount /tmp/boot
 	fi
