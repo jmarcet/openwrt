@@ -3,7 +3,8 @@
 START=41
 STOP=90
 
-BOOT_IMAGE=/boot/vmlinuz
+eval $( sed -e 's:\s*\(BOOT_IMAGE=[^ ]\+\) .\+$:\1:' /proc/cmdline )
+[ -n "$BOOT_IMAGE" ] || BOOT_IMAGE=/boot/vmlinuz
 
 EXTRA_COMMANDS="status"
 EXTRA_HELP="        status  Print crashkernel status"
