@@ -128,10 +128,6 @@ ifeq ($(SUBTARGET),generic)
   include generic.mk
 endif
 
-ifeq ($(SUBTARGET),geode)
-  include geode.mk
-endif
-
 ifeq ($(SUBTARGET),legacy)
   include legacy.mk
 endif
