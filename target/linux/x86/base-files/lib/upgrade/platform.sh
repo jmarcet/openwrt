@@ -50,8 +50,8 @@ platform_do_upgrade() {
 					&& mount -t ext4 -o ro /tmp/.bootkernel.img /tmp/.bootkernel \
 					&& cp -af /tmp/.bootkernel/boot/vmlinuz /boot/vmlinuz$_alt \
 					&& sed -e "s:^set default.\+$:set default=\"$defboot\":" -i /boot/grub/grub.cfg
-				umount /tmp/.bootkernel; rm -f /tmp/.bootkernel.img; umount /boot
-				grep -q ' /boot ' /proc/mounts && umount /boot
+				umount /tmp/.bootkernel; rm -f /tmp/.bootkernel.img
+				sync
 				;;
 			3)
 				[ -n "$_alt" ] && partdev=$partdevalt
