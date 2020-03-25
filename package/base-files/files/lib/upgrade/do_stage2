@@ -4,6 +4,19 @@
 
 include /lib/upgrade
 
+test_continue()
+{
+	echo -n "Run $1 now (y/n)? "
+	read answer
+
+	if echo -n $answer | grep -i -q '^y$'; then
+		echo "Launching $1"
+		eval $1
+	else
+		echo "Not doing $1"
+	fi
+}
+
 v "Checking image..."
 platform_check_image "$IMAGE"
 
@@ -21,9 +34,7 @@ fi
 v "Upgrade completed"
 sleep 1
 
-v "Done. Please reboot to finish upgrade."
-#v "Rebooting system..."
-#umount -a
-#reboot -f
-#sleep 5
-#echo b 2>/dev/null >/proc/sysrq-trigger
+sync
+grep -q 'root=PARTLABEL=openwrt_rootfs_alt' /proc/cmdline && _alt= || _alt=_alt
+CMDLINE="root=PARTLABEL=openwrt_rootfs$_alt $( cat /proc/cmdline | sed -e 's:BOOT_IMAGE=[^ ]\+ root=[^ ]\+ ::' )"
+test_continue "/etc/init.d/kdump stop; kexec -f /boot/vmlinuz$_alt --command-line=$CMDLINE"
