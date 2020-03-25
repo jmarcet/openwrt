@@ -33,7 +33,7 @@ platform_do_upgrade() {
 			return 1
 		}
 
-	grep -q 'root=PARTLABEL=openwrt_rootfs_alt' /proc/cmdline && _alt= || _alt=-alt
+	grep -q 'root=PARTLABEL=openwrt_rootfs_alt' /proc/cmdline && _alt= || _alt=_alt
 	grep -q ' /boot ' /proc/mounts || {
 		mount /dev/$bootpart /boot
 		[ -d /boot/boot ] && mount --bind /boot/boot /boot
