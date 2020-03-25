@@ -34,7 +34,4 @@ fi
 v "Upgrade completed"
 sleep 1
 
-sync
-grep -q 'root=PARTLABEL=openwrt_rootfs_alt' /proc/cmdline && _alt= || _alt=_alt
-CMDLINE="root=PARTLABEL=openwrt_rootfs$_alt $( cat /proc/cmdline | sed -e 's:BOOT_IMAGE=[^ ]\+ root=[^ ]\+ ::' )"
-test_continue "/etc/init.d/kdump stop; kexec -f /boot/vmlinuz$_alt --command-line=$CMDLINE"
+test_continue "/etc/reboot.sh"
