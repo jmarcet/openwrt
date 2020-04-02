@@ -38,8 +38,6 @@ endif
 
 ROOTPART:=$(call qstrip,$(CONFIG_TARGET_ROOTFS_PARTNAME))
 ROOTPART:=$(if $(ROOTPART),$(ROOTPART),PARTUUID=$(IMG_PART_SIGNATURE)-02)
-GPT_ROOTPART:=$(call qstrip,$(CONFIG_TARGET_ROOTFS_PARTNAME))
-GPT_ROOTPART:=$(if $(GPT_ROOTPART),$(GPT_ROOTPART),PARTUUID=$(shell echo $(IMG_PART_DISKGUID) | sed 's/00$$/02/'))
 
 GRUB_TIMEOUT:=$(call qstrip,$(CONFIG_GRUB_TIMEOUT))
 GRUB_TITLE:=$(call qstrip,$(CONFIG_GRUB_TITLE))
@@ -48,12 +46,16 @@ BOOTOPTS:=$(call qstrip,$(CONFIG_GRUB_BOOTOPTS))
 
 define Build/combined
 	$(CP) $(KDIR)/$(KERNEL_NAME) $@.boot/boot/vmlinuz
-	-$(CP) $(STAGING_DIR_ROOT)/boot/. $@.boot/boot/
 	$(if $(filter $(1),efi),
-		$(INSTALL_DIR) $@.boot/efi/boot
-		$(CP) $(STAGING_DIR_IMAGE)/grub2/boot$(if $(CONFIG_x86_64),x64,ia32).efi $@.boot/efi/boot/
+		rm -f $@.grub.img
+		mkfs.fat -C $@.grub.img -S 512 1024
+		mmd -i $@.grub.img ::/efi ::/efi/boot
+		mcopy -i $@.grub.img \
+			$(STAGING_DIR_IMAGE)/grub2/boot$(if $(CONFIG_x86_64),x64,ia32).efi \
+			::/efi/boot/boot$(if $(CONFIG_x86_64),x64,ia32).efi
+		mcopy -i $@.grub.img ./grub-efi-early.cfg ::/efi/boot/grub.cfg
 	)
-	PADDING="1" SIGNATURE="$(IMG_PART_SIGNATURE)" \
+	$(if $(filter $(1),efi),,PADDING="1") SIGNATURE="$(IMG_PART_SIGNATURE)" \
 		$(if $(filter $(1),efi),GUID="$(IMG_PART_DISKGUID)") $(SCRIPT_DIR)/gen_image_generic.sh \
 		$@ \
 		$(CONFIG_TARGET_KERNEL_PARTSIZE) $@.boot \
@@ -68,7 +70,6 @@ define Build/grub-config
 		-e 's#@SERIAL_CONFIG@#$(strip $(GRUB_SERIAL_CONFIG))#g' \
 		-e 's#@TERMINAL_CONFIG@#$(strip $(GRUB_TERMINAL_CONFIG))#g' \
 		-e 's#@ROOTPART@#root=$(ROOTPART) rootwait#g' \
-		-e 's#@GPT_ROOTPART@#root=$(GPT_ROOTPART) rootwait#g' \
 		-e 's#@CMDLINE@#$(BOOTOPTS) $(GRUB_CONSOLE_CMDLINE)#g' \
 		-e 's#@TIMEOUT@#$(GRUB_TIMEOUT)#g' \
 		-e 's#@TITLE@#$(GRUB_TITLE)#g' \
@@ -80,12 +81,14 @@ define Build/grub-install
 	$(INSTALL_DIR) $@.grub2
 	$(CP) $(STAGING_DIR_IMAGE)/grub2/boot.img $@.grub2/
 	$(CP) $(STAGING_DIR_IMAGE)/grub2/$(if $(filter $(1),efi),gpt,$(GRUB2_VARIANT))-core.img $@.grub2/core.img
-	echo '(hd0) $@' > $@.grub2/device.map
-	$(STAGING_DIR_HOST)/bin/grub-bios-setup \
-		-m "$@.grub2/device.map" \
-		-d "$@.grub2" \
-		-r "hd0,$(if $(filter $(1),efi),gpt1,msdos1)" \
-		$@
+	$(if $(filter $(1),efi),,
+		echo '(hd0) $@' > $@.grub2/device.map
+		$(STAGING_DIR_HOST)/bin/grub-bios-setup \
+			-m "$@.grub2/device.map" \
+			-d "$@.grub2" \
+			-r "hd0,msdos1" \
+			$@
+	)
 endef
 
 define Build/iso
