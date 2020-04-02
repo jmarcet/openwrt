@@ -4,6 +4,9 @@
 
 include /lib/upgrade
 
+v "Checking image..."
+platform_check_image "$IMAGE"
+
 v "Performing system upgrade..."
 if type 'platform_do_upgrade' >/dev/null 2>/dev/null; then
 	platform_do_upgrade "$IMAGE"
@@ -16,10 +19,6 @@ if [ -n "$UPGRADE_BACKUP" ] && type 'platform_copy_config' >/dev/null 2>/dev/nul
 fi
 
 v "Upgrade completed"
-sleep 1
+sleep 1; sync
 
-v "Rebooting system..."
-umount -a
-reboot -f
-sleep 5
-echo b 2>/dev/null >/proc/sysrq-trigger
+INTERACTIVE=1 ask_bool 0 "Run /etc/reboot.sh now?" && /etc/reboot.sh
