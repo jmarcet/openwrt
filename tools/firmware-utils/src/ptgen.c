@@ -72,13 +72,13 @@ typedef struct {
 	GUID_INIT( 0xC12A7328, 0xF81F, 0x11d2, \
 			0xBA, 0x4B, 0x00, 0xA0, 0xC9, 0x3E, 0xC9, 0x3B)
 
-#define GUID_PARTITION_BASIC_DATA \
-	GUID_INIT( 0xEBD0A0A2, 0xB9E5, 0x4433, \
-			0x87, 0xC0, 0x68, 0xB6, 0xB7, 0x26, 0x99, 0xC7)
+#define GUID_PARTITION_FREEDESKTOP_BOOT \
+	GUID_INIT( 0xBC13C2FF, 0x59E6, 0x4262, \
+			0xA3, 0x52, 0xB2, 0x75, 0xFD, 0x6F, 0x71, 0x72)
 
-#define GUID_PARTITION_BIOS_BOOT \
-	GUID_INIT( 0x21686148, 0x6449, 0x6E6F, \
-			0x74, 0x4E, 0x65, 0x65, 0x64, 0x45, 0x46, 0x49)
+#define GUID_PARTITION_LINUX_FILESYSTEM \
+	GUID_INIT( 0x0FC63DAF, 0x8483, 0x4772, \
+			0x8E, 0x79, 0x3D, 0x69, 0xD8, 0x47, 0x7D, 0xE4)
 
 #define GPT_HEADER_SIZE         92
 #define GPT_ENTRY_SIZE          128
@@ -379,11 +379,20 @@ static int gen_gptable(uint32_t signature, guid_t guid, unsigned nr)
 		gpte[i].end = cpu_to_le64(sect -1);
 		gpte[i].guid = guid;
 		gpte[i].guid.b[sizeof(guid_t) -1] += i + 1;
-		if (parts[i].type == 0xEF || (i + 1) == (unsigned)active) {
+		switch (i) {
+		case 0:
 			gpte[i].type = GUID_PARTITION_SYSTEM;
 			init_utf16("EFI System Partition", (uint16_t *)gpte[i].name, GPT_ENTRY_NAME_SIZE / sizeof(uint16_t));
-		} else {
-			gpte[i].type = GUID_PARTITION_BASIC_DATA;
+			break;
+		case 1:
+			gpte[i].type = GUID_PARTITION_FREEDESKTOP_BOOT;
+			init_utf16("openwrt_boot", (uint16_t *)gpte[i].name, GPT_ENTRY_NAME_SIZE / sizeof(uint16_t));
+			break;
+		case 2:
+		case 3:
+			gpte[i].type = GUID_PARTITION_LINUX_FILESYSTEM;
+			if (i == 2) init_utf16("openwrt_rootfs", (uint16_t *)gpte[i].name, GPT_ENTRY_NAME_SIZE / sizeof(uint16_t));
+			else init_utf16("openwrt_rootfs_alt", (uint16_t *)gpte[i].name, GPT_ENTRY_NAME_SIZE / sizeof(uint16_t));
 		}
 
 		if (verbose)
@@ -394,12 +403,6 @@ static int gen_gptable(uint32_t signature, guid_t guid, unsigned nr)
 		printf("%" PRIu64 "\n", start * DISK_SECTOR_SIZE);
 		printf("%" PRIu64 "\n", (sect - start) * DISK_SECTOR_SIZE);
 	}
-
-	gpte[GPT_ENTRY_MAX - 1].start = cpu_to_le64(GPT_FIRST_ENTRY_SECTOR + GPT_ENTRY_SIZE * GPT_ENTRY_MAX / DISK_SECTOR_SIZE);
-	gpte[GPT_ENTRY_MAX - 1].end = cpu_to_le64((kb_align ? round_to_kb(sectors) : (unsigned long)sectors) - 1);
-	gpte[GPT_ENTRY_MAX - 1].type = GUID_PARTITION_BIOS_BOOT;
-	gpte[GPT_ENTRY_MAX - 1].guid = guid;
-	gpte[GPT_ENTRY_MAX - 1].guid.b[sizeof(guid_t) -1] += GPT_ENTRY_MAX;
 
 	end = sect + sectors - 1;
 
@@ -448,8 +451,7 @@ static int gen_gptable(uint32_t signature, guid_t guid, unsigned nr)
 		goto fail;
 	}
 
-#ifdef WANT_ALTERNATE_PTABLE
-	/* The alternate partition table (We omit it by default) */
+	/* The alternate partition table */
 	swap(gpth.self, gpth.alternate);
 	gpth.first_entry = cpu_to_le64(end - GPT_ENTRY_SIZE * GPT_ENTRY_MAX / DISK_SECTOR_SIZE),
 	gpth.crc32 = 0;
@@ -471,7 +473,6 @@ static int gen_gptable(uint32_t signature, guid_t guid, unsigned nr)
 		fputs("write failed.\n", stderr);
 		goto fail;
 	}
-#endif
 
 	ret = 0;
 fail:
