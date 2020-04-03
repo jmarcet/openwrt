@@ -64,6 +64,12 @@ find_kernel() {
 	. /lib/functions.sh
 	local kernel
 
+	grep -q ' /boot ' /proc/mounts || {
+		[ -d /boot ] || mkdir /boot
+		mount /boot
+		[ -d /boot/boot ] && mount --bind /boot/boot /boot
+	}
+
 	kernel="$BOOT_IMAGE"
 	if [ -r "$kernel" ]; then
 		echo $kernel
