@@ -339,9 +339,9 @@ if [ -n "$CONF_IMAGE" ]; then
 	esac
 	get_image "$CONF_IMAGE" "cat" > "$CONF_TAR"
 	export SAVE_CONFIG=1
-elif ask_bool $SAVE_CONFIG "Keep config files over reflash"; then
-	[ $TEST -eq 1 ] || do_save_conffiles "$CONF_TAR"
-	export SAVE_CONFIG=1
+#elif ask_bool $SAVE_CONFIG "Keep config files over reflash"; then
+#	[ $TEST -eq 1 ] || do_save_conffiles "$CONF_TAR"
+#	export SAVE_CONFIG=1
 else
 	[ $TEST -eq 1 ] || rm -f "$CONF_TAR"
 	export SAVE_CONFIG=0
@@ -351,10 +351,15 @@ if [ $TEST -eq 1 ]; then
 	exit 0
 fi
 
+COMMAND='/lib/upgrade/do_stage2'
+
+if is_efi_system; then
+	ask_bool 0 "Proceed with upgrade?" && IMAGE=$IMAGE $COMMAND
+	exit 0
+fi
+
 install_bin /sbin/upgraded
 v "Commencing upgrade. Closing all shell sessions."
-
-COMMAND='/lib/upgrade/do_stage2'
 
 if [ -n "$FAILSAFE" ]; then
 	printf '%s\x00%s\x00%s' "$RAM_ROOT" "$IMAGE" "$COMMAND" >/tmp/sysupgrade
