@@ -29,7 +29,6 @@ DEFAULT_PACKAGES:=\
 	libgcc \
 	libustream-mbedtls \
 	logd \
-	mtd \
 	netifd \
 	uci \
 	uclient-fetch \
@@ -68,7 +67,7 @@ DEFAULT_PACKAGES.nas:=\
 	mdadm
 # For router targets
 DEFAULT_PACKAGES.router:=\
-	dnsmasq \
+	dnsmasq-full \
 	firewall4 \
 	nftables \
 	kmod-nft-offload \
