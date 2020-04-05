@@ -23,7 +23,6 @@ DEFAULT_PACKAGES:=\
 	libgcc \
 	libustream-wolfssl \
 	logd \
-	mtd \
 	netifd \
 	opkg \
 	uci \
@@ -40,7 +39,7 @@ DEFAULT_PACKAGES.nas:=\
 	mdadm
 # For router targets
 DEFAULT_PACKAGES.router:=\
-	dnsmasq \
+	dnsmasq-full \
 	firewall \
 	ip6tables \
 	iptables \
