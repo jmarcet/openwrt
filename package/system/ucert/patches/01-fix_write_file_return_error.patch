@@ -1,0 +1,11 @@
+--- ./ucert.c-orig	2019-12-16 20:52:58.000000000 +0100
++++ ./ucert.c	2020-04-05 08:09:50.120909118 +0200
+@@ -126,7 +126,7 @@ static int write_file(const char *filena
+ 
+ 	outlen = fwrite(buf, 1, len, f);
+ 	fclose(f);
+-	return (outlen == len);
++	return (outlen != len);
+ }
+ 
+ /* load certfile into list */
