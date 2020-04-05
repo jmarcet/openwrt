@@ -314,7 +314,7 @@ case "$IMAGE" in
 		;;
 esac
 
-json_load "$(/usr/libexec/validate_firmware_image "$IMAGE")" || {
+json_load "$(REQUIRE_IMAGE_METADATA=1 REQUIRE_IMAGE_SIGNATURE=1 /usr/libexec/validate_firmware_image "$IMAGE")" || {
 	echo "Failed to check image"
 	exit 1
 }
