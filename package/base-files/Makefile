@@ -130,7 +130,8 @@ ifdef CONFIG_INSTALL_LOCAL_KEY
 	mkdir -p $(1)/etc/opkg/keys
 	$(CP) $(BUILD_KEY).pub $(1)/etc/opkg/keys/`$(STAGING_DIR_HOST)/bin/usign \
 		-F -p $(BUILD_KEY).pub`
-endef
+  endef
+endif
 
 define Package/base-files/install
 	$(CP) ./files/* $(1)/
