@@ -53,7 +53,6 @@ define Build/combined
 		mcopy -i $@.grub.img \
 			$(STAGING_DIR_IMAGE)/grub2/boot$(if $(CONFIG_x86_64),x64,ia32).efi \
 			::/efi/boot/boot$(if $(CONFIG_x86_64),x64,ia32).efi
-		mcopy -i $@.grub.img ./grub-efi-early.cfg ::/efi/boot/grub.cfg
 	)
 	PADDING="1" SIGNATURE="$(IMG_PART_SIGNATURE)" \
 		$(if $(filter $(1),efi),GUID="$(IMG_PART_DISKGUID)") $(SCRIPT_DIR)/gen_image_generic.sh \
@@ -80,34 +79,29 @@ define Build/grub-install
 	rm -fR $@.grub2
 	$(INSTALL_DIR) $@.grub2
 	$(CP) $(STAGING_DIR_IMAGE)/grub2/boot.img $@.grub2/
-	$(CP) $(STAGING_DIR_IMAGE)/grub2/$(if $(filter $(1),efi),gpt,$(GRUB2_VARIANT))-core.img $@.grub2/core.img
-	$(if $(filter $(1),efi),,
-		echo '(hd0) $@' > $@.grub2/device.map
-		$(STAGING_DIR_HOST)/bin/grub-bios-setup \
-			-m "$@.grub2/device.map" \
-			-d "$@.grub2" \
-			-r "hd0,msdos1" \
-			$@
-	)
+	$(CP) $(STAGING_DIR_IMAGE)/grub2/$(GRUB2_VARIANT)-core.img $@.grub2/core.img
+	echo '(hd0) $@' > $@.grub2/device.map
+	$(STAGING_DIR_HOST)/bin/grub-bios-setup \
+		-m "$@.grub2/device.map" \
+		-d "$@.grub2" \
+		-r "hd0,msdos1" \
+		$@
 endef
 
 define Build/iso
 	$(CP) $(KDIR)/$(KERNEL_NAME) $@.boot/boot/vmlinuz
-	cat \
-		$(STAGING_DIR_IMAGE)/grub2/cdboot.img \
-		$(STAGING_DIR_IMAGE)/grub2/eltorito.img \
-		> $@.boot/boot/grub/eltorito.img
-	-$(CP) $(STAGING_DIR_ROOT)/boot/. $@.boot/boot/
 	$(if $(filter $(1),efi),
 		mkfs.fat -C $@.boot/boot/grub/isoboot.img -S 512 1440
 		mmd -i $@.boot/boot/grub/isoboot.img ::/efi ::/efi/boot
 		mcopy -i $@.boot/boot/grub/isoboot.img \
 			$(STAGING_DIR_IMAGE)/grub2/iso-boot$(if $(CONFIG_x86_64),x64,ia32).efi \
-			::/efi/boot/boot$(if $(CONFIG_x86_64),x64,ia32).efi
-	)
-	mkisofs -R -b boot/grub/eltorito.img -no-emul-boot -boot-info-table \
-		$(if $(filter $(1),efi),-boot-load-size 4 -c boot.cat -eltorito-alt-boot -b boot/grub/isoboot.img -no-emul-boot) \
-		-o $@ $@.boot $(TARGET_DIR)
+			::/efi/boot/boot$(if $(CONFIG_x86_64),x64,ia32).efi,
+		cat \
+			$(STAGING_DIR_IMAGE)/grub2/cdboot.img \
+			$(STAGING_DIR_IMAGE)/grub2/eltorito.img \
+			> $@.boot/boot/grub/eltorito.img)
+	mkisofs -R -b boot/grub/$(if $(filter $1,efi),isoboot.img -boot-load-size 4 -c boot.cat,eltorito.img) \
+		-no-emul-boot -boot-info-table -o $@ $@.boot $(TARGET_DIR)
 endef
 
 DEVICE_VARS += GRUB2_VARIANT
@@ -120,10 +114,10 @@ define Device/Default
   IMAGE/rootfs.img := append-rootfs
   IMAGE/rootfs.img.gz := append-rootfs | gzip
   ARTIFACT/image-efi.iso := grub-config iso | iso efi
-  IMAGE/combined-efi.img := grub-config efi | combined efi | grub-install efi
-  IMAGE/combined-efi.img.gz := grub-config efi | combined efi | grub-install efi | gzip
-  IMAGE/combined-efi.vdi := grub-config efi | combined efi | grub-install efi | qemu-image vdi
-  IMAGE/combined-efi.vmdk := grub-config efi | combined efi | grub-install efi | qemu-image vmdk
+  IMAGE/combined-efi.img := grub-config efi | combined efi
+  IMAGE/combined-efi.img.gz := grub-config efi | combined efi | gzip
+  IMAGE/combined-efi.vdi := grub-config efi | combined efi | qemu-image vdi
+  IMAGE/combined-efi.vmdk := grub-config efi | combined efi | qemu-image vmdk
   ifeq ($(CONFIG_TARGET_IMAGES_GZIP),y)
     IMAGES-y := rootfs.img.gz
     IMAGES-$$(CONFIG_GRUB_IMAGES) += combined.img.gz

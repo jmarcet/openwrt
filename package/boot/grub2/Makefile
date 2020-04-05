@@ -102,13 +102,6 @@ define Package/grub2/install
 		-d $(PKG_BUILD_DIR)/grub-core \
 		-p /boot/grub \
 		-O i386-pc \
-		-c $(PKG_BUILD_DIR)/grub-early.cfg \
-		-o $(STAGING_DIR_IMAGE)/grub2/gpt-core.img \
-		at_keyboard biosdisk boot chain configfile fat linux ls part_gpt reboot serial vga
-	$(STAGING_DIR_HOST)/bin/grub-mkimage \
-		-d $(PKG_BUILD_DIR)/grub-core \
-		-p /boot/grub \
-		-O i386-pc \
 		-c ./files/grub-early.cfg \
 		-o $(STAGING_DIR_IMAGE)/grub2/generic-core.img \
 		at_keyboard biosdisk boot chain configfile ext2 linux ls part_msdos reboot serial vga
@@ -129,7 +122,8 @@ define Package/grub2/install
 endef
 
 define Package/grub2-efi/install
-	sed 's#msdos1#gpt1#g' ./files/grub-early.cfg >$(PKG_BUILD_DIR)/grub-early.cfg
+	$(INSTALL_DIR) $(STAGING_DIR_IMAGE)/grub2
+	sed 's#msdos1#gpt2#g' ./files/grub-early.cfg >$(PKG_BUILD_DIR)/grub-early.cfg
 	$(STAGING_DIR_HOST)/bin/grub-mkimage \
 		-d $(PKG_BUILD_DIR)/grub-core \
 		-p /boot/grub \
