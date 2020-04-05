@@ -9,8 +9,8 @@ TARGET_DEVICES += generic
 define Device/asrock-z77-pro4-m
   DEVICE_TITLE := ASRock Z77 Pro4-M
   DEVICE_PACKAGES += kmod-fs-btrfs kmod-hwmon-drivetemp kmod-hwmon-nct6775 \
-	kmod-kvm-intel kmod-md-mod kmod-md-raid456 kmod-phy-realtek kmod-r8169 \
-	kmod-sound-hda-codec-hdmi kmod-sound-hda-codec-realtek \
+	kmod-itco-wdt kmod-kvm-intel kmod-md-mod kmod-md-raid456 kmod-phy-realtek \
+	kmod-r8169 kmod-sound-hda-codec-hdmi kmod-sound-hda-codec-realtek \
 	kmod-usb-net-asix-ax88179 kmod-veth
   IMAGES := combined-efi.img.gz
   IMAGE/combined-efi.img := grub-config efi | combined efi | append-metadata
