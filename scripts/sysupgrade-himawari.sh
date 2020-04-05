@@ -4,14 +4,14 @@ set -e
 
 _target=$( grep '^CONFIG_TARGET_[a-z0-9]\+=y' .config | sed -e 's:^CONFIG_TARGET_\([a-z0-9]\+\)=y:\1:' )
 _bindir=$( ls -d bin/targets/$_target/* )
-_arch=$( echo $_bindir | cut -d'/' -f3- | tr '/' '-' )
+#_arch=$( echo $_bindir | cut -d'/' -f3- | tr '/' '-' )
 
 if [ ! -w /boot/vmlinuz -o ! -w /boot/vmlinuz_alt ]; then
     echo "Can't write kernel"
     exit 1
 fi
 
-_image=$( ls -t $_bindir/openwrt-*-$_arch-generic-squashfs-combined-efi.img* | head -1 )
+_image=$( ls -t $_bindir/openwrt-*-x86-64-asrock-z77-pro4-m-squashfs-combined-efi.img.gz | head -1 )
 if [ -z "$_image" ]; then
     echo "Usage: no suitable image found"
     exit 1
