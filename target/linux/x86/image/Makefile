@@ -109,18 +109,18 @@ endef
 
 DEVICE_VARS += GRUB2_VARIANT
 define Device/Default
-  ARTIFACT/image.iso := grub-config iso | iso
-  IMAGE/combined.img := grub-config pc | combined | grub-install
-  IMAGE/combined.img.gz := grub-config pc | combined | grub-install | gzip
-  IMAGE/combined.vdi := grub-config pc | combined | grub-install | qemu-image vdi
-  IMAGE/combined.vmdk := grub-config pc | combined | grub-install | qemu-image vmdk
+  ARTIFACT/image.iso := grub-config iso | iso | append-metadata
+  IMAGE/combined.img := grub-config pc | combined | grub-install | append-metadata
+  IMAGE/combined.img.gz := grub-config pc | combined | grub-install | gzip | append-metadata
+  IMAGE/combined.vdi := grub-config pc | combined | grub-install | qemu-image vdi | append-metadata
+  IMAGE/combined.vmdk := grub-config pc | combined | grub-install | qemu-image vmdk | append-metadata
   IMAGE/rootfs.img := append-rootfs
   IMAGE/rootfs.img.gz := append-rootfs | gzip
-  ARTIFACT/image-efi.iso := grub-config iso | iso efi
-  IMAGE/combined-efi.img := grub-config efi | combined efi
-  IMAGE/combined-efi.img.gz := grub-config efi | combined efi | gzip
-  IMAGE/combined-efi.vdi := grub-config efi | combined efi | qemu-image vdi
-  IMAGE/combined-efi.vmdk := grub-config efi | combined efi | qemu-image vmdk
+  ARTIFACT/image-efi.iso := grub-config iso | iso efi | append-metadata
+  IMAGE/combined-efi.img := grub-config efi | combined efi | append-metadata
+  IMAGE/combined-efi.img.gz := grub-config efi | combined efi | gzip | append-metadata
+  IMAGE/combined-efi.vdi := grub-config efi | combined efi | qemu-image vdi | append-metadata
+  IMAGE/combined-efi.vmdk := grub-config efi | combined efi | qemu-image vmdk | append-metadata
   ifeq ($(CONFIG_TARGET_IMAGES_GZIP),y)
     IMAGES-y := rootfs.img.gz
     IMAGES-$$(CONFIG_GRUB_IMAGES) += combined.img.gz
