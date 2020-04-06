@@ -2,20 +2,15 @@ fwtool_check_signature() {
 	[ $# -gt 1 ] && return 1
 
 	[ ! -x /usr/bin/ucert ] && {
-		if [ "$REQUIRE_IMAGE_SIGNATURE" = 1 ]; then
-			return 1
-		else
-			return 0
-		fi
+		return 1
 	}
 
 	if ! fwtool -q -s /tmp/sysupgrade.ucert "$1"; then
 		echo "Image signature not found"
-		[ "$REQUIRE_IMAGE_SIGNATURE" = 1 -a "$FORCE" != 1 ] && {
+		[ "$FORCE" != 1 ] && {
 			echo "Use sysupgrade -F to override this check when downgrading or flashing to vendor firmware"
 		}
-		[ "$REQUIRE_IMAGE_SIGNATURE" = 1 ] && return 1
-		return 0
+		return 1
 	fi
 
 	fwtool -q -T -s /dev/null "$1" | \
@@ -31,11 +26,10 @@ fwtool_check_image() {
 
 	if ! fwtool -q -i /tmp/sysupgrade.meta "$1"; then
 		echo "Image metadata not found"
-		[ "$REQUIRE_IMAGE_METADATA" = 1 -a "$FORCE" != 1 ] && {
+		[ "$FORCE" != 1 ] && {
 			echo "Use sysupgrade -F to override this check when downgrading or flashing to vendor firmware"
 		}
-		[ "$REQUIRE_IMAGE_METADATA" = 1 ] && return 1
-		return 0
+		return 1
 	fi
 
 	json_load "$(cat /tmp/sysupgrade.meta)" || {
