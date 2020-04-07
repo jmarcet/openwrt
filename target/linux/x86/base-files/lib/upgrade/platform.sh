@@ -154,6 +154,8 @@ platform_do_upgrade() {
 			;;
 			3)
 				[ -n "$_alt" ] && partdev=$partdevalt
+				echo "Erasing old overlay @ /dev/$partdev..."
+				dd if=/dev/zero of="/dev/$partdev" bs=1M skip=$((($size/2048) - 1)) count=2 conv=fsync
 				echo "Writing new rootfs to /dev/$partdev..."
 				get_image "$@" | dd of="/dev/$partdev" ibs="512" obs=1M skip="$start" count="$size" conv=fsync
 			;;
