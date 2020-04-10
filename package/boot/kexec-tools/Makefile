@@ -109,10 +109,9 @@ define Package/kexec/install
 endef
 
 define Package/kdump/install
-	$(INSTALL_DIR) $(1)/usr/sbin $(1)/etc/init.d $(1)/etc/config $(1)/etc/uci-defaults
+	$(INSTALL_DIR) $(1)/usr/sbin $(1)/etc/init.d $(1)/etc/config
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/kdump $(PKG_INSTALL_DIR)/usr/sbin/vmcore-dmesg $(1)/usr/sbin
 	$(INSTALL_BIN) ./files/kdump.init $(1)/etc/init.d/kdump
-	$(INSTALL_BIN) ./files/kdump.defaults $(1)/etc/uci-defaults/kdump
 	$(INSTALL_CONF) ./files/kdump.config $(1)/etc/config/kdump
 endef
 
