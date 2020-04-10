@@ -100,6 +100,23 @@ endef
 $(eval $(call KernelPackage,ac97))
 
 
+define KernelPackage/sound-aloop
+  TITLE:=Generic loopback driver (PCM)
+  KCONFIG:=CONFIG_SND_ALOOP
+  FILES:= \
+	$(LINUX_DIR)/sound/drivers/snd-aloop.ko
+  AUTOLOAD:=$(call AutoLoad,35,snd_aloop)
+  $(call AddDepends/sound)
+  MODPARAMS.snd_aloop:=enable=1,1,1,1,1 index=0,1,2,3,4
+endef
+
+define KernelPackage/sound-aloop/description
+ Generic loopback driver (PCM)
+endef
+
+$(eval $(call KernelPackage,sound-aloop))
+
+
 define KernelPackage/sound-mpu401
   TITLE:=MPU-401 uart driver
   KCONFIG:=CONFIG_SND_MPU401_UART
