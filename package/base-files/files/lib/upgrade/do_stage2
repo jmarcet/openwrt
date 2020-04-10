@@ -19,7 +19,7 @@ v "Upgrade completed"
 sleep 1
 
 if is_efi_system; then
-	ask_bool 0 "Reboot now?" && reboot
+	ask_bool 0 "Run /etc/reboot.sh now?" && /etc/reboot.sh
 	return 0
 fi
 
