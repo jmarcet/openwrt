@@ -26,6 +26,10 @@ ifneq ($(GRUB_SERIAL),)
   GRUB_TERMINALS += serial
 endif
 
+ifneq ($(CONFIG_PACKAGE_kdump),)
+  GRUB_CONSOLE_CMDLINE += crashkernel=512M
+endif
+
 ifneq ($(GRUB_TERMINALS),)
   GRUB_TERMINAL_CONFIG := terminal_input $(GRUB_TERMINALS); terminal_output $(GRUB_TERMINALS)
 endif
