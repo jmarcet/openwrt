@@ -176,7 +176,7 @@ else
 		done; \
 	done || true
 	$(CP) $(TARGET_DIR) $(TARGET_DIR_ORIG)
-	$(call prepare_rootfs,$(TARGET_DIR),$(TOPDIR)/files)
+	# $(call prepare_rootfs,$(TARGET_DIR),$(TOPDIR)/files)
 endif
 
 $(curdir)/index: FORCE
