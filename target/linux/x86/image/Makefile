@@ -20,8 +20,8 @@ else
 endif
 
 ifneq ($(CONFIG_GRUB_CONSOLE),)
-  GRUB_CONSOLE_CMDLINE += console=tty0
-  GRUB_TERMINALS += console
+  GRUB_CONSOLE_CMDLINE := console=tty0
+  GRUB_TERMINALS := console
 endif
 
 GRUB_SERIAL:=$(call qstrip,$(CONFIG_GRUB_SERIAL))
