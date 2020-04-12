@@ -78,7 +78,8 @@ define prepare_rootfs
 		done; \
 		for script in ./etc/init.d/*; do \
 			grep '#!/bin/sh /etc/rc.common' $$script >/dev/null || continue; \
-			if ! echo " $(3) " | grep -q " $$(basename $$script) "; then \
+			if ! echo " $(3) " | grep -q " $$(basename $$script) " && \
+				! echo " $$(basename $$script) " | grep -q -f $(2)/etc/disabled-services 2>/dev/null; then \
 				IPKG_INSTROOT=$(1) $$(command -v bash) ./etc/rc.common $$script enable; \
 				echo "Enabling" $$(basename $$script); \
 			else \
