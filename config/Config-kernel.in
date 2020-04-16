@@ -604,6 +604,22 @@ config KERNEL_BIG_KEYS
 	default n
 
 #
+# IO schedulers
+#
+
+config KERNEL_IOSCHED_BFQ
+	bool "BFQ hierarchical scheduling support"
+	default y
+
+config KERNEL_MQ_IOSCHED_DEADLINE
+	bool "MQ deadline I/O scheduler"
+	default y
+
+config KERNEL_MQ_IOSCHED_KYBER
+	bool "Kyber I/O scheduler"
+	default y
+
+#
 # CGROUP support symbols
 #
 
@@ -830,6 +846,20 @@ if KERNEL_CGROUPS
 		  CONFIG_BLK_DEV_THROTTLING=y.
 
 	if KERNEL_BLK_CGROUP
+
+		config KERNEL_BLK_CGROUP_IOCOST
+			bool "Cost model based cgroup IO controller"
+
+		config KERNEL_BLK_CGROUP_IOLATENCY
+			bool "Latency based cgroup IO protection"
+
+		config KERNEL_BFQ_GROUP_IOSCHED
+			bool "BFQ hierarchical scheduling support"
+			depends on KERNEL_IOSCHED_BFQ
+
+		config KERNEL_BFQ_CGROUP_DEBUG
+			bool "BFQ IO controller debugging"
+			depends on KERNEL_IOSCHED_BFQ
 
 		config KERNEL_CFQ_GROUP_IOSCHED
 			bool "Proportional weight of disk bandwidth in CFQ"
