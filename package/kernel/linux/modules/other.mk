@@ -400,6 +400,39 @@ endef
 $(eval $(call KernelPackage,mmc))
 
 
+define KernelPackage/mmc-realtek
+  SUBMENU:=$(OTHER_MENU)
+  TITLE:=Realtek PCI MMC/SD/MemoryStick Card Support
+  DEPENDS:=+kmod-mmc
+  KCONFIG:= \
+	CONFIG_MEMSTICK \
+	CONFIG_MEMSTICK_DEBUG=n \
+	CONFIG_MEMSTICK_JMICRON_38X \
+	CONFIG_MEMSTICK_R592 \
+	CONFIG_MEMSTICK_REALTEK_PCI \
+	CONFIG_MEMSTICK_TIFM_MS \
+	CONFIG_MEMSTICK_UNSAFE_RESUME=n \
+	CONFIG_MFD_CORE \
+	CONFIG_MISC_RTSX_PCI \
+	CONFIG_MMC_REALTEK_PCI \
+	CONFIG_MS_BLOCK \
+	CONFIG_MSPRO_BLOCK \
+	CONFIG_TIFM_7XX1
+  FILES:= \
+	$(LINUX_DIR)/drivers/misc/cardreader/rtsx_pci.ko \
+	$(LINUX_DIR)/drivers/mmc/host/rtsx_pci_sdmmc.ko \
+	$(LINUX_DIR)/drivers/memstick/core/memstick.ko \
+	$(LINUX_DIR)/drivers/memstick/host/rtsx_pci_ms.ko
+  AUTOLOAD:=$(call AutoProbe,rtsx_pci rtsx_pci_sdmmc rtsx_pci_ms,1)
+endef
+
+define KernelPackage/mmc-realtek/description
+ Kernel support for Realtek PCIe MMC/SD/MemoryStick controller
+endef
+
+$(eval $(call KernelPackage,mmc-realtek))
+
+
 define KernelPackage/mvsdio
   SUBMENU:=$(OTHER_MENU)
   TITLE:=Marvell MMC/SD/SDIO host driver
