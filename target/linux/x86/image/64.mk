@@ -15,7 +15,7 @@ TARGET_DEVICES += generic
 
 define Device/qemu-standard-pc-q35-ich9-2009
   DEVICE_TITLE := Qemu Standard Q35 ICH9 2009
-  GRUB_CONSOLE_CMDLINE := console=hvc0 console=tty0
+  GRUB_CONSOLE_CMDLINE := console=hvc0 console=tty0 kgdboc=ttyS1,115200 kgdbwait
   KERNEL_INSTALL :=
   DEVICE_PACKAGES += intel-microcode kmod-9pnet kmod-e1000 kmod-fs-9p \
 	kmod-mmc kmod-mmc-realtek kmod-mmc-spi \
