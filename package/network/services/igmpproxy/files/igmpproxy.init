@@ -12,8 +12,10 @@ igmp_header() {
 	config_get verbose "$1" verbose 1
 
 	[ $verbose = "0" ] && logopts="-d"
-	[ $verbose = "2" ] && logopts="-v"
-	[ $verbose = "3" ] && logopts="-v -v"
+	[ $verbose = "1" ] && logopts="-v"
+	[ $verbose = "2" ] && logopts="-vv"
+	[ $verbose = "3" ] && logopts="-vvv"
+	[ $verbose = "4" ] && logopts="-vvvv"
 
 	mkdir -p /var/etc
 	rm -f /var/etc/igmpproxy.conf
@@ -43,9 +45,12 @@ igmp_add_phyint() {
 
 	append netdevs "$device"
 
+	local opts=" ratelimit 0 threshold 1"
+	[ "$direction" = "disabled" ] && opts=""
+
 	[ "$direction" = "upstream" ] && has_upstream=1
 
-	echo -e "\nphyint $device $direction ratelimit 0 threshold 1" >> /var/etc/igmpproxy.conf
+	echo -e "\nphyint $device $direction$opts" >> /var/etc/igmpproxy.conf
 
 	if [ -n "$altnets" ]; then
 		local altnet
