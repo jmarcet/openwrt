@@ -18,8 +18,8 @@ DEFAULT_PACKAGES:=\
 	libc \
 	libgcc \
 	libustream-mbedtls \
-	logd \
 	netifd \
+	syslog-ng \
 	uci \
 	uclient-fetch \
 	urandom-seed \
