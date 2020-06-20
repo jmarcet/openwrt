@@ -21,9 +21,9 @@ DEFAULT_PACKAGES:=\
 	libc \
 	libgcc \
 	libustream-wolfssl \
-	logd \
 	netifd \
 	opkg \
+	syslog-ng \
 	uci \
 	uclient-fetch \
 	urandom-seed \
