@@ -817,10 +817,10 @@ if KERNEL_CGROUPS
 
 	if KERNEL_BLK_CGROUP
 
-		config KERNEL_BLK_GROUP_IOCOST
+		config KERNEL_BLK_CGROUP_IOCOST
 			bool "Cost model based cgroup IO controller"
 
-		config KERNEL_BLK_GROUP_IOLATENCY
+		config KERNEL_BLK_CGROUP_IOLATENCY
 			bool "Latency based cgroup IO protection"
 
 		config KERNEL_BFQ_GROUP_IOSCHED
