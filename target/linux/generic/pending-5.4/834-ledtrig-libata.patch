@@ -122,8 +122,8 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
  	/* Create associated sysfs transport objects  */
  	for (i = 0; i < host->n_ports; i++) {
  		rc = ata_tport_add(host->dev,host->ports[i]);
---- a/include/linux/libata.h
-+++ b/include/linux/libata.h
+--- a/include/linux/libata.h	2020-06-24 11:50:53.000000000 -0400
++++ b/include/linux/libata.h	2020-06-24 17:35:15.642949054 -0400
 @@ -22,6 +22,9 @@
  #include <linux/acpi.h>
  #include <linux/cdrom.h>
@@ -131,13 +131,18 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
 +#ifdef CONFIG_ATA_LEDS
 +#include <linux/leds.h>
 +#endif
+ #include <linux/async.h>
  
  /*
-  * Define if arch has non-standard setup.  This is a _PCI_ standard
-@@ -876,6 +879,12 @@ struct ata_port {
+@@ -879,6 +882,17 @@ struct ata_port {
  #ifdef CONFIG_ATA_ACPI
  	struct ata_acpi_gtm	__acpi_init_gtm; /* use ata_acpi_init_gtm() */
  #endif
++
++#ifdef CONFIG_ATA_LEDS
++ struct led_trigger  *ledtrig;
++ char      ledtrig_name[8];
++#endif
 +
 +#ifdef CONFIG_ATA_LEDS
 +	struct led_trigger	*ledtrig;
@@ -147,3 +152,4 @@ Signed-off-by: Daniel Golle <daniel@makrotopia.org>
  	/* owned by EH */
  	u8			sector_buf[ATA_SECT_SIZE] ____cacheline_aligned;
  };
+
