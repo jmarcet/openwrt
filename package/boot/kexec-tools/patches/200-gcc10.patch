@@ -1,0 +1,11 @@
+--- ./kexec/arch/x86_64/kexec-bzImage64.c-orig	2016-12-09 10:42:06.000000000 +0100
++++ ./kexec/arch/x86_64/kexec-bzImage64.c	2020-07-07 09:35:30.944949505 +0200
+@@ -42,7 +42,7 @@
+ #include <arch/options.h>
+ 
+ static const int probe_debug = 0;
+-int bzImage_support_efi_boot;
++extern int bzImage_support_efi_boot;
+ 
+ int bzImage64_probe(const char *buf, off_t len)
+ {
