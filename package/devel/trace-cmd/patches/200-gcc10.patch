@@ -1,0 +1,11 @@
+--- ./trace-hist.c-orig	2017-05-02 19:35:16.000000000 +0200
++++ ./trace-hist.c	2020-07-07 10:34:17.865638402 +0200
+@@ -41,7 +41,7 @@ static int kernel_stack_type;
+ 
+ static int long_size;
+ 
+-struct format_field *common_type_field;
++extern *common_type_field;
+ struct format_field *common_pid_field;
+ struct format_field *sched_wakeup_comm_field;
+ struct format_field *sched_wakeup_new_comm_field;
