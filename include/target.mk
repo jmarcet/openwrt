@@ -17,7 +17,7 @@ DEFAULT_PACKAGES:=\
 	fstools \
 	libc \
 	libgcc \
-	libustream-mbedtls \
+	libustream-openssl \
 	netifd \
 	opkg \
 	syslog-ng \
