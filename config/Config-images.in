@@ -206,6 +206,7 @@ menu "Target Images"
 		bool "Build GRUB EFI images (Linux x86 or x86_64 host only)"
 		depends on TARGET_x86 || TARGET_armsr
 		depends on TARGET_ROOTFS_EXT4FS || TARGET_ROOTFS_JFFS2 || TARGET_ROOTFS_SQUASHFS
+		select PACKAGE_grub2-editenv
 		select PACKAGE_grub2-efi if TARGET_x86
 		select PACKAGE_grub2-efi-arm if TARGET_armsr
 		select PACKAGE_kmod-fs-ext4
