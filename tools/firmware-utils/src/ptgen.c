@@ -468,8 +468,7 @@ static int gen_gptable(uint32_t signature, guid_t guid, unsigned nr)
 		goto fail;
 	}
 
-#ifdef WANT_ALTERNATE_PTABLE
-	/* The alternate partition table (We omit it by default) */
+	/* The alternate partition table */
 	swap(gpth.self, gpth.alternate);
 	gpth.first_entry = cpu_to_le64(end - GPT_ENTRY_SIZE * GPT_ENTRY_MAX / DISK_SECTOR_SIZE),
 	gpth.crc32 = 0;
@@ -491,7 +490,6 @@ static int gen_gptable(uint32_t signature, guid_t guid, unsigned nr)
 		fputs("write failed.\n", stderr);
 		goto fail;
 	}
-#endif
 
 	ret = 0;
 fail:
