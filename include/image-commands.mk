@@ -82,14 +82,14 @@ metadata_json = \
 define Build/append-metadata
 	$(if $(SUPPORTED_DEVICES),-echo $(call metadata_json) | fwtool -I - $@)
 	sha256sum "$@" | cut -d" " -f1 > "$@.sha256sum"
-	[ -z "$(SIGNED_IMAGES)" \
-		-o ! -s "$(BUILD_KEY)" \
-		-o ! -s "$(BUILD_KEY).ucert" \
-		-o ! -s "$@" ] || { \
-			cp "$(BUILD_KEY).ucert" "$@.ucert" ;\
+	[ -n "$(CONFIG_SIGNED_IMAGES)" \
+		-a -s "$(BUILD_KEY)" \
+		-a -s "$(BUILD_KEY).ucert" \
+		-a -s "$@" ] && { \
 			usign -S -m "$@" -s "$(BUILD_KEY)" -x "$@.sig" ;\
 			ucert -A -c "$@.ucert" -x "$@.sig" ;\
 			fwtool -S "$@.ucert" "$@" ;\
+			rm -f "$@.ucert" ;\
 	}
 endef
 
