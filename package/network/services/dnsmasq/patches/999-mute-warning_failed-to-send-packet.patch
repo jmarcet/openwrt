@@ -1,0 +1,11 @@
+--- ./src/forward.c-orig	2021-01-18 00:35:24.000000000 +0100
++++ ./src/forward.c	2021-01-20 19:44:22.117474302 +0100
+@@ -97,7 +97,7 @@ int send_from(int fd, int nowild, char *
+ 
+   if (errno != 0)
+     {
+-#ifdef HAVE_LINUX_NETWORK
++#if 0
+       /* If interface is still in DAD, EINVAL results - ignore that. */
+       if (errno != EINVAL)
+ 	my_syslog(LOG_ERR, _("failed to send packet: %s"), strerror(errno));
