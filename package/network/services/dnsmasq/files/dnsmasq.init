@@ -878,9 +878,9 @@ dnsmasq_start()
 			DNSMASQ_DHCP_VER=4
 		fi
 
-	elif [ "$DHCPv6CAPABLE" -eq 1 ] ; then
-		# DHCP V4 and V6 in DNSMASQ
-		DNSMASQ_DHCP_VER=6
+	#elif [ "$DHCPv6CAPABLE" -eq 1 ] ; then
+	#	# DHCP V4 and V6 in DNSMASQ
+	#	DNSMASQ_DHCP_VER=6
 	else
 		DNSMASQ_DHCP_VER=4
 	fi
