@@ -44,11 +44,12 @@ TARGET_DEVICES += dell-inc-0hwtmh
 define Device/asrock-z77-pro4-m
   DEVICE_TITLE := ASRock Z77 Pro4-M
   KERNEL_INSTALL :=
-  DEVICE_PACKAGES += kmod-hwmon-nct6775 kmod-igb kmod-itco-wdt \
-	kmod-md-mod kmod-md-raid456 kmod-phy-realtek kmod-sound-hda-intel \
-	kmod-sound-hda-codec-hdmi kmod-sound-hda-codec-realtek \
-	kmod-sound-soc-ac97 kmod-sound-soc-core \
-	kmod-usb-serial-cp210x kmod-usb-serial-ftdi kmod-usb-serial-pl2303
+  DEVICE_PACKAGES += r8169-firmware kmod-hwmon-nct6775 kmod-igb kmod-itco-wdt \
+	kmod-md-mod kmod-md-raid456 kmod-phy-realtek kmod-r8169 \
+	kmod-sound-hda-intel kmod-sound-hda-codec-hdmi \
+	kmod-sound-hda-codec-realtek kmod-sound-soc-ac97 kmod-sound-soc-core \
+	kmod-usb-serial-ch341 kmod-usb-serial-cp210x kmod-usb-serial-ftdi \
+	kmod-usb-serial-pl2303
   IMAGES := combined-efi.img.gz
   SUPPORTED_DEVICES := asrock-z77-pro4-m
 endef
