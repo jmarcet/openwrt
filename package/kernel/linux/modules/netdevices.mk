@@ -636,7 +636,7 @@ define KernelPackage/e1000e
   DEPENDS:=@PCIE_SUPPORT +kmod-ptp
   KCONFIG:=CONFIG_E1000E
   FILES:=$(LINUX_DIR)/drivers/net/ethernet/intel/e1000e/e1000e.ko
-  AUTOLOAD:=$(call AutoProbe,e1000e)
+  AUTOLOAD:=$(call AutoLoad,34,e1000e)
   MODPARAMS.e1000e:= \
     IntMode=1 \
     InterruptThrottleRate=4,4,4,4,4,4,4,4
