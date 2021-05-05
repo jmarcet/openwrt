@@ -11,7 +11,8 @@ if [ ! -w /boot/vmlinuz -o ! -w /boot/vmlinuz_alt ]; then
     exit 1
 fi
 
-_image=$( ls -t $_bindir/openwrt-*-x86-64-asrock-z77-pro4-m-squashfs-combined-efi.img.gz | head -1 )
+_image=$( ls -t $_bindir/openwrt-*-x86-64-asustek-computer-inc-sabertooth-z77-squashfs-combined-efi.img.gz | head -1 )
+
 if [ -z "$_image" ]; then
     echo "Usage: no suitable image found"
     exit 1
