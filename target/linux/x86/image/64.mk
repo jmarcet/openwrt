@@ -9,7 +9,7 @@ define Device/generic
 	kmod-drm-amdgpu kmod-e1000 kmod-e1000e kmod-itco-wdt kmod-kvm-amd \
 	kmod-kvm-intel kmod-mmc kmod-mmc-spi kmod-r8169 kmod-sound-hda-intel \
 	kmod-sound-hda-codec-hdmi kmod-sound-hda-codec-realtek \
-	kmod-sound-soc-ac97 kmod-sound-soc-core openwrt-keyring r8169-firmware
+	openwrt-keyring r8169-firmware
   IMAGES := combined-efi.img.gz
 endef
 TARGET_DEVICES += generic
@@ -20,8 +20,7 @@ define Device/qemu-standard-pc-q35-ich9-2009
   KERNEL_INSTALL :=
   DEVICE_PACKAGES += intel-microcode kmod-9pnet kmod-e1000 kmod-fs-9p \
 	kmod-mmc kmod-mmc-realtek kmod-mmc-spi \
-	kmod-sound-hda-intel kmod-sound-soc-ac97 kmod-sound-soc-core \
-	openwrt-keyring virtio-console-helper
+	kmod-sound-hda-intel openwrt-keyring virtio-console-helper
   IMAGES := combined-efi.img.gz
   SUPPORTED_DEVICES := qemu-standard-pc-q35-ich9-2009
 endef
@@ -34,7 +33,6 @@ define Device/dell-inc-0hwtmh
 	kmod-cfg80211 kmod-iwlwifi kmod-mac80211 kmod-mmc kmod-mmc-realtek \
 	kmod-mmc-spi kmod-rfkill kmod-sound-hda-intel kmod-sound-hda-codec-hdmi \
 	kmod-sound-hda-codec-realtek iwinfo iwlwifi-firmware-iwl9260 \
-	kmod-sound-soc-ac97 kmod-sound-soc-core \
 	wireless-regdb wireless-tools wpa-cli wpad-openssl
   IMAGES := combined-efi.img.gz
   SUPPORTED_DEVICES := dell-inc-0hwtmh
@@ -46,11 +44,23 @@ define Device/asrock-z77-pro4-m
   KERNEL_INSTALL :=
   DEVICE_PACKAGES += r8169-firmware kmod-hwmon-nct6775 kmod-igb kmod-itco-wdt \
 	kmod-md-mod kmod-md-raid456 kmod-phy-realtek kmod-r8169 \
-	kmod-sound-hda-intel kmod-sound-hda-codec-hdmi \
-	kmod-sound-hda-codec-realtek kmod-sound-soc-ac97 kmod-sound-soc-core \
+	kmod-sound-hda-intel kmod-sound-hda-codec-hdmi kmod-sound-hda-codec-realtek \
 	kmod-usb-serial-ch341 kmod-usb-serial-cp210x kmod-usb-serial-ftdi \
 	kmod-usb-serial-pl2303
   IMAGES := combined-efi.img.gz
   SUPPORTED_DEVICES := asrock-z77-pro4-m
 endef
 TARGET_DEVICES += asrock-z77-pro4-m
+
+define Device/asustek-computer-inc-sabertooth-z77
+  DEVICE_TITLE := ASUS Sabertoot Zz77
+  KERNEL_INSTALL :=
+  DEVICE_PACKAGES += intel-microcode kmod-hwmon-nct6775 kmod-e1000e \
+	kmod-i2c-801 kmod-igb kmod-itco-wdt kmod-md-mod \
+	kmod-sound-hda-intel kmod-sound-hda-codec-hdmi kmod-sound-hda-codec-realtek \
+	kmod-usb-serial-ch341 kmod-usb-serial-cp210x kmod-usb-serial-ftdi \
+	kmod-usb-serial-pl2303
+  IMAGES := combined-efi.img.gz
+  SUPPORTED_DEVICES := asustek-computer-inc-sabertooth-z77
+endef
+TARGET_DEVICES += asustek-computer-inc-sabertooth-z77
