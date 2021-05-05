@@ -33,7 +33,6 @@ define Device/dell-inc-0hwtmh
 	kmod-cfg80211 kmod-iwlwifi kmod-mac80211 kmod-mmc kmod-mmc-realtek \
 	kmod-rfkill kmod-sound-hda-intel kmod-sound-hda-codec-hdmi \
 	kmod-sound-hda-codec-realtek iwinfo iwlwifi-firmware-iwl9260 \
-	kmod-sound-soc-ac97 kmod-sound-soc-core \
 	wireless-regdb wireless-tools wpa-cli wpad-openssl
   IMAGES := combined-efi.img.gz
   SUPPORTED_DEVICES := dell-inc-0hwtmh
@@ -52,3 +51,16 @@ define Device/asrock-z77-pro4-m
   SUPPORTED_DEVICES := asrock-z77-pro4-m
 endef
 TARGET_DEVICES += asrock-z77-pro4-m
+
+define Device/asustek-computer-inc-sabertooth-z77
+  DEVICE_TITLE := ASUS Sabertoot Zz77
+  KERNEL_INSTALL :=
+  DEVICE_PACKAGES += intel-microcode kmod-hwmon-nct6775 kmod-e1000e \
+	kmod-i2c-801 kmod-igb kmod-itco-wdt kmod-md-mod kmod-sound-hda-intel \
+	kmod-sound-hda-codec-hdmi kmod-sound-hda-codec-realtek \
+	kmod-usb-serial-ch341 kmod-usb-serial-cp210x kmod-usb-serial-ftdi \
+	kmod-usb-serial-pl2303
+  IMAGES := combined-efi.img.gz
+  SUPPORTED_DEVICES := asustek-computer-inc-sabertooth-z77
+endef
+TARGET_DEVICES += asustek-computer-inc-sabertooth-z77
