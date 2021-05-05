@@ -2,7 +2,7 @@
 
 DESTDIR="/storage/downloads/openwrt"
 ARCHDIR="/storage/backups/openwrt/x86/64"
-ARCHIVE="asrock-z77-pro4-m\|dell-inc-0hwtmh\|qemu-standard-pc-q35-ich9-2009"
+ARCHIVE="asrock-z77-pro4-m\|asustek-computer-inc-sabertooth-z77\|dell-inc-0hwtmh\|qemu-standard-pc-q35-ich9-2009"
 
 INTERACTIVE=1
 [ $# -eq 1 -a "$1" == "-f" ] && INTERACTIVE=0
@@ -40,7 +40,7 @@ _destdir="$DESTDIR/${_subdir}"
 _archdir="$ARCHDIR/${_subdir}"
 
 _TAG="master-x64.$_date"
-_TAG2="asrock-z77-pro4-m.$_date"
+_TAG2="asustek-computer-inc-sabertooth-z77.$_date"
 _pwd=$(pwd)
 
 if [ -d "$_destdir" ]; then
@@ -53,7 +53,7 @@ for dir in . feeds/packages feeds/luci; do
 	ask_bool 1 "Add git tag $_TAG for $dir" && git tag $_TAG
 	ask_bool 1 "Push force and push new tag $_TAG for $dir" && ( git push --force origin && git push --tags origin )
 done
-cd $_pwd/files-asrock-z77-pro4-m
+cd $_pwd/files-asustek-computer-inc-sabertooth-z77
 ask_bool 1 "Add git tag $_TAG2" && git tag $_TAG2
 ask_bool 1 "Push force and push new tag $_TAG2" && ( git push --force origin && git push --tags origin )
 cd $_pwd
