@@ -46,7 +46,7 @@ define Package/grub2-editenv
   SUBMENU:=Boot Loaders
   TITLE:=Grub2 Environment editor
   URL:=http://www.gnu.org/software/grub/
-  DEPENDS:=@TARGET_x86
+  DEPENDS:=@TARGET_x86 +liblzma
   VARIANT:=pc
 endef
 
