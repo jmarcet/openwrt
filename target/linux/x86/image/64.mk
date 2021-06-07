@@ -61,8 +61,7 @@ define Device/asustek-computer-inc-sabertooth-z77
   DEVICE_PACKAGES += kmod-hwmon-nct6775 kmod-e1000e kmod-hwmon-lm78 kmod-igb \
 	kmod-itco-wdt kmod-md-mod kmod-md-raid456 kmod-sound-hda-intel \
 	kmod-sound-hda-codec-hdmi kmod-sound-hda-codec-realtek \
-	kmod-sound-soc-ac97 kmod-sound-soc-core kmod-usb-serial-ch341 \
-	kmod-usb-serial-cp210x kmod-usb-serial-ftdi kmod-usb-serial-pl2303
+	kmod-sound-soc-ac97 kmod-sound-soc-core
   IMAGES := combined-efi.img.gz
   SUPPORTED_DEVICES := asustek-computer-inc-sabertooth-z77
 endef
