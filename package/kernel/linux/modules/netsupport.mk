@@ -988,7 +988,7 @@ SCHED_FILES_EXTRA = $(foreach mod,$(SCHED_MODULES_EXTRA),$(LINUX_DIR)/net/sched/
 define KernelPackage/sched
   SUBMENU:=$(NETWORK_SUPPORT_MENU)
   TITLE:=Extra traffic schedulers
-  DEPENDS:=+kmod-sched-core +kmod-lib-crc32c +kmod-lib-textsearch
+  DEPENDS:=+kmod-sched-core +kmod-lib-crc32c +kmod-lib-textsearch +kmod-nf-flow
   KCONFIG:= \
 	CONFIG_NET_SCH_CODEL \
 	CONFIG_NET_SCH_DSMARK \
