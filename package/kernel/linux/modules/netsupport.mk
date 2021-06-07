@@ -1142,7 +1142,7 @@ define KernelPackage/sched
   SUBMENU:=$(NETWORK_SUPPORT_MENU)
   TITLE:=Extra traffic schedulers
   DEPENDS:=+kmod-sched-core +kmod-sched-ets +kmod-sched-act-pedit +kmod-sched-gred \
-	+kmod-lib-textsearch
+	+kmod-lib-textsearch +kmod-nf-flow
   KCONFIG:= \
 	CONFIG_NET_SCH_CODEL \
 	CONFIG_NET_SCH_MULTIQ \
