@@ -389,12 +389,12 @@ define KernelPackage/usb2
 	+TARGET_bcm53xx:kmod-phy-bcm-ns-usb2 \
 	+TARGET_ath79:kmod-phy-ath79-usb \
 	+kmod-usb-ehci
-  KCONFIG:=\
-	CONFIG_USB_EHCI_HCD_PLATFORM \
-	CONFIG_USB_OCTEON_EHCI=y \
-	CONFIG_USB_EHCI_HCD_ORION=y \
-	CONFIG_USB_EHCI_HCD_AT91=y \
-	CONFIG_USB_EHCI_FSL
+#  KCONFIG:=\
+#	CONFIG_USB_EHCI_HCD_PLATFORM \
+#	CONFIG_USB_OCTEON_EHCI=y \
+#	CONFIG_USB_EHCI_HCD_ORION=y \
+#	CONFIG_USB_EHCI_HCD_AT91=y \
+#	CONFIG_USB_EHCI_FSL
   #FILES:= \
   #  $(LINUX_DIR)/drivers/usb/host/ehci-platform.ko
   #ifneq ($(wildcard $(LINUX_DIR)/drivers/usb/host/ehci-orion.ko),)
