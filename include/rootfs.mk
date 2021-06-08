@@ -104,8 +104,6 @@ define prepare_rootfs
 		$(1)/usr/lib/opkg/lists/* \
 		$(1)/var/lock/*.lock; \
 		make -C $$LINUX_DIR INSTALL_MOD_PATH=$(1) modules_install; \
-		find $$TARGET_MODULES_DIR/kernel/ -type f -exec mv '{}' $$TARGET_MODULES_DIR/ \; ; \
-		rm -fr $$TARGET_MODULES_DIR/{build,kernel,source} \
 	)
 	$(call clean_ipkg,$(1))
 	$(call mklibs,$(1))
