@@ -31,6 +31,7 @@ set -v
 (
 _target=$( grep '^CONFIG_TARGET_[a-z0-9]\+=y' .config | sed -e 's:^CONFIG_TARGET_\([a-z0-9]\+\)=y:\1:' )
 _imgdir=$( ls -d bin/targets/$_target/* )
+ eval $( grep CONFIG_EXTERNAL_KERNEL_TREE .config)
 
 _img=$( ls -t $_imgdir/openwrt-*.img??? | head -1 )
 _date=$( date -r $_img +%Y%m%d_%H%M%S )
@@ -60,6 +61,7 @@ cd $_pwd
 
 mkdir -p "$_destdir"
 cp -a -v bin/packages bin/targets "$_destdir"/
+[ -n "$CONFIG_EXTERNAL_KERNEL_TREE" ] && cp -a "$CONFIG_EXTERNAL_KERNEL_TREE"/.config "$_destdir"/targets/x86/64/config-kernel.${_TAG2}
 
 mkdir -p "$_archdir"
 _t="$_destdir/${_imgdir/bin\/}"
