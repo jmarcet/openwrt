@@ -18,6 +18,8 @@ if [ -z "$_image" ]; then
     exit 1
 fi
 
+echo "Upggrading with image $(ls -al $_image)"
+
 sysupgrade -i -n -p -v $_image
 
 exit 0
