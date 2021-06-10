@@ -42,11 +42,6 @@ boot() {
 	touch /tmp/.config_pending
 	/sbin/kmodloader
 
-	[ ! -f /etc/config/wireless ] && {
-		# compat for bcm47xx and mvebu
-		sleep 1
-	}
-
 	/bin/config_generate
 	rm -f /tmp/.config_pending
 	/sbin/wifi config
