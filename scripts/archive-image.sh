@@ -33,6 +33,7 @@ _target=$( grep '^CONFIG_TARGET_[a-z0-9]\+=y' .config | sed -e 's:^CONFIG_TARGET
 _imgdir=$( ls -d bin/targets/$_target/* )
  eval $( grep CONFIG_EXTERNAL_KERNEL_TREE .config)
 
+_build=$( cat $_imgdir/version.buildinfo )
 _img=$( ls -t $_imgdir/openwrt-*.img??? | head -1 )
 _date=$( date -r $_img +%Y%m%d_%H%M%S )
 _subdir=$_date-`echo $_img | cut -d'-' -f3-4`
@@ -40,8 +41,8 @@ _subdir=$_date-`echo $_img | cut -d'-' -f3-4`
 _destdir="$DESTDIR/${_subdir}"
 _archdir="$ARCHDIR/${_subdir}"
 
-_TAG="master-x64.$_date"
-_TAG2="asustek-computer-inc-sabertooth-z77.$_date"
+_TAG="$_date.$_build.master-x64"
+_TAG2="$_date.#_build.asustek-computer-inc-sabertooth-z77"
 _pwd=$(pwd)
 
 if [ -d "$_destdir" ]; then
