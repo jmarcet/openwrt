@@ -90,12 +90,20 @@ define prepare_rootfs
 	)
 	$(if $(SOURCE_DATE_EPOCH),sed -i "s/Installed-Time: .*/Installed-Time: $(SOURCE_DATE_EPOCH)/" $(1)/usr/lib/opkg/status)
 	@-find $(1) -name CVS -o -name .svn -o -name .git -o -name '.#*' | $(XARGS) rm -rf
-	rm -rf \
+	@( \
+		KDIR="$(BUILD_DIR)/linux-$(BOARD)$(if $(SUBTARGET),_$(SUBTARGET))"; \
+		LINUX_VERSION="`ls $$KDIR/ | grep '^linux-5'`"; \
+		LINUX_DIR="$$KDIR/$$LINUX_VERSION"; \
+		LINUX_UNAME_VERSION="`ls $(1)/lib/modules/`"; \
+		TARGET_MODULES_DIR="$(1)/lib/modules/$$LINUX_UNAME_VERSION"; \
+		rm -rf \
 		$(1)/boot \
 		$(1)/tmp/* \
 		$(1)/usr/lib/opkg/info/*.postinst* \
 		$(1)/usr/lib/opkg/lists/* \
-		$(1)/var/lock/*.lock
+		$(1)/var/lock/*.lock; \
+		cp -f $$LINUX_DIR/modules.{builtin,order} $$TARGET_MODULES_DIR/; \
+	)
 	$(call clean_ipkg,$(1))
 	$(call mklibs,$(1))
 	$(if $(SOURCE_DATE_EPOCH),find $(1)/ -mindepth 1 -execdir touch -hcd "@$(SOURCE_DATE_EPOCH)" "{}" +)
