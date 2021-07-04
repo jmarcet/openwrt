@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-DESTDIR="/storage/downloads/openwrt"
-ARCHDIR="/storage/backups/openwrt/x86/64"
+DESTDIR="/storage/srv/openwrt"
+ARCHDIR="/storage/backups/@openwrt/x86/64"
 ARCHIVE="asrock-z77-pro4-m\|asustek-computer-inc-sabertooth-z77\|dell-inc-0hwtmh\|qemu-standard-pc-q35-ich9-2009"
 
 INTERACTIVE=1
