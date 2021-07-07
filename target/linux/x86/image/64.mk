@@ -43,8 +43,8 @@ define Device/asrock-z77-pro4-m
   DEVICE_TITLE := ASRock Z77 Pro4-M
   KERNEL_INSTALL :=
   DEVICE_PACKAGES += r8169-firmware kmod-hwmon-nct6775 kmod-igb kmod-itco-wdt \
-	kmod-md-mod kmod-md-raid456 kmod-phy-realtek kmod-r8169 \
-	kmod-sound-hda-intel kmod-sound-hda-codec-hdmi kmod-sound-hda-codec-realtek \
+	kmod-md-mod kmod-phy-realtek kmod-r8169 kmod-sound-hda-intel \
+	kmod-sound-hda-codec-hdmi kmod-sound-hda-codec-realtek \
 	kmod-usb-serial-ch341 kmod-usb-serial-cp210x kmod-usb-serial-ftdi \
 	kmod-usb-serial-pl2303
   IMAGES := combined-efi.img.gz
@@ -56,8 +56,8 @@ define Device/asustek-computer-inc-sabertooth-z77
   DEVICE_TITLE := ASUS Sabertoot Zz77
   KERNEL_INSTALL :=
   DEVICE_PACKAGES += kmod-hwmon-nct6775 kmod-e1000e kmod-hwmon-lm78 kmod-igb \
-	kmod-itco-wdt kmod-md-mod kmod-md-raid456 kmod-sound-hda-intel \
-	kmod-sound-hda-codec-hdmi kmod-sound-hda-codec-realtek
+	kmod-itco-wdt kmod-md-mod kmod-sound-hda-intel kmod-sound-hda-codec-hdmi \
+	kmod-sound-hda-codec-realtek
   IMAGES := combined-efi.img.gz
   SUPPORTED_DEVICES := asustek-computer-inc-sabertooth-z77
 endef
