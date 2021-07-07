@@ -90,13 +90,13 @@ SQUASHFSOPT += -block-readers $(CONFIG_TARGET_SQUASHFS_BLOCK_READERS)
 SQUASHFSOPT += -small-readers $(CONFIG_TARGET_SQUASHFS_SMALL_READERS)
 SQUASHFSCOMP := gzip
 LZMA_XZ_OPTIONS := -Xpreset 9 -Xe -Xlc 0 -Xlp 2 -Xpb 2
-ifeq ($(CONFIG_SQUASHFS_XZ),y)
+ifeq ($(CONFIG_KERNEL_XZ),y)
   ifneq ($(filter arm x86 powerpc sparc,$(LINUX_KARCH)),)
     BCJ_FILTER:=-Xbcj $(LINUX_KARCH)
   endif
   SQUASHFSCOMP := xz $(LZMA_XZ_OPTIONS) $(BCJ_FILTER)
 endif
-ifeq ($(CONFIG_SQUASHFS_ZSTD),y)
+ifeq ($(CONFIG_KERNEL_ZSTD),y)
   SQUASHFSCOMP := zstd
 endif
 
