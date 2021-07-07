@@ -211,6 +211,56 @@ platform_dualboot_write() { # <image>
 	grub-editenv /tmp/boot/boot/grub/grubenv set attempt=0 target_slot=$slot
 }
 
+# A squashfs rootfs gets its overlay formatted now, so that its first boot
+# does not have to, and a script to loop mount that overlay from the
+# other slot.
+platform_dualboot_format_overlay() {
+	local align=$((64 * 1024 - 1)) rootfs_size offset limit setup loopdev script
+
+	which unsquashfs >/dev/null 2>&1 && which mkfs.f2fs >/dev/null 2>&1 || return 0
+	[ "$(get_magic_long "/dev/$slotdev")" = 68737173 ] || return 0
+
+	echo -e "\nsquashfs rootfs detected at /dev/$slotdev"
+
+	rootfs_size=$(unsquashfs -s "/dev/$slotdev" | awk -F'[( ]' '/^Filesystem size / { print $3 }')
+	[ -n "$rootfs_size" ] || return 0
+	offset=$(( (rootfs_size + align) & ~align ))
+	limit=$(( 512 * $(cat "/sys/class/block/$slotdev/size") - offset ))
+	setup="losetup -f --show -o $offset --sizelimit $limit /dev/$slotdev"
+	loopdev=$($setup) || return 0
+
+	echo -e "\noverlay_offset: $offset  overlay_size: $limit"
+	echo -e "\t$setup => $loopdev\n"
+
+	ask_bool 1 "The loop overlay is ready at $loopdev. Shall I format it?" && {
+		mkfs.f2fs -f -l rootfs_data "$loopdev"
+	}
+	losetup -d "$loopdev"
+
+	mkdir -p /usr/local/bin
+	script="/usr/local/bin/loopmount-openwrt_rootfs${suffix}-overlay.sh"
+	cat > "$script" <<EOF
+#!/bin/sh
+
+_name="\$(basename \$0)"
+
+if echo \$_name | grep -q _alt; then
+    grep -q 'root=PARTLABEL=openwrt_rootfs_alt ' /proc/cmdline && echo "It's the overlay in use" && exit 1
+else
+    grep -q 'root=PARTLABEL=openwrt_rootfs ' /proc/cmdline && echo "It's the overlay in use" && exit 1
+fi
+
+[ -e /mnt/overlay${suffix} ] || mkdir -p /mnt/overlay${suffix}
+
+LOOP=\$($setup)
+mount \$LOOP /mnt/overlay${suffix}
+mount | grep " /mnt/overlay${suffix} "
+
+EOF
+	chmod +x "$script" && sync
+	echo -e "\n$script loop mounts the overlay from PARTLABEL=openwrt_rootfs${suffix} on /mnt/overlay${suffix}\n"
+}
+
 platform_do_upgrade_dualboot() { # <image>
 	local esppart bootpart partdev partdevalt slot slotdev suffix ret
 
@@ -218,6 +268,7 @@ platform_do_upgrade_dualboot() { # <image>
 	platform_dualboot_partitions "$1" || return 1
 	platform_dualboot_check_sizes && platform_dualboot_write "$1"
 	ret=$?
+	[ $ret = 0 ] && platform_dualboot_format_overlay
 
 	umount /tmp/boot /tmp/.bootkernel 2>/dev/null
 	rm -f /tmp/.grub.img /tmp/.bootkernel.img /tmp/partmap.image
