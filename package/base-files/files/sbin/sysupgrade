@@ -314,7 +314,7 @@ case "$IMAGE" in
 		;;
 	/tmp/*)	;;
 	*)
-		v "Image not in /tmp, copying..."
+		echo "Image not in /tmp, copying..."
 		cp -f "$IMAGE" /tmp/sysupgrade.img
 		IMAGE=/tmp/sysupgrade.img
 		;;
