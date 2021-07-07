@@ -169,6 +169,49 @@ platform_do_upgrade() {
 		rm -f /tmp/.grub.img /tmp/image.bs /tmp/partmap.image /tmp/sysupgrade.*
 		sync
 
+		if (which unsquashfs && which mkfs.f2fs) &>/dev/null && blkid /dev/$partdev | grep -q '\<squashfs\>'; then
+
+			local _align _limit _loopdev _losetup _offset _part_size _rootfs_size _script
+			echo -e "\nsquashfs rootfs detected at /dev/$partdev"
+
+			_align=$(jq -n '64*1024 - 1')
+			_rootfs_size=$(unsquashfs -s /dev/$partdev | awk -F'[( ]'  '/^Filesystem size / { print $3 }')
+			_offset=$(( (($_rootfs_size + $_align) & ~$_align) ))
+			_limit=$(jq -n "512*`cat /sys/block/${partdev%??}/${partdev}/size` - $_offset")
+			_losetup="losetup -f --show -o $_offset --sizelimit $_limit /dev/$partdev"
+			_loopdev=$($_losetup)
+
+			echo -e "\noverlay_offset: $_offset  overlay_size: $_limit"
+			echo -e "\t$_losetup => $_loopdev\n"
+
+			ask_bool 0 "The loop overlay is ready at $_loopdev. Shall I format it?" && {
+				mkfs.f2fs -f -l rootfs_data $_loopdev
+			}
+			losetup -d $_loopdev
+
+			_script="/usr/local/bin/loopmount-openwrt_rootfs${_alt}-overlay.sh"
+			cat > $_script <<EOF
+#!/bin/sh
+
+_name="\$(basename \$0)"
+
+if echo \$_name | grep -q _alt; then
+    grep -q 'root=PARTLABEL=openwrt_rootfs_alt ' /proc/cmdline && echo "It's the overlay in use" && exit 1
+else
+    grep -q 'root=PARTLABEL=openwrt_rootfs ' /proc/cmdline && echo "It's the overlay in use" && exit 1
+fi
+
+[ -e /mnt/overlay${_alt} ] || mkdir -p /mnt/overlay${_alt}
+
+LOOP=\$($_losetup)
+mount \$LOOP /mnt/overlay${_alt}
+mount | grep " /mnt/overlay${_alt} "
+
+EOF
+			chmod +x $_script && sync
+			echo -e "\n$_script loop mounts the overlay from PARTLABEL=openwrt_rootfs${_alt} on /mnt/overlay${_alt}\n"
+		fi
+
 		return 0
 	fi
 
