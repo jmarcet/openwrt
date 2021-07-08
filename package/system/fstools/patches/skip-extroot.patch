@@ -1,0 +1,11 @@
+--- ./block.c-orig	2021-05-16 10:49:24.000000000 +0200
++++ ./block.c	2021-07-08 19:14:26.295464674 +0200
+@@ -438,6 +438,8 @@ static struct uci_package * config_try_l
+ 
+ static int config_load(char *cfg)
+ {
++	return -1;
++
+ 	struct uci_context *ctx = uci_alloc_context();
+ 	struct uci_package *pkg = NULL;
+ 	struct uci_element *e;
