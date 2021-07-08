@@ -61,10 +61,11 @@ platform_copy_config() {
 
 	if (is_efi_system && export_partdevice_label partdev openwrt_boot) \
 		|| export_partdevice partdev 1 ; then
+		mkdir -p /tmp/boot
 		part_magic_fat "/dev/$partdev" && parttype=vfat
-		mount -t $parttype -o rw,noatime "/dev/$partdev" /mnt
-		cp -af "$UPGRADE_BACKUP" "/mnt/$BACKUP_FILE"
-		umount /mnt
+		mount -t $parttype -o rw,noatime "/dev/$partdev" /tmp/boot
+		cp -af "$UPGRADE_BACKUP" "/tmp/boot/$BACKUP_FILE"
+		umount /tmp/boot
 	fi
 }
 
@@ -136,13 +137,7 @@ platform_do_upgrade() {
 			}
 
 		grep -q 'root=PARTLABEL=openwrt_rootfs_alt' /proc/cmdline && _alt= || _alt=_alt
-		grep -q ' /boot ' /proc/mounts || {
-			mount /dev/$bootpart /boot
-			[ -d /boot/boot ] && mount --bind /boot/boot /boot
-		}
-
 		get_partitions /tmp/image.bs image
-
 		while read part start size; do
 			case "$part" in
 			1)
@@ -153,12 +148,13 @@ platform_do_upgrade() {
 				echo "Writing new kernel to /boot/vmlinuz$_alt..."
 				if [ -n "$_alt" ]; then defboot=1; altboot=0; else defboot=0; altboot=1; fi
 				get_image "$@" | dd of=/tmp/.bootkernel.img ibs="512" obs=1M skip="$start" count="$size" conv=fsync
-				mkdir -p /tmp/.bootkernel \
+				mkdir -p /tmp/boot /tmp/.bootkernel \
+					&& mount -o rw,noatime "/dev/$bootpart" /tmp/boot \
 					&& mount -o ro /tmp/.bootkernel.img /tmp/.bootkernel \
-					&& cp -af /tmp/.bootkernel/boot/vmlinuz /boot/vmlinuz$_alt \
+					&& cp -af /tmp/.bootkernel/boot/vmlinuz /tmp/boot/boot/vmlinuz$_alt \
 					&& sed -e "s:^set default.\+$:set default=\"$defboot\":" \
-					       -e "s:^set fallback.\+$:set fallback=\"$altboot\":" -i /boot/grub/grub.cfg
-				umount /tmp/.bootkernel; rm -f /tmp/.bootkernel.img
+						-e "s:^set fallback.\+$:set fallback=\"$altboot\":" -i /tmp/boot/boot/grub/grub.cfg
+				umount /tmp/boot; umount /tmp/.bootkernel; rm -f /tmp/.bootkernel.img
 				sync
 			;;
 			3)
