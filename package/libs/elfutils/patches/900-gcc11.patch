@@ -1,0 +1,22 @@
+--- ./libdw/dwarf_frame_register.c-orig	2020-06-11 15:37:46.000000000 +0000
++++ ./libdw/dwarf_frame_register.c	2021-07-17 21:38:59.862280318 +0000
+@@ -34,7 +34,7 @@
+ #include <dwarf.h>
+ 
+ int
+-dwarf_frame_register (Dwarf_Frame *fs, int regno, Dwarf_Op *ops_mem,
++dwarf_frame_register (Dwarf_Frame *fs, int regno, Dwarf_Op ops_mem[3],
+ 		      Dwarf_Op **ops, size_t *nops)
+ {
+   /* Maybe there was a previous error.  */
+--- ./libebl/ebl_syscall_abi.c-orig	2020-06-11 15:37:46.000000000 +0000
++++ ./libebl/ebl_syscall_abi.c	2021-07-17 21:28:27.949677485 +0000
+@@ -34,7 +34,7 @@
+ 
+ 
+ int
+-ebl_syscall_abi (Ebl *ebl, int *sp, int *pc, int *callno, int *args)
++ebl_syscall_abi (Ebl *ebl, int *sp, int *pc, int *callno, int args[6])
+ {
+   return ebl != NULL ? ebl->syscall_abi (ebl, sp, pc, callno, args) : -1;
+ }
