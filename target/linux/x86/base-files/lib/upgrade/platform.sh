@@ -179,9 +179,17 @@ platform_do_upgrade() {
 			}
 			losetup -d $_loopdev
 
-			_script="/etc/loopmount-openwrt_rootfs${_alt}-overlay.sh"
+			_script="/usr/local/bin/loopmount-openwrt_rootfs${_alt}-overlay.sh"
 			cat > $_script <<EOF
 #!/bin/sh
+
+_name="\$(basename \$0)"
+
+if echo \$_name | grep -q _alt; then
+    grep -q 'root=PARTLABEL=openwrt_rootfs_alt ' /proc/cmdline && echo "It's the overlay in use" && exit 1
+else
+    grep -q 'root=PARTLABEL=openwrt_rootfs ' /proc/cmdline && echo "It's the overlay in use" && exit 1
+fi
 
 [ -e /mnt/overlay${_alt} ] || mkdir -p /mnt/overlay${_alt}
 
