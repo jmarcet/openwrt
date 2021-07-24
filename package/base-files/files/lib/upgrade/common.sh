@@ -217,11 +217,11 @@ export_partdevice() {
 }
 
 export_partdevice_label() {
-	local var="$1" label="$2"
+	local var="$1" label="$2" hint="$3"
 	local found uevent line MAJOR MINOR DEVNAME DEVTYPE PARTN PARTNAME
 
 	found=
-	for uevent in /sys/class/block/*/uevent; do
+	for uevent in /sys/class/block/${hint:-*}/uevent; do
 		while read line; do
 			export -n "$line"
 		done < "$uevent"
@@ -230,8 +230,9 @@ export_partdevice_label() {
 				echo "$label found more than once, remove duplicate partitions and try again"
 				return 1
 			}
-			echo "Found $label @ /dev/$DEVNAME"
 			found="$DEVNAME"
+			[ -n "$hint" ] && break
+			echo "Found $label @ /dev/$DEVNAME"
 		fi
 	done
 	[ -n "$found" ] || return 1
