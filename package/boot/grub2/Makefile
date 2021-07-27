@@ -163,7 +163,8 @@ define Package/grub2-efi/install
 		-c $(if $(CONFIG_GRUB_EFI_HYBRID),$(PKG_BUILD_DIR)/grub-early,./files/grub-early-efi).cfg \
 		-o $(STAGING_DIR_IMAGE)/grub2/boot$(if $(CONFIG_x86_64),x64,ia32).efi \
 		at_keyboard boot chain configfile ext2 fat linux loadenv ls part_gpt \
-		reboot search_label serial test usb_keyboard efi_gop efi_uga
+		reboot search_label serial test usb_keyboard efi_gop efi_uga efifwsetup \
+		lsefi lsacpi lspci
 	$(STAGING_DIR_HOST)/bin/grub-mkimage \
 		-d $(PKG_BUILD_DIR)/grub-core \
 		-p /boot/grub \
