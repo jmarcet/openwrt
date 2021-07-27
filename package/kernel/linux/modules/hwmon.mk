@@ -348,6 +348,21 @@ endef
 $(eval $(call KernelPackage,hwmon-nct6775))
 
 
+define KernelPackage/hwmon-nzxt-kraken2
+  TITLE:=NZXT Kraken X42/X51/X62/X72 liquid coolers
+  KCONFIG:=CONFIG_SENSORS_NZXT_KRAKEN2
+  FILES:=$(LINUX_DIR)/drivers/hwmon/nzxt-kraken2.ko
+  AUTOLOAD:=$(call AutoProbe,nzxt-kraken2)
+  $(call AddDepends/hwmon,@USB_SUPPORT +kmod-usb-hid)
+endef
+
+define KernelPackage/hwmon-nzxt-kraken2/description
+ Kernel module for NZXT Kraken X42/X51/X62/X72 liquid coolers
+endef
+
+$(eval $(call KernelPackage,hwmon-nzxt-kraken2))
+
+
 define KernelPackage/hwmon-pc87360
   TITLE:=PC87360 monitoring support
   KCONFIG:=CONFIG_SENSORS_PC87360
