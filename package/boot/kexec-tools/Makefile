@@ -49,6 +49,19 @@ define Package/kexec/description
  The kexec utility allows to load and boot another kernel.
 endef
 
+define Package/crashdump
+  $(call Package/kexec-tools/Default)
+  TITLE:=Kernel crash analysis
+  DEPENDS:=+kexec @(i386||x86_64||arm) @KERNEL_CRASH_DUMP
+endef
+
+define Package/crashdump/description
+ The crashdump package includes an init service in charge
+of dumping to disk the crashed kernel after a crash, and
+then return to the normal kernel where the dump can be
+analyzed by tools like gdb.
+endef
+
 define Package/kexec/config
 	source "$(SOURCE)/Config.in"
 endef
@@ -95,5 +108,29 @@ define Package/kexec/install
 	$(LN) ../usr/sbin/kexec $(1)/sbin/kexec
 endef
 
+define Package/crashdump/install
+	$(INSTALL_DIR) $(1)/usr/sbin $(1)/etc/init.d $(1)/etc/config $(1)/etc/uci-defaults
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/vmcore-dmesg $(1)/usr/sbin
+	$(INSTALL_BIN) ./files/crashdump.init $(1)/etc/init.d/crashdump
+	$(INSTALL_BIN) ./files/crashdump.defaults $(1)/etc/uci-defaults/crashdump
+	$(INSTALL_CONF) ./files/crashdump.config $(1)/etc/config/crashdump
+endef
+
+define Package/crashdump/prerm
+#!/bin/sh
+
+case $$(uname -m) in
+	i?86|x86_64)
+		if grep -q " crashkernel=" /boot/grub/grub.cfg; then
+			mount /boot -o remount,rw
+			sed -i 's/ crashkernel=[^ ]*//' /boot/grub/grub.cfg
+			mount /boot -o remount,ro
+		fi
+	;;
+esac
+endef
+
 $(eval $(call BuildPackage,kexec-tools))
 $(eval $(call BuildPackage,kexec))
+$(eval $(call BuildPackage,crashdump))
+
