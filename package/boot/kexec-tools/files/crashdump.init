@@ -9,7 +9,7 @@ eval $( sed -e 's:\s*\(BOOT_IMAGE=[^ ]\+\) .\+$:\1:' /proc/cmdline )
 EXTRA_COMMANDS="status"
 EXTRA_HELP="        status  Print crashkernel status"
 
-verify_kdump() {
+verify_crashdump() {
 	local cfg="$1"
 	local enabled
 	local path
@@ -29,7 +29,7 @@ verify_kdump() {
 	[ -d "$path" ] || mkdir -p "$path" 2>/dev/null || return 1
 }
 
-run_kdump() {
+run_crashdump() {
 	local cfg="$1"
 	local enabled
 	local path
@@ -70,7 +70,7 @@ find_kernel() {
 		return 0
 	fi
 
-	kernel="$(find_mtd_part kernel)"
+	kernel="$(find_mtd_part kernel 2>/dev/null)"
 	if [ -r "$kernel" ]; then
 		echo $kernel
 		return 0
@@ -116,11 +116,11 @@ start() {
 	fi
 
 	if [ -e /proc/vmcore ]; then
-		config_load kdump
-		config_foreach run_kdump kdump
+		config_load crashdump
+		config_foreach run_crashdump crashdump
 	else
-		config_load kdump
-		config_foreach verify_kdump kdump
+		config_load crashdump
+		config_foreach verify_crashdump crashdump
 		retval=$?
 		[ $retval = 1 ] && return 1
 		[ $retval = 0 ] && load_crashkernel
@@ -147,7 +147,7 @@ status() {
 	if [ $(cat /sys/kernel/kexec_crash_size) -eq 0 ]; then
 		echo "memory for crashdump kernel not reserved!"
 		echo "check crashkernel= kernel cmdline parameter"
-		echo "(a reboot is required after installing kdump)"
+		echo "(a reboot is required after installing crashdump)"
 		return
 	fi
 
@@ -159,12 +159,12 @@ status() {
 		echo "using kernel image $kernel"
 	fi
 
-	echo -n "kdump configuration is "
-	config_load kdump
+	echo -n "crashdump configuration is "
+	config_load crashdump
 	retval=$?
 	if [ $retval = 0 ]; then
-		if [ "$(config_foreach echo kdump)" ]; then
-			config_foreach verify_kdump kdump
+		if [ "$(config_foreach echo crashdump)" ]; then
+			config_foreach verify_crashdump crashdump
 			retval=$?
 		else
 			retval=1
