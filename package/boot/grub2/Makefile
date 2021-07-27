@@ -153,7 +153,8 @@ define Package/grub2-efi/install
 		-c ./files/grub-early-efi.cfg \
 		-o $(STAGING_DIR_IMAGE)/grub2/boot$(if $(CONFIG_x86_64),x64,ia32).efi \
 		at_keyboard boot chain configfile ext2 fat linux loadenv ls part_gpt \
-		reboot search_label serial test usb_keyboard efi_gop efi_uga
+		reboot search_label serial test usb_keyboard efi_gop efi_uga efifwsetup \
+		lsefi lsacpi lspci
 	$(STAGING_DIR_HOST)/bin/grub-mkimage \
 		-d $(PKG_BUILD_DIR)/grub-core \
 		-p /boot/grub \
@@ -161,7 +162,8 @@ define Package/grub2-efi/install
 		-c ./files/grub-early.cfg \
 		-o $(STAGING_DIR_IMAGE)/grub2/iso-boot$(if $(CONFIG_x86_64),x64,ia32).efi \
 		boot chain configfile ext2 fat iso9660 linux loadenv ls part_gpt \
-		reboot search_label serial test usb_keyboard efi_gop efi_uga
+		reboot search_label serial test usb_keyboard efi_gop efi_uga efifwsetup \
+		lsefi lsacpi lspci
 endef
 
 define Package/grub2-efi-arm/install
