@@ -695,6 +695,9 @@ define KernelPackage/ixgbe
     CONFIG_IXGBE_DCA=n
   FILES:=$(LINUX_DIR)/drivers/net/ethernet/intel/ixgbe/ixgbe.ko
   AUTOLOAD:=$(call AutoLoad,34,ixgbe)
+  MODPARAMS.ixgbe:= \
+    allow_unsupported_sfp=1 \
+    debug=0
 endef
 
 define KernelPackage/ixgbe/description
