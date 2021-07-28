@@ -56,7 +56,7 @@ define Device/asustek-computer-inc-sabertooth-z77
   DEVICE_TITLE := ASUS Sabertoot Zz77
   KERNEL_INSTALL :=
   DEVICE_PACKAGES += intel-microcode kmod-hwmon-nct6775 kmod-e1000e \
-	kmod-hwmon-lm78 kmod-igb kmod-ixgbe kmod-itco-wdt kmod-md-mod kmod-sfp \
+	kmod-i2c-801 kmod-igb kmod-ixgbe kmod-itco-wdt kmod-md-mod kmod-sfp \
 	kmod-sound-hda-intel kmod-sound-hda-codec-hdmi kmod-sound-hda-codec-realtek \
 	kmod-usb-serial-ch341 kmod-usb-serial-cp210x kmod-usb-serial-ftdi \
 	kmod-usb-serial-pl2303
