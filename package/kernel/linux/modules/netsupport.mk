@@ -1255,8 +1255,8 @@ define KernelPackage/mdio
   KCONFIG:=CONFIG_MDIO
   HIDDEN:=1
   FILES:=$(LINUX_DIR)/drivers/net/mdio.ko
-  AUTOLOAD:=$(call AutoLoad,32,mdio)
 endef
+  #AUTOLOAD:=$(call AutoLoad,32,mdio)
 
 define KernelPackage/mdio/description
  Kernel modules for MDIO (clause 45) PHY support
