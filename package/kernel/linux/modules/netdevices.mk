@@ -694,11 +694,11 @@ define KernelPackage/ixgbe
     CONFIG_IXGBE_HWMON=y \
     CONFIG_IXGBE_DCA=n
   FILES:=$(LINUX_DIR)/drivers/net/ethernet/intel/ixgbe/ixgbe.ko
-  AUTOLOAD:=$(call AutoLoad,34,ixgbe)
   MODPARAMS.ixgbe:= \
     allow_unsupported_sfp=1 \
     debug=0
 endef
+  #AUTOLOAD:=$(call AutoLoad,34,ixgbe)
 
 define KernelPackage/ixgbe/description
  Kernel modules for Intel(R) 82598/82599 PCI-Express 10 Gigabit Ethernet adapters.
@@ -716,8 +716,8 @@ define KernelPackage/ixgbevf
     CONFIG_IXGBE_HWMON=y \
     CONFIG_IXGBE_DCA=n
   FILES:=$(LINUX_DIR)/drivers/net/ethernet/intel/ixgbevf/ixgbevf.ko
-  AUTOLOAD:=$(call AutoLoad,34,ixgbevf)
 endef
+  #AUTOLOAD:=$(call AutoLoad,34,ixgbevf)
 
 define KernelPackage/ixgbevf/description
  Kernel modules for Intel(R) 82599 Virtual Function Ethernet adapters.
@@ -735,8 +735,8 @@ define KernelPackage/i40e
     CONFIG_I40E_HWMON=y \
     CONFIG_I40E_DCA=n
   FILES:=$(LINUX_DIR)/drivers/net/ethernet/intel/i40e/i40e.ko
-  AUTOLOAD:=$(call AutoProbe,i40e)
 endef
+  #AUTOLOAD:=$(call AutoProbe,i40e)
 
 define KernelPackage/i40e/description
  Kernel modules for Intel(R) Ethernet Controller XL710 Family 40 Gigabit Ethernet adapters.
