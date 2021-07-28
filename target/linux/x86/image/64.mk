@@ -58,7 +58,7 @@ define Device/asustek-computer-inc-sabertooth-z77
 	kmod-hwmon-lm78 kmod-igb kmod-ixgbe kmod-itco-wdt kmod-md-mod kmod-sfp \
 	kmod-sound-hda-intel kmod-sound-hda-codec-hdmi kmod-sound-hda-codec-realtek \
 	kmod-usb-serial-ch341 kmod-usb-serial-cp210x kmod-usb-serial-ftdi \
-	kmod-usb-serial-pl2303
+	kmod-usb-serial-pl2303 kmod-hwmon-nzxt-kraken2
   IMAGES := combined-efi.img.gz
   SUPPORTED_DEVICES := asustek-computer-inc-sabertooth-z77
 endef
