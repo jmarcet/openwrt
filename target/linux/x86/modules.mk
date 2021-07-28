@@ -127,7 +127,7 @@ define KernelPackage/itco-wdt
            CONFIG_ITCO_VENDOR_SUPPORT=y
   FILES:=$(LINUX_DIR)/drivers/watchdog/iTCO_wdt.ko \
          $(LINUX_DIR)/drivers/watchdog/iTCO_vendor_support.ko
-  AUTOLOAD:=$(call AutoLoad,50,iTCO_vendor_support iTCO_wdt,1)
+  #AUTOLOAD:=$(call AutoLoad,50,iTCO_vendor_support iTCO_wdt,1)
 endef
 
 define KernelPackage/itco-wdt/description
