@@ -249,6 +249,9 @@ define Image/mkfs/squashfs
 endef
 else
 define Image/mkfs/squashfs
+	sleep 120; sync
+	while test -n "`pgrep -af mksquashfs4 | grep -v pgrep`"; do sleep 15; done
+	sync; sleep 120; sync
 	$(call Image/mkfs/squashfs-common,$(1))
 endef
 endif
