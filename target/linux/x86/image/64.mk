@@ -15,7 +15,8 @@ endef
 TARGET_DEVICES += generic
 
 define Device/qemu-standard-pc-q35-ich9-2009
-  DEVICE_TITLE := Qemu Standard Q35 ICH9 2009
+  DEVICE_VENDOR := Qemu
+  DEVICE_MOEL := Standard Q35 ICH9 2009
   GRUB_CONSOLE_CMDLINE := console=hvc0 console=tty0
   KERNEL_INSTALL :=
   DEVICE_PACKAGES += intel-microcode kmod-9pnet kmod-e1000 kmod-fs-9p \
@@ -27,7 +28,8 @@ endef
 TARGET_DEVICES += qemu-standard-pc-q35-ich9-2009
 
 define Device/dell-inc-0hwtmh
-  DEVICE_TITLE := Dell Inc. XPS 15 9570
+  DEVICE_VENDOR := Dell Inc.
+  DEVICE_MODEL := XPS 15 9570
   KERNEL_INSTALL :=
   DEVICE_PACKAGES += collectd-mod-wireless hostapd-common hostapd-utils \
 	kmod-cfg80211 kmod-iwlwifi kmod-mac80211 kmod-mmc kmod-mmc-realtek \
@@ -40,7 +42,8 @@ endef
 TARGET_DEVICES += dell-inc-0hwtmh
 
 define Device/asrock-z77-pro4-m
-  DEVICE_TITLE := ASRock Z77 Pro4-M
+  DEVICE_VENDOR := ASRock
+  DEVICE_MODEL := Z77 Pro4-M
   KERNEL_INSTALL :=
   DEVICE_PACKAGES += r8169-firmware kmod-hwmon-nct6775 kmod-igb kmod-itco-wdt \
 	kmod-md-mod kmod-phy-realtek kmod-r8169 kmod-sound-hda-intel \
@@ -53,7 +56,8 @@ endef
 TARGET_DEVICES += asrock-z77-pro4-m
 
 define Device/asustek-computer-inc-sabertooth-z77
-  DEVICE_TITLE := ASUS Sabertoot Zz77
+  DEVICE_VENDOR := ASUSTEK Computer Inc.
+  DEVICE_MODEL := Sabertooth z77
   KERNEL_INSTALL :=
   DEVICE_PACKAGES += intel-microcode kmod-hwmon-nct6775 kmod-e1000e \
 	kmod-i2c-801 kmod-igb kmod-itco-wdt kmod-md-mod kmod-sound-hda-intel \
