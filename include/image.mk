@@ -242,7 +242,8 @@ $(eval $(foreach S,$(NAND_BLOCKSIZE),$(call Image/mkfs/jffs2-nand/template,$(S))
 define Image/mkfs/squashfs-common
 	flock /tmp/mksquashfs.lock $(STAGING_DIR_HOST)/bin/mksquashfs4 $(call mkfs_target_dir,$(1)) $@ \
 		-nopad -noappend -root-owned \
-		-comp $(SQUASHFSCOMP) $(SQUASHFSOPT)
+		-comp $(SQUASHFSCOMP) $(SQUASHFSOPT) \
+		-processors 4
 endef
 
 ifeq ($(CONFIG_TARGET_ROOTFS_SECURITY_LABELS),y)
