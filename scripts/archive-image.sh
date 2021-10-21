@@ -50,7 +50,7 @@ if [ -d "$_destdir" ]; then
 	exit 1
 fi
 
-for dir in . feeds/packages feeds/luci; do
+for dir in . feeds/packages feeds/luci feeds/routing; do
 	cd $_pwd/$dir
 	ask_bool 1 "Add git tag $_TAG for $dir" && git tag $_TAG
 	ask_bool 1 "Push force and push new tag $_TAG for $dir" && ( git push --force origin && git push --tags origin )
