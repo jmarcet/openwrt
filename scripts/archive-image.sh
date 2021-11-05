@@ -42,7 +42,7 @@ _destdir="$DESTDIR/${_subdir}"
 _archdir="$ARCHDIR/${_subdir}"
 
 _TAG="$_date.$_build.master-x64"
-_TAG2="$_date.#_build.asustek-computer-inc-sabertooth-z77"
+_TAG2="$_date.$_build.asustek-computer-inc-sabertooth-z77"
 _pwd=$(pwd)
 
 if [ -d "$_destdir" ]; then
