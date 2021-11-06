@@ -1264,12 +1264,6 @@ $(eval $(call KernelPackage,netlink-diag))
 define KernelPackage/wireguard
   SUBMENU:=$(NETWORK_SUPPORT_MENU)
   TITLE:=WireGuard secure network tunnel
-  DEPENDS:= \
-	  +kmod-crypto-lib-blake2s \
-	  +kmod-crypto-lib-chacha20poly1305 \
-	  +kmod-crypto-lib-curve25519 \
-	  +kmod-udptunnel4 \
-	  +IPV6:kmod-udptunnel6
   KCONFIG:= \
 	  CONFIG_WIREGUARD \
 	  CONFIG_WIREGUARD_DEBUG=n
