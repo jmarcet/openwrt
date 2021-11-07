@@ -13,7 +13,7 @@ include $(INCLUDE_DIR)/kernel.mk
 
 
 PKG_NAME:=linux
-PKG_PATCHVER:=5.10
+PKG_PATCHVER:=5.15
 PKG_VERSION:=$(PKG_PATCHVER)$(strip $(LINUX_VERSION-$(PKG_PATCHVER)))
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=$(LINUX_SITE)
@@ -61,7 +61,7 @@ define Build/Patch
 	$(Kernel/Patch/Default)
 endef
 
-BPF_DOC = $(PKG_BUILD_DIR)/scripts/bpf_helpers_doc.py
+BPF_DOC = $(PKG_BUILD_DIR)/scripts/bpf_doc.py
 
 define Build/Configure/64
 	echo 'CONFIG_CPU_MIPS64_R2=y' >> $(PKG_BUILD_DIR)/.config
