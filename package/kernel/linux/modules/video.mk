@@ -243,9 +243,14 @@ define KernelPackage/drm-ttm
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=GPU memory management subsystem
   DEPENDS:=@DISPLAY_SUPPORT +kmod-drm
-  KCONFIG:=CONFIG_DRM_TTM
-  FILES:=$(LINUX_DIR)/drivers/gpu/drm/ttm/ttm.ko
+  KCONFIG:= \
+    CONFIG_DRM_TTM \
+    CONFIG_DRM_TTM_HELPER=y
+  FILES:= \
+    $(LINUX_DIR)/drivers/gpu/drm/ttm/ttm.ko \
+    $(LINUX_DIR)/drivers/gpu/drm/drm_ttm_helper.ko
   AUTOLOAD:=$(call AutoProbe,ttm)
+  AUTOLOAD:=$(call AutoProbe,ttm-helper)
 endef
 
 define KernelPackage/drm-ttm/description
