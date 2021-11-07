@@ -1,0 +1,39 @@
+From ef9ec8744dc52cc6a6013cb003445784154b6f3e Mon Sep 17 00:00:00 2001
+From: Javier Marcet <javier@marcet.info>
+Date: Sun, 7 Nov 2021 15:52:14 +0100
+Subject: [PATCH] netfilter: tcp_no_window_check: fix global data access
+ warning
+
+Signed-off-by: Javier Marcet <javier@marcet.info>
+---
+ include/net/netns/conntrack.h           | 1 +
+ net/netfilter/nf_conntrack_standalone.c | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/include/net/netns/conntrack.h b/include/net/netns/conntrack.h
+index 0294f3d473af..f17d5df51c4c 100644
+--- a/include/net/netns/conntrack.h
++++ b/include/net/netns/conntrack.h
+@@ -109,6 +109,7 @@ struct netns_ct {
+ 	u8			sysctl_auto_assign_helper;
+ 	u8			sysctl_tstamp;
+ 	u8			sysctl_checksum;
++	u8			sysctl_no_window_check;
+ 
+ 	struct ct_pcpu __percpu *pcpu_lists;
+ 	struct ip_conntrack_stat __percpu *stat;
+diff --git a/net/netfilter/nf_conntrack_standalone.c b/net/netfilter/nf_conntrack_standalone.c
+index 733373c2314b..179424b08758 100644
+--- a/net/netfilter/nf_conntrack_standalone.c
++++ b/net/netfilter/nf_conntrack_standalone.c
+@@ -1164,6 +1164,7 @@ static int nf_conntrack_standalone_init_sysctl(struct net *net)
+ #ifdef CONFIG_NF_CONNTRACK_EVENTS
+ 	table[NF_SYSCTL_CT_EVENTS].data = &net->ct.sysctl_events;
+ #endif
++	table[NF_SYSCTL_CT_PROTO_TCP_NO_WINDOW_CHECK].data = &net->ct.sysctl_no_window_check;
+ #ifdef CONFIG_NF_CONNTRACK_TIMESTAMP
+ 	table[NF_SYSCTL_CT_TIMESTAMP].data = &net->ct.sysctl_tstamp;
+ #endif
+-- 
+2.25.1
+
