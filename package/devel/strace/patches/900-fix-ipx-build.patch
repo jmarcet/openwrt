@@ -1,0 +1,50 @@
+--- ./src/net.c-orig	2021-04-24 10:00:00.000000000 +0200
++++ ./src/net.c	2021-11-07 16:32:14.979804358 +0100
+@@ -30,8 +30,6 @@
+ #include <asm/types.h>
+ #ifdef HAVE_NETIPX_IPX_H
+ # include <netipx/ipx.h>
+-#else
+-# include <linux/ipx.h>
+ #endif
+ 
+ #include <linux/ip_vs.h>
+--- ./src/sockaddr.c-orig	2021-07-06 10:00:00.000000000 +0200
++++ ./src/sockaddr.c	2021-11-07 16:34:46.779493081 +0100
+@@ -26,8 +26,6 @@
+ 
+ #ifdef HAVE_NETIPX_IPX_H
+ # include <netipx/ipx.h>
+-#else
+-# include <linux/ipx.h>
+ #endif
+ 
+ #include "xlat/addrfams.h"
+--- ./src/sockaddr.c-orig	2021-11-07 16:39:03.962840054 +0100
++++ ./src/sockaddr.c	2021-11-07 16:38:54.347675978 +0100
+@@ -401,6 +401,7 @@ digis_end:
+ 	}
+ }
+ 
++#ifdef HAVE_NETIPX_IPX_H
+ static void
+ print_sockaddr_data_ipx(struct tcb *tcp, const void *const buf,
+ 			const int addrlen)
+@@ -418,6 +419,7 @@ print_sockaddr_data_ipx(struct tcb *tcp,
+ 	tprint_struct_next();
+ 	PRINT_FIELD_0X(*sa_ipx, sipx_type);
+ }
++#endif
+ 
+ void
+ print_x25_addr(const void /* struct x25_address */ *addr_void)
+@@ -707,7 +709,9 @@ static const struct {
+ 	[AF_UNIX] = { print_sockaddr_data_un, SIZEOF_SA_FAMILY + 1 },
+ 	[AF_INET] = { print_sockaddr_data_in, sizeof(struct sockaddr_in) },
+ 	[AF_AX25] = { print_sockaddr_data_ax25, sizeof(struct sockaddr_ax25) },
++#ifdef HAVE_NETIPX_IPX_H
+ 	[AF_IPX] = { print_sockaddr_data_ipx, sizeof(struct sockaddr_ipx) },
++#endif
+ 	[AF_X25] = { print_sockaddr_data_x25, sizeof(struct sockaddr_x25) },
+ 	[AF_INET6] = { print_sockaddr_data_in6, SIN6_MIN_LEN },
+ 	[AF_NETLINK] = { print_sockaddr_data_nl, SIZEOF_SA_FAMILY + 1 },
