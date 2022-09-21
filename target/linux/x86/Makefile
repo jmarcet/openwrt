@@ -18,8 +18,7 @@ include $(INCLUDE_DIR)/target.mk
 
 DEFAULT_PACKAGES += \
 	partx-utils mkf2fs \
-	e2fsprogs kmod-button-hotplug \
-	grub2-bios-setup
+	e2fsprogs kmod-button-hotplug
 DEFAULT_PACKAGES += video-support
 
 $(eval $(call BuildTarget))
