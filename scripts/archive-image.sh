@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 DESTDIR="/storage/srv/openwrt"
-ARCHDIR="/storage/backups/@openwrt/x86/64"
+ARCHDIR="/mnt/openwrt_backups"
 ARCHIVE="asrock-z77-pro4-m\|asustek-computer-inc-sabertooth-z77\|dell-inc-0hwtmh\|qemu-standard-pc-q35-ich9-2009"
 
 INTERACTIVE=1
@@ -24,8 +24,13 @@ ask_bool() {
 		esac
 	}
 	[ "$answer" -gt 0 ]
-}                                                                                                                                                                                                                                                                             
-                                                                                                                                                                                                                                                                              
+}
+
+if ! grep -q " ${ARCHDIR} fuse.sshfs " /proc/mounts; then
+    echo "${ARCHDIR} not mounted!"
+    exit 1
+fi
+
 set -v
 
 (
