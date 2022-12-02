@@ -3,7 +3,7 @@
 START=41
 STOP=90
 
-eval $( sed -e 's:\s*\(BOOT_IMAGE=[^ ]\+\) .\+$:\1:' /proc/cmdline )
+BOOT_IMAGE=$( sed -e 's:\s*BOOT_IMAGE=\([^ ]\+\) .\+$:\1:' /proc/cmdline )
 [ -n "$BOOT_IMAGE" ] || BOOT_IMAGE=/boot/vmlinuz
 
 EXTRA_COMMANDS="status"
