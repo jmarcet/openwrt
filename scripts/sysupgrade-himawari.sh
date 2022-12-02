@@ -6,23 +6,17 @@ _target=$( grep '^CONFIG_TARGET_[a-z0-9]\+=y' .config | sed -e 's:^CONFIG_TARGET
 _bindir=$( ls -d bin/targets/$_target/* )
 #_arch=$( echo $_bindir | cut -d'/' -f3- | tr '/' '-' )
 
-if grep -q ' /boot ' /proc/mounts; then
-    [ -w /boot ] || mount -o remount,rw /boot
-    [ -w /boot ] || {
-        echo "Boot partition mounted ro. Umount it or make it rw!"
-        exit 1
-    }
-fi
+_image_path=$( ls -t $_bindir/openwrt-*-x86-64-asustek-computer-inc-sabertooth-z77-squashfs-combined-efi.img.gz | head -1 )
+_image_name=$(basename $_image_path)
 
-_image=$( ls -t $_bindir/openwrt-*-x86-64-asustek-computer-inc-sabertooth-z77-squashfs-combined-efi.img.gz | head -1 )
-
-if [ -z "$_image" ]; then
+if [ -z "$_image_path" ]; then
     echo "Usage: no suitable image found"
     exit 1
 fi
 
-echo "Upggrading with image $(ls -al $_image)"
+echo "Upggrading with image $(ls -al $_image_path)"
 
-sysupgrade -i -n -p -v $_image
+scp $_image_path himawari:/tmp/
+ssh root@himawari "sysupgrade -i -n -p -v /tmp/$_image_name"
 
 exit 0
