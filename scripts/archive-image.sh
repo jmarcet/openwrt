@@ -16,7 +16,7 @@ ask_bool() {
 			0) echo -n "$* (y/N): ";;
 			*) echo -n "$* (Y/n): ";;
 		esac
-		read answer
+		read -r answer
 		case "$answer" in
 			y*) answer=1;;
 			n*) answer=0;;
@@ -26,22 +26,19 @@ ask_bool() {
 	[ "$answer" -gt 0 ]
 }
 
-if ! grep -q " ${ARCHDIR} fuse.sshfs " /proc/mounts; then
-    echo "${ARCHDIR} not mounted!"
-    exit 1
-fi
+grep -q " ${ARCHDIR} fuse.sshfs " /proc/mounts || mount "${ARCHDIR}"
 
 set -v
 
 (
 _target=$( grep '^CONFIG_TARGET_[a-z0-9]\+=y' .config | sed -e 's:^CONFIG_TARGET_\([a-z0-9]\+\)=y:\1:' )
-_imgdir=$( ls -d bin/targets/$_target/* )
+_imgdir=$( ls -d bin/targets/"$_target"/* )
  eval $( grep CONFIG_EXTERNAL_KERNEL_TREE .config)
 
-_build=$( cat $_imgdir/version.buildinfo )
-_img=$( ls -t $_imgdir/openwrt-*.img??? | head -1 )
-_date=$( date -r $_img +%Y%m%d_%H%M%S )
-_subdir=$_date-`echo $_img | cut -d'-' -f3-4`
+_build=$( cat "$_imgdir"/version.buildinfo )
+_img=$( ls -t "$_imgdir"/openwrt-*.img??? | head -1 )
+_date=$( date -r "$_img" +%Y%m%d_%H%M%S )
+_subdir=$_date-$(echo "$_img" | cut -d'-' -f3-4)
 
 _destdir="$DESTDIR/${_subdir}"
 _archdir="$ARCHDIR/${_subdir}"
@@ -56,18 +53,18 @@ if [ -d "$_destdir" ]; then
 fi
 
 for dir in . feeds/packages feeds/luci feeds/routing; do
-	cd $_pwd/$dir
-	ask_bool 1 "Add git tag $_TAG for $dir" && git tag $_TAG
+	cd "$_pwd"/$dir
+	ask_bool 1 "Add git tag $_TAG for $dir" && git tag "$_TAG"
 	ask_bool 1 "Push force and push new tag $_TAG for $dir" && ( git push --force origin && git push --tags origin )
 done
-cd $_pwd/files-asustek-computer-inc-sabertooth-z77
-ask_bool 1 "Add git tag $_TAG2" && git tag $_TAG2
+cd "$_pwd"/files-asustek-computer-inc-sabertooth-z77
+ask_bool 1 "Add git tag $_TAG2" && git tag "$_TAG2"
 ask_bool 1 "Push force and push new tag $_TAG2" && ( git push --force origin && git push --tags origin )
-cd $_pwd
+cd "$_pwd"
 
 mkdir -p "$_destdir"
 cp -a -v bin/packages bin/targets "$_destdir"/
-[ -n "$CONFIG_EXTERNAL_KERNEL_TREE" ] && cp -a "$CONFIG_EXTERNAL_KERNEL_TREE"/.config "$_destdir"/targets/x86/64/config-kernel.${_TAG2}
+[ -n "$CONFIG_EXTERNAL_KERNEL_TREE" ] && cp -a "$CONFIG_EXTERNAL_KERNEL_TREE"/.config "$_destdir"/targets/x86/64/config-kernel."${_TAG2}"
 
 mkdir -p "$_archdir"
 _t="$_destdir/${_imgdir/bin\/}"
@@ -76,9 +73,9 @@ for file in $( ls "$_t" | grep "$ARCHIVE" ); do
 	mv "$_t/$file" "$_archdir"/
 done
 
-rm -f "$_t_mark" "$_a_mark" "$DESTDIR/latest" "$ARCHDIR/latest" &>/dev/null || true
-ln -s $_subdir "$DESTDIR/latest"
-ln -s $_subdir "$ARCHDIR/latest"
+rm -f "$DESTDIR/latest" "$ARCHDIR/latest" &>/dev/null || true
+ln -s "$_subdir" "$DESTDIR/latest"
+ln -s "$_subdir" "$ARCHDIR/latest"
 
 )
 
