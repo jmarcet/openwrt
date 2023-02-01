@@ -38,7 +38,7 @@ Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 --- a/Makefile
 +++ b/Makefile
 @@ -432,7 +432,8 @@ HOSTCXX	= g++
- endif
+ HOSTPKG_CONFIG	= pkg-config
  
  export KBUILD_USERCFLAGS := -Wall -Wmissing-prototypes -Wstrict-prototypes \
 -			      -O2 -fomit-frame-pointer -std=gnu89
