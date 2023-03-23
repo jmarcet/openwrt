@@ -55,6 +55,18 @@ define Device/asrock-z77-pro4-m
 endef
 TARGET_DEVICES += asrock-z77-pro4-m
 
+define Device/asus-rog-strix-z690-i-gaming-wifi
+  DEVICE_VENDOR := ASUS
+  DEVICE_MODEL := ROG STRIX Z690-I GAMING WIFI
+  KERNEL_INSTALL :=
+  DEVICE_PACKAGES += intel-microcode kmod-hwmon-nct6775 \
+	kmod-i2c-801 kmod-igb kmod-igc kmod-itco-wdt kmod-md-mod kmod-sound-hda-intel \
+	kmod-sound-hda-codec-hdmi
+  IMAGES := combined-efi.img.gz
+  SUPPORTED_DEVICES := asus-rog-strix-z690-i-gaming-wifi
+endef
+TARGET_DEVICES += asus-rog-strix-z690-i-gaming-wifi
+
 define Device/asustek-computer-inc-sabertooth-z77
   DEVICE_VENDOR := ASUSTEK Computer Inc.
   DEVICE_MODEL := Sabertooth z77
