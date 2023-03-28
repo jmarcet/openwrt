@@ -1,0 +1,72 @@
+From 4e4695a0ec0f42b6ff033c2f6cb5c289cf08b459 Mon Sep 17 00:00:00 2001
+From: Holger Kiehl <Holger.Kiehl@dwd.de>
+Date: Mon, 13 Mar 2023 13:10:31 +0000
+Subject: [PATCH 145/150] hwmon: (nct6775) add Asus Pro A520M-C II/CSM
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+An NCT6798D chip is now detected:
+
+   dmesg|grep nct6775
+   [   23.765392] nct6775: Found NCT6798D or compatible chip at 0x2e:0x290
+
+And sensors now shows:
+
+   nct6798-isa-0290
+   Adapter: ISA adapter
+   in0:                      312.00 mV (min =  +0.00 V, max =  +1.74 V)
+   in1:                        1.02 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+   in2:                        3.42 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+   in3:                        3.38 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+   in4:                        1.03 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+   in5:                        1.02 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+   in6:                      200.00 mV (min =  +0.00 V, max =  +0.00 V)  ALARM
+   in7:                        3.42 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+   in8:                        3.28 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+   in9:                      920.00 mV (min =  +0.00 V, max =  +0.00 V)  ALARM
+   in10:                     512.00 mV (min =  +0.00 V, max =  +0.00 V)  ALARM
+   in11:                     504.00 mV (min =  +0.00 V, max =  +0.00 V)  ALARM
+   in12:                       1.03 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+   in13:                     256.00 mV (min =  +0.00 V, max =  +0.00 V)  ALARM
+   in14:                       1.47 V  (min =  +0.00 V, max =  +0.00 V)  ALARM
+   fan1:                        0 RPM  (min =    0 RPM)
+   fan2:                        0 RPM  (min =    0 RPM)
+   fan3:                      355 RPM  (min =    0 RPM)
+   fan7:                        0 RPM  (min =    0 RPM)
+   SYSTIN:                    +25.0°C  (high = +80.0°C, hyst = +75.0°C)  sensor = thermistor
+   CPUTIN:                    +26.5°C  (high = +80.0°C, hyst = +75.0°C)  sensor = thermistor
+   AUXTIN0:                   +97.0°C    sensor = thermistor
+   AUXTIN1:                   +25.0°C    sensor = thermistor
+   AUXTIN2:                   +25.0°C    sensor = thermistor
+   AUXTIN3:                    +1.0°C    sensor = thermistor
+   PECI Agent 0 Calibration:  +26.0°C
+   PCH_CHIP_CPU_MAX_TEMP:      +0.0°C
+   PCH_CHIP_TEMP:              +0.0°C
+   PCH_CPU_TEMP:               +0.0°C
+   TSI0_TEMP:                 +27.9°C
+   intrusion0:               ALARM
+   intrusion1:               OK
+   beep_enable:              disabled
+
+Signed-off-by: Holger Kiehl <holger.kiehl@dwd.de>
+Tested-by: Holger Kiehl <holger.kiehl@dwd.de>
+---
+ drivers/hwmon/nct6775-platform.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/hwmon/nct6775-platform.c b/drivers/hwmon/nct6775-platform.c
+index cee4b3dafb6f..15b60c2f08d1 100644
+--- a/drivers/hwmon/nct6775-platform.c
++++ b/drivers/hwmon/nct6775-platform.c
+@@ -1052,6 +1052,7 @@ static int __init nct6775_find(int sioaddr, struct nct6775_sio_data *sio_data)
+ static struct platform_device *pdev[2];
+ 
+ static const char * const asus_wmi_boards[] = {
++	"Pro A520M-C II",
+ 	"PRO H410T",
+ 	"ProArt B550-CREATOR",
+ 	"ProArt X570-CREATOR WIFI",
+-- 
+2.34.1
+
