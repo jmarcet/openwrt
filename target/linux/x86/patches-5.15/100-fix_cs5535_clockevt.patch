@@ -1,6 +1,18 @@
+From 13580c79cdaed117302150cf91378cd918e6f26a Mon Sep 17 00:00:00 2001
+From: Javier Marcet <javier@marcet.info>
+Date: Tue, 28 Mar 2023 10:05:12 +0200
+Subject: [PATCH] 100-fix_cs5535_clockevt.patch
+
+Signed-off-by: Javier Marcet <javier@marcet.info>
+---
+ drivers/clocksource/timer-cs5535.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/clocksource/timer-cs5535.c b/drivers/clocksource/timer-cs5535.c
+index d47acfe848ae..5d82ea93e13a 100644
 --- a/drivers/clocksource/timer-cs5535.c
 +++ b/drivers/clocksource/timer-cs5535.c
-@@ -127,7 +127,9 @@ static irqreturn_t mfgpt_tick(int irq, v
+@@ -127,7 +127,9 @@ static irqreturn_t mfgpt_tick(int irq, void *dev_id)
  		cs5535_mfgpt_write(cs5535_event_clock, MFGPT_REG_SETUP,
  				MFGPT_SETUP_CNTEN | MFGPT_SETUP_CMP2);
  
@@ -11,3 +23,6 @@
  	return IRQ_HANDLED;
  }
  
+-- 
+2.34.1
+
