@@ -1,0 +1,32 @@
+From 387b61049a2f9e5ea1b0e535ca97fab3122d1276 Mon Sep 17 00:00:00 2001
+From: Denis Pauk <pauk.denis@gmail.com>
+Date: Wed, 15 Mar 2023 23:01:34 +0200
+Subject: [PATCH 146/150] hwmon: (nct6775) Fix TUF GAMING B550M-E WIFI name
+
+TUF GAMING B550M-E WIFI motherboard is incorrectly named as
+TUF GAMING B550M-E (WI-FI).
+
+Validated by dmidecode output from https://github.com/linuxhw/DMI/
+
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=204807
+Signed-off-by: Denis Pauk <pauk.denis@gmail.com>
+---
+ drivers/hwmon/nct6775-platform.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hwmon/nct6775-platform.c b/drivers/hwmon/nct6775-platform.c
+index 15b60c2f08d1..eed049f194db 100644
+--- a/drivers/hwmon/nct6775-platform.c
++++ b/drivers/hwmon/nct6775-platform.c
+@@ -1096,7 +1096,7 @@ static const char * const asus_wmi_boards[] = {
+ 	"ROG STRIX Z490-H GAMING",
+ 	"ROG STRIX Z490-I GAMING",
+ 	"TUF GAMING B550M-E",
+-	"TUF GAMING B550M-E (WI-FI)",
++	"TUF GAMING B550M-E WIFI",
+ 	"TUF GAMING B550M-PLUS",
+ 	"TUF GAMING B550M-PLUS (WI-FI)",
+ 	"TUF GAMING B550M-PLUS WIFI II",
+-- 
+2.34.1
+
