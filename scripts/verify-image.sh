@@ -7,7 +7,7 @@ _tmp_image=/tmp/_openwrt.img
 _target=$( grep '^CONFIG_TARGET_[a-z0-9]\+=y' .config | sed -e 's:^CONFIG_TARGET_\([a-z0-9]\+\)=y:\1:' )
 _bindir=$( ls -d bin/targets/$_target/* )
 
-_image_path=$( ls -t $_bindir/openwrt-*-x86-64-asustek-computer-inc-sabertooth-z77-squashfs-combined-efi.img.gz | head -1 )
+_image_path=$( ls -t $_bindir/openwrt-*-x86-64-asus-rog-strix-z690-i-gaming-wifi-squashfs-combined-efi.img.gz | head -1 )
 _image_name=$(basename $_image_path)
 
 if [ -z "$_image_path" ]; then
