@@ -61,8 +61,7 @@ define Device/asus-rog-strix-z690-i-gaming-wifi
   DEVICE_MODEL := ROG STRIX Z690-I GAMING WIFI
   KERNEL_INSTALL :=
   DEVICE_PACKAGES += intel-microcode kmod-hwmon-nct6775 \
-	kmod-i2c-801 kmod-igb kmod-igc kmod-itco-wdt kmod-md-mod kmod-sound-hda-intel \
-	kmod-sound-hda-codec-hdmi
+	kmod-i2c-801 kmod-igb kmod-igc kmod-itco-wdt kmod-md-mod
   IMAGES := combined-efi.img.gz
   SUPPORTED_DEVICES := asus-rog-strix-z690-i-gaming-wifi
 endef
