@@ -349,9 +349,6 @@ if [ -n "$CONF_IMAGE" ]; then
 	esac
 	get_image "$CONF_IMAGE" "cat" > "$CONF_TAR"
 	export SAVE_CONFIG=1
-elif ask_bool $SAVE_CONFIG "Keep config files over reflash"; then
-	[ $TEST -eq 1 ] || do_save_conffiles "$CONF_TAR"
-	export SAVE_CONFIG=1
 else
 	[ $TEST -eq 1 ] || rm -f "$CONF_TAR"
 	export SAVE_CONFIG=0
