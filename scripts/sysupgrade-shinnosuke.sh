@@ -2,6 +2,8 @@
 
 set -e
 
+./scripts/verify-image.sh
+
 _target=$( grep '^CONFIG_TARGET_[a-z0-9]\+=y' .config | sed -e 's:^CONFIG_TARGET_\([a-z0-9]\+\)=y:\1:' )
 _bindir=$( ls -d bin/targets/$_target/* )
 #_arch=$( echo $_bindir | cut -d'/' -f3- | tr '/' '-' )
