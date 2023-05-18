@@ -80,14 +80,6 @@ v2: fix wrong variable name in return value check spotted by Denis Kirjanov
  	.txrx = {
  		.txd_size = sizeof(struct mtk_tx_dma),
  		.rxd_size = sizeof(struct mtk_rx_dma),
-@@ -4827,6 +4829,7 @@ static const struct mtk_soc_data mt7981_
- 	.offload_version = 2,
- 	.hash_offset = 4,
- 	.foe_entry_size = sizeof(struct mtk_foe_entry),
-+	.has_accounting = true,
- 	.txrx = {
- 		.txd_size = sizeof(struct mtk_tx_dma_v2),
- 		.rxd_size = sizeof(struct mtk_rx_dma_v2),
 @@ -4847,6 +4850,7 @@ static const struct mtk_soc_data mt7986_
  	.offload_version = 2,
  	.hash_offset = 4,
