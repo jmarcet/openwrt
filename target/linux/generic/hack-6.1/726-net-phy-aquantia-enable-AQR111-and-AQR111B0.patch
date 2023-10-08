@@ -1,7 +1,6 @@
-Author: Thomas Kupper <thomas.kupper@gmail.com>
-Date:   Wed May 24 21:14:17 2023 +0200
-
-kernel: phy: add Aquantia PHY AQR111 & AQR111B0
+From: Thomas Kupper <thomas.kupper@gmail.com>
+Date: Wed May 24 21:14:17 2023 +0200
+Subject: kernel: phy: add Aquantia PHY AQR111 & AQR111B0
 
 Add the IDs for Aquantia PHY AQR111 and AQR111B0 as found in the GPL sources
 of the Netgear RAX120v2 firmware v1.2.8.40.
