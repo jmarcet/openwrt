@@ -1,3 +1,8 @@
+From 970d9af9015a387bb81841faf05dcc1a171eb97a Mon Sep 17 00:00:00 2001
+From: Philip Prindeville <philipp@redfish-solutions.com>
+Date: Sun, 1 Jan 2023 15:25:04 -0700
+Subject: [PATCH v3 1/1] x86: Support APU5 in PCEngines platform driver
+
 --- a/drivers/clocksource/timer-cs5535.c
 +++ b/drivers/clocksource/timer-cs5535.c
 @@ -127,7 +127,9 @@ static irqreturn_t mfgpt_tick(int irq, v
