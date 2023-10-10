@@ -1,0 +1,45 @@
+From b7a603dd1e87eebb66041a14cce636acab7fd043 Mon Sep 17 00:00:00 2001
+From: Denis Pauk <pauk.denis@gmail.com>
+Date: Thu, 23 Mar 2023 23:27:50 +0200
+Subject: [PATCH 6/7] hwmon: (nct6775) Fix ROG B550-XE WIFI and Pro B660M-C D4
+ names
+
+ROG STRIX B550-XE GAMING WIFI motherboard is incorrectly named as
+ROG STRIX B550-XE GAMING (WI-FI).
+
+Pro B660M-C D4 motherboard is incorrectly named as
+Pro B660M-C-D4.
+
+Validated by dmidecode output from https://github.com/linuxhw/DMI/
+
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=204807
+Signed-off-by: Denis Pauk <pauk.denis@gmail.com>
+---
+ drivers/hwmon/nct6775-platform.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/hwmon/nct6775-platform.c b/drivers/hwmon/nct6775-platform.c
+index f23af9e5d141..2decd76dd604 100644
+--- a/drivers/hwmon/nct6775-platform.c
++++ b/drivers/hwmon/nct6775-platform.c
+@@ -1090,7 +1090,7 @@ static const char * const asus_wmi_boards[] = {
+ 	"ROG STRIX B550-F GAMING (WI-FI)",
+ 	"ROG STRIX B550-F GAMING WIFI II",
+ 	"ROG STRIX B550-I GAMING",
+-	"ROG STRIX B550-XE GAMING (WI-FI)",
++	"ROG STRIX B550-XE GAMING WIFI",
+ 	"ROG STRIX X570-E GAMING",
+ 	"ROG STRIX X570-E GAMING WIFI II",
+ 	"ROG STRIX X570-F GAMING",
+@@ -1147,7 +1147,7 @@ static const char * const asus_msi_boards[] = {
+ 	"PRIME Z590-V",
+ 	"PRIME Z590M-PLUS",
+ 	"Pro B660M-C",
+-	"Pro B660M-C-D4",
++	"Pro B660M-C D4",
+ 	"Pro WS W680-ACE",
+ 	"Pro WS W680-ACE IPMI",
+ 	"ProArt B650-CREATOR",
+-- 
+2.34.1
+
