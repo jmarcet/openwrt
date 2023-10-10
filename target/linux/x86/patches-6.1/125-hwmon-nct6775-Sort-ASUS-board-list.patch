@@ -1,0 +1,68 @@
+From f9d45062138dc33a4261d6bbeb75755983f0b15a Mon Sep 17 00:00:00 2001
+From: Denis Pauk <pauk.denis@gmail.com>
+Date: Thu, 23 Mar 2023 23:27:49 +0200
+Subject: [PATCH 5/7] hwmon: (nct6775) Sort ASUS board list
+
+Rearrange board list in alphabetical order by: LC_ALL=C sort -u
+
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=204807
+Signed-off-by: Denis Pauk <pauk.denis@gmail.com>
+---
+ drivers/hwmon/nct6775-platform.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/hwmon/nct6775-platform.c b/drivers/hwmon/nct6775-platform.c
+index e3b07bde0162..f23af9e5d141 100644
+--- a/drivers/hwmon/nct6775-platform.c
++++ b/drivers/hwmon/nct6775-platform.c
+@@ -1052,14 +1052,6 @@ static int __init nct6775_find(int sioaddr, struct nct6775_sio_data *sio_data)
+ static struct platform_device *pdev[2];
+ 
+ static const char * const asus_wmi_boards[] = {
+-	"Pro A520M-C",
+-	"Pro A520M-C II",
+-	"PRO H410T",
+-	"ProArt B550-CREATOR",
+-	"ProArt X570-CREATOR WIFI",
+-	"ProArt Z490-CREATOR 10G",
+-	"Pro B550M-C",
+-	"Pro WS X570-ACE",
+ 	"PRIME A520M-A",
+ 	"PRIME A520M-A II",
+ 	"PRIME A520M-E",
+@@ -1078,6 +1070,14 @@ static const char * const asus_wmi_boards[] = {
+ 	"PRIME H410M-R",
+ 	"PRIME X570-P",
+ 	"PRIME X570-PRO",
++	"PRO H410T",
++	"Pro A520M-C",
++	"Pro A520M-C II",
++	"Pro B550M-C",
++	"Pro WS X570-ACE",
++	"ProArt B550-CREATOR",
++	"ProArt X570-CREATOR WIFI",
++	"ProArt Z490-CREATOR 10G",
+ 	"ROG CROSSHAIR VIII DARK HERO",
+ 	"ROG CROSSHAIR VIII EXTREME",
+ 	"ROG CROSSHAIR VIII FORMULA",
+@@ -1109,14 +1109,14 @@ static const char * const asus_wmi_boards[] = {
+ 	"TUF GAMING A520M-PLUS",
+ 	"TUF GAMING A520M-PLUS II",
+ 	"TUF GAMING A520M-PLUS WIFI",
++	"TUF GAMING B550-PLUS",
++	"TUF GAMING B550-PLUS WIFI II",
++	"TUF GAMING B550-PRO",
+ 	"TUF GAMING B550M-E",
+ 	"TUF GAMING B550M-E WIFI",
+ 	"TUF GAMING B550M-PLUS",
+ 	"TUF GAMING B550M-PLUS (WI-FI)",
+ 	"TUF GAMING B550M-PLUS WIFI II",
+-	"TUF GAMING B550-PLUS",
+-	"TUF GAMING B550-PLUS WIFI II",
+-	"TUF GAMING B550-PRO",
+ 	"TUF GAMING X570-PLUS",
+ 	"TUF GAMING X570-PLUS (WI-FI)",
+ 	"TUF GAMING X570-PLUS_BR",
+-- 
+2.34.1
+
