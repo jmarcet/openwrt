@@ -33,7 +33,7 @@ endef
 define Package/gdb
 $(call Package/gdb/Default)
   TITLE:=GNU Debugger
-  DEPENDS+=+libreadline +libncurses +zlib +libgmp
+  DEPENDS+=+libreadline +libncurses +zlib +libgmp +libzstd
 endef
 
 define Package/gdb/description
