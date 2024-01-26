@@ -24,11 +24,24 @@ Signed-off-by: Phil Elwell <phil@raspberrypi.com>
 
 --- a/drivers/video/fbdev/core/fb_defio.c
 +++ b/drivers/video/fbdev/core/fb_defio.c
-@@ -321,7 +321,8 @@ static void fb_deferred_io_lastclose(str
+@@ -132,7 +132,11 @@ int fb_deferred_io_fsync(struct file *fi
+ 		return 0;
+ 
+ 	inode_lock(inode);
+-	flush_delayed_work(&info->deferred_work);
++	/* Kill off the delayed work */
++	cancel_delayed_work_sync(&info->deferred_work);
++
++	/* Run it immediately */
++	schedule_delayed_work(&info->deferred_work, 0);
+ 	inode_unlock(inode);
+ 
+ 	return 0;
+@@ -317,7 +321,8 @@ static void fb_deferred_io_lastclose(str
  	struct page *page;
  	int i;
  
--	cancel_delayed_work_sync(&info->deferred_work);
+-	flush_delayed_work(&info->deferred_work);
 +	if (!list_empty(&info->fbdefio->pagereflist))
 +		cancel_delayed_work_sync(&info->deferred_work);
  
