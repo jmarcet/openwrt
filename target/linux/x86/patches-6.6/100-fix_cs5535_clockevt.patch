@@ -1,3 +1,11 @@
+From cc225d163b5a4f7a0d1968298bf7927306646a47 Mon Sep 17 00:00:00 2001
+From: OpenWRT <openwert@gmail.com>
+Date: Fri, 28 Apr 2023 01:53:01 +0200
+Subject: [PATCH] usb: net: rndisk support asr
+
+Signed-off-by: OpenWRT <openwrt@gmail.com>
+---
+
 --- a/drivers/clocksource/timer-cs5535.c
 +++ b/drivers/clocksource/timer-cs5535.c
 @@ -127,7 +127,9 @@ static irqreturn_t mfgpt_tick(int irq, v
