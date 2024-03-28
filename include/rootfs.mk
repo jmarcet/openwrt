@@ -107,6 +107,10 @@ define prepare_rootfs
 		$(1)/usr/lib/opkg/info/*.postinst* \
 		$(1)/usr/lib/opkg/lists/* \
 		$(1)/var/lock/*.lock; \
+		for kmod in $$TARGET_MODULES_DIR/*.ko; do \
+			strip --strip-debug $$kmod; \
+			$$LINUX_DIR/scripts/sign-file sha1 $$LINUX_DIR/certs/signing_key.pem $$LINUX_DIR/certs/signing_key.x509 $$kmod; \
+		done; \
 		cp -f $$LINUX_DIR/modules.{builtin,order} $$TARGET_MODULES_DIR/; \
 	)
 	$(call clean_ipkg,$(1))
