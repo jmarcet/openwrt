@@ -22,6 +22,8 @@ if [ $UID -eq 0 ]; then
     exit 1
 fi
 
+[ -e /usr/bin/powerprofilesctl ] && /usr/bin/powerprofilesctl set performance
+
 # Import seed config
 [ -v SKIP_CONFIG_UPDATE ] || (cat "$CONFIG" >| .config && make defconfig)
 
@@ -61,3 +63,5 @@ make world -j"$NR_PROC" V=sc
 
 # List built firmwares
 ls -Altr bin/targets/x86/64
+
+[ -e /usr/bin/powerprofilesctl ] && /usr/bin/powerprofilesctl set power-saver
