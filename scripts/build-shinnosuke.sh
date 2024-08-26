@@ -64,4 +64,4 @@ make world -j"$NR_PROC" V=sc
 # List built firmwares
 ls -Altr bin/targets/x86/64
 
-[ -e /usr/bin/powerprofilesctl ] && /usr/bin/powerprofilesctl set power-saver
+[ -e /usr/bin/powerprofilesctl ] && /usr/bin/powerprofilesctl set balanced
