@@ -32,4 +32,9 @@ boot() {
 	# set leds to normal state
 	. /etc/diag.sh
 	set_state done
+
+	if test $( grep '^cgroup ' /proc/mounts | wc -l ) -lt 15; then
+		cat /proc/cgroups > /root/cgroups-BAD-$( date +%s ).log
+		sync && reboot
+	fi
 }
