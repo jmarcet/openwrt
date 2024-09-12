@@ -57,7 +57,7 @@ rm -fr build/target*/root* &>/dev/null || true
 
 # Launch the build
 make download -j"$NR_PROC" V=sc || make download V=sc
-make world -j"$NR_PROC" V=sc
+nice -n 19 ionice -c 3 make world -j"$NR_PROC" V=sc
 
 # List built firmwares
 ls -Altr bin/targets/x86/64
