@@ -1,3 +1,8 @@
+From 2f5e59d70566902d7b4e13c6af3f042f5d28b78b Mon Sep 17 00:00:00 2001
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Date: Thu, 22 Feb 2024 18:00:23 -0800
+Subject: [PATCH 2/2] bus: mhi: host: Add mhi_power_down_keep_dev API to supp
+
 --- a/drivers/bus/mhi/host/init.c
 +++ b/drivers/bus/mhi/host/init.c
 @@ -43,6 +43,7 @@ const char * const dev_state_tran_str[DE
