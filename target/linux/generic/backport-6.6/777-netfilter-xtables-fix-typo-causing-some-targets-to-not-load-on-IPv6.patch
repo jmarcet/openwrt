@@ -1,3 +1,5 @@
+From 039550960a2235cfe2dfaa773df9f98f8da31a0c Mon Sep 17 00:00:00 2001
+From: Ilya Katsnelson <me@0upti.me>
 Subject: [PATCH v2] netfilter: xtables: fix typo causing some targets to not load on IPv6
 Date: Sat, 19 Oct 2024 08:05:07 +0300	[thread overview]
 Message-ID: <20241019-xtables-typos-v2-1-6b8b1735dc8e@0upti.me> (raw)
