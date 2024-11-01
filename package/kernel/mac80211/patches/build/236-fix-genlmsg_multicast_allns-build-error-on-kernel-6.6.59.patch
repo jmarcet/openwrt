@@ -1,0 +1,100 @@
+--- a/backport-include/net/genetlink.h
++++ b/backport-include/net/genetlink.h
+@@ -150,7 +150,7 @@ int genlmsg_multicast(const struct genl_
+ #define genlmsg_multicast_allns LINUX_BACKPORT(genlmsg_multicast_allns)
+ int backport_genlmsg_multicast_allns(const struct genl_family *family,
+ 				     struct sk_buff *skb, u32 portid,
+-				     unsigned int group, gfp_t flags);
++				     unsigned int group);
+ 
+ #define genl_family_attrbuf LINUX_BACKPORT(genl_family_attrbuf)
+ static inline struct nlattr **genl_family_attrbuf(struct genl_family *family)
+--- a/compat/backport-genetlink.c
++++ b/compat/backport-genetlink.c
+@@ -198,23 +198,23 @@ int genlmsg_multicast(const struct genl_
+ }
+ EXPORT_SYMBOL_GPL(genlmsg_multicast);
+ 
+-static int genlmsg_mcast(struct sk_buff *skb, u32 portid, unsigned long group,
+-			 gfp_t flags)
++static int genlmsg_mcast(struct sk_buff *skb, u32 portid, unsigned long group)
+ {
+ 	struct sk_buff *tmp;
+ 	struct net *net, *prev = NULL;
+ 	bool delivered = false;
+ 	int err;
+ 
++	rcu_read_lock();
+ 	for_each_net_rcu(net) {
+ 		if (prev) {
+-			tmp = skb_clone(skb, flags);
++			tmp = skb_clone(skb, GFP_ATOMIC);
+ 			if (!tmp) {
+ 				err = -ENOMEM;
+ 				goto error;
+ 			}
+ 			err = nlmsg_multicast(prev->genl_sock, tmp,
+-					      portid, group, flags);
++					      portid, group, GFP_ATOMIC);
+ 			if (!err)
+ 				delivered = true;
+ 			else if (err != -ESRCH)
+@@ -223,25 +223,29 @@ static int genlmsg_mcast(struct sk_buff
+ 
+ 		prev = net;
+ 	}
++	err = nlmsg_multicast(prev->genl_sock, skb, portid, group, GFP_ATOMIC);
++
++	rcu_read_unlock();
+ 
+-	err = nlmsg_multicast(prev->genl_sock, skb, portid, group, flags);
+ 	if (!err)
+ 		delivered = true;
+ 	else if (err != -ESRCH)
+ 		return err;
+ 	return delivered ? 0 : -ESRCH;
+  error:
++	rcu_read_unlock();
++
+ 	kfree_skb(skb);
+ 	return err;
+ }
+ 
+ int backport_genlmsg_multicast_allns(const struct genl_family *family,
+ 				     struct sk_buff *skb, u32 portid,
+-				     unsigned int group, gfp_t flags)
++				     unsigned int group)
+ {
+ 	group = __backport_genl_group(family, group);
+ 	if (group == INVALID_GROUP)
+ 		return -EINVAL;
+-	return genlmsg_mcast(skb, portid, group, flags);
++	return genlmsg_mcast(skb, portid, group);
+ }
+ EXPORT_SYMBOL_GPL(backport_genlmsg_multicast_allns);
+--- a/net/wireless/nl80211.c
++++ b/net/wireless/nl80211.c
+@@ -17956,10 +17956,8 @@ void nl80211_common_reg_change_event(enu
+ 
+ 	genlmsg_end(msg, hdr);
+ 
+-	rcu_read_lock();
+ 	genlmsg_multicast_allns(&nl80211_fam, msg, 0,
+-				NL80211_MCGRP_REGULATORY, GFP_ATOMIC);
+-	rcu_read_unlock();
++				NL80211_MCGRP_REGULATORY);
+ 
+ 	return;
+ 
+@@ -18692,10 +18690,8 @@ void nl80211_send_beacon_hint_event(stru
+ 
+ 	genlmsg_end(msg, hdr);
+ 
+-	rcu_read_lock();
+ 	genlmsg_multicast_allns(&nl80211_fam, msg, 0,
+-				NL80211_MCGRP_REGULATORY, GFP_ATOMIC);
+-	rcu_read_unlock();
++				NL80211_MCGRP_REGULATORY);
+ 
+ 	return;
+ 
