@@ -56,8 +56,9 @@ rm -f bin/targets/x86/64/* &>/dev/null || true
 rm -fr build/target*/root* &>/dev/null || true
 
 # Launch the build
-make download -j"$NR_PROC" V=sc || make download V=sc
-make world -j"$NR_PROC" V=sc
+_NR_PROC=$(( ${NR_PROC:-1} > 24 ? 24 : ${NR_PROC:-1} ))
+taskset -c $(( 24 - $_NR_PROC ))-23 make download -j"$_NR_PROC" V=sc || make download V=sc
+taskset -c $(( 24 - $_NR_PROC ))-23 make world -j"$_NR_PROC" V=sc
 
 # List built firmwares
 ls -Altr bin/targets/x86/64
