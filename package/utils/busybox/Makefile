@@ -143,8 +143,6 @@ define Package/busybox/install
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(CP) $(PKG_INSTALL_DIR)/* $(1)/
-	$(INSTALL_DIR) $(1)/etc/profile.d
-	$(INSTALL_BIN) ./files/busybox-history-file.sh $(1)/etc/profile.d
 ifneq ($(CONFIG_BUSYBOX_$(BUSYBOX_SYM)_FEATURE_SYSLOG)$(CONFIG_BUSYBOX_$(BUSYBOX_SYM)_FEATURE_SYSLOGD_CFG),)
 	touch $(1)/etc/syslog.conf
 endif
