@@ -20,8 +20,7 @@ Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 
 --- a/drivers/mtd/nand/Makefile
 +++ b/drivers/mtd/nand/Makefile
-@@ -3,7 +3,7 @@
- nandcore-objs := core.o bbt.o
+@@ -4,7 +4,7 @@ nandcore-objs := core.o bbt.o
  obj-$(CONFIG_MTD_NAND_CORE) += nandcore.o
  obj-$(CONFIG_MTD_NAND_ECC_MEDIATEK) += ecc-mtk.o
 -
