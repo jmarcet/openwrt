@@ -22,6 +22,7 @@ PKG_LICENSE:=GPL-2.0-or-later
 PKG_CPE_ID:=cpe:/a:gmplib:gmp
 
 PKG_BUILD_FLAGS:=no-mips16
+TARGET_CFLAGS += $(FPIC) -std=gnu17
 
 include $(INCLUDE_DIR)/host-build.mk
 include $(INCLUDE_DIR)/package.mk
