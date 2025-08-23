@@ -19,9 +19,9 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
 --- a/drivers/net/dsa/b53/b53_common.c
 +++ b/drivers/net/dsa/b53/b53_common.c
-@@ -543,6 +543,10 @@ void b53_imp_vlan_setup(struct dsa_switc
- 	unsigned int i;
- 	u16 pvlan;
+@@ -547,6 +547,10 @@ void b53_imp_vlan_setup(struct dsa_switc
+ 	if ((is5325(dev) || is5365(dev)) && cpu_port == B53_CPU_PORT_25)
+ 		cpu_port = B53_CPU_PORT;
  
 +	/* BCM5325 CPU port is at 8 */
 +	if ((is5325(dev) || is5365(dev)) && cpu_port == B53_CPU_PORT_25)
