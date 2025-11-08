@@ -1,0 +1,40 @@
+From 7cfd166b857a58da6222b57334a886272f671d7f Mon Sep 17 00:00:00 2001
+From: Javier Marcet <javier@marcet.info>
+Date: Sat, 8 Nov 2025 04:21:22 +0100
+Subject: [PATCH] kernel: drm: i915: do not taint kernel
+
+Signed-off-by: Javier Marcet <javier@marcet.info>
+---
+ drivers/gpu/drm/i915/display/intel_display_params.c | 2 +-
+ drivers/gpu/drm/i915/i915_params.c                  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/display/intel_display_params.c b/drivers/gpu/drm/i915/display/intel_display_params.c
+index 1a45d300b6f0..734b61db1c42 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_params.c
++++ b/drivers/gpu/drm/i915/display/intel_display_params.c
+@@ -103,7 +103,7 @@ intel_display_param_named_unsafe(nuclear_pageflip, bool, 0400,
+ intel_display_param_named_unsafe(enable_dp_mst, bool, 0400,
+ 	"Enable multi-stream transport (MST) for new DisplayPort sinks. (default: true)");
+ 
+-intel_display_param_named_unsafe(enable_fbc, int, 0400,
++intel_display_param_named(enable_fbc, int, 0400,
+ 	"Enable frame buffer compression for power savings "
+ 	"(default: -1 (use per-chip default))");
+ 
+diff --git a/drivers/gpu/drm/i915/i915_params.c b/drivers/gpu/drm/i915/i915_params.c
+index 37746dd619fd..2bfc30dddb17 100644
+--- a/drivers/gpu/drm/i915/i915_params.c
++++ b/drivers/gpu/drm/i915/i915_params.c
+@@ -92,7 +92,7 @@ i915_param_named(mmio_debug, int, 0400,
+ 	"Enable the MMIO debug code for the first N failures (default: off). "
+ 	"This may negatively affect performance.");
+ 
+-i915_param_named_unsafe(enable_guc, int, 0400,
++i915_param_named(enable_guc, int, 0400,
+ 	"Enable GuC load for GuC submission and/or HuC load. "
+ 	"Required functionality can be selected using bitmask values. "
+ 	"(-1=auto [default], 0=disable, 1=GuC submission, 2=HuC load)");
+-- 
+2.51.2
+
