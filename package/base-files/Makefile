@@ -257,8 +257,8 @@ endif
 
 ifneq ($(CONFIG_USE_APK),)
 	mkdir -p $(1)/etc/apk/repositories.d
-	$(call FeedSourcesAppendAPK,$(1)/etc/apk/repositories.d/distfeeds.list)
-	$(VERSION_SED_SCRIPT) $(1)/etc/apk/repositories.d/distfeeds.list
+#	$(call FeedSourcesAppendAPK,$(1)/etc/apk/repositories.d/distfeeds.list)
+#	$(VERSION_SED_SCRIPT) $(1)/etc/apk/repositories.d/distfeeds.list
 
 	rm -f $(1)/etc/uci-defaults/13_fix-group-user
 	rm -f $(1)/sbin/pkg_check
@@ -266,8 +266,8 @@ ifneq ($(CONFIG_USE_APK),)
 else
 	$(if $(CONFIG_CLEAN_IPKG),, \
 		mkdir -p $(1)/etc/opkg; \
-		$(call FeedSourcesAppendOPKG,$(1)/etc/opkg/distfeeds.conf); \
-		$(VERSION_SED_SCRIPT) $(1)/etc/opkg/distfeeds.conf)
+#		$(call FeedSourcesAppendOPKG,$(1)/etc/opkg/distfeeds.conf); \
+#		$(VERSION_SED_SCRIPT) $(1)/etc/opkg/distfeeds.conf)
 	$(if $(CONFIG_IPK_FILES_CHECKSUMS),, \
 		rm -f $(1)/sbin/pkg_check)
 endif
