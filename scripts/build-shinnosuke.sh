@@ -41,7 +41,11 @@ if [ ! -v SKIP_UPDATE ]; then
         echo "Updating $feed feed..."
         cd "$SRC/feeds/$feed"
         # AHEAD=$(git status | awk '/ahead of .upstream./ {print $8}')
-        git fetch --all && git log "HEAD${AHEAD:+-$AHEAD}..upstream/$BRANCH" && git rebase "upstream/$BRANCH"
+        if [ "$feed" == "luci" ]; then
+            rebase-luci.sh
+        else
+            git fetch --all && git log "HEAD${AHEAD:+-$AHEAD}..upstream/$BRANCH" && git rebase "upstream/$BRANCH"
+        fi
     done
     cd "$SRC"
     ./scripts/feeds update -af && ./scripts/feeds install -af
