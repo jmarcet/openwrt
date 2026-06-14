@@ -154,6 +154,10 @@ identify_magic_long() {
 	esac
 }
 
+is_gpt_dualboot() {
+	grep -q 'PARTNAME=openwrt_boot' /sys/class/block/*/uevent 2>/dev/null
+}
+
 part_magic_efi() {
 	local magic=$(get_magic_gpt "$@")
 	[ "$magic" = "EFI PART" ]
@@ -237,6 +241,61 @@ export_partdevice() {
 				return 0
 			fi
 		fi
+	done
+
+	return 1
+}
+
+export_partdevice_label() {
+	local var="$1" label="$2"
+	local found uevent line MAJOR MINOR DEVNAME DEVTYPE DISKSEQ PARTN PARTNAME
+
+	found=
+	for uevent in /sys/class/block/*/uevent; do
+		DEVTYPE= DEVNAME= PARTNAME=
+		while read line; do
+			export -n "$line"
+		done < "$uevent"
+		if [ "$DEVTYPE" = "partition" -a "$label" = "$PARTNAME" -a -b "/dev/$DEVNAME" ]; then
+			[ -n "$found" ] && {
+				echo "$label found more than once, remove duplicate partitions and try again" >&2
+				return 1
+			}
+			echo "Found $label @ /dev/$DEVNAME"
+			found="$DEVNAME"
+		fi
+	done
+	[ -n "$found" ] || return 1
+
+	export "$var=$found"
+	return 0
+}
+
+# The ESP is found by its GPT type GUID, on the disk holding openwrt_boot,
+# so it does not depend on the name the partitioning tool gave it.
+export_partdevice_esp() {
+	local var="$1"
+	local bootpart disk part uevent line MAJOR MINOR DEVNAME DEVTYPE DISKSEQ PARTN PARTNAME
+
+	export_partdevice_label bootpart openwrt_boot >/dev/null || return 1
+	disk="$(readlink -f "/sys/class/block/$bootpart/..")"
+	disk="${disk##*/}"
+
+	for part in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15; do
+		# C12A7328-F81F-11D2-BA4B-00A0C93EC93B as stored on disk
+		[ "$(hexdump -v -n 16 -s "$((0x380 + $part * 0x80))" -e '16/1 "%02x"' "/dev/$disk")" = \
+			"28732ac11ff8d211ba4b00a0c93ec93b" ] || continue
+
+		for uevent in /sys/class/block/$disk/*/uevent; do
+			DEVNAME= PARTN=
+			while read line; do
+				export -n "$line"
+			done < "$uevent"
+			[ "$PARTN" = "$part" -a -b "/dev/$DEVNAME" ] || continue
+			echo "Found EFI system partition @ /dev/$DEVNAME"
+			export "$var=$DEVNAME"
+			return 0
+		done
 	done
 
 	return 1
