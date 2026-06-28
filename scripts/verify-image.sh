@@ -22,6 +22,7 @@ cp -af "$_image_path" "${_tmp_image}.gz"
 [ -e "$_tmp_image" ] && rm -f "${_tmp_image}"
 gunzip "${_tmp_image}.gz" || true
 LOOP="$( losetup -f -P --show $_tmp_image )"
+echo; gdisk -l ${LOOP}; echo
 ( sudo mount "${LOOP}p3" /mnt/tmp && ls -Al /mnt/tmp && sudo umount /mnt/tmp && losetup -D "$LOOP" ) || exit 1
 losetup -l
 
