@@ -191,7 +191,9 @@ platform_dualboot_write() { # <image>
 			platform_dualboot_dd "$1" of=/tmp/.bootkernel.img ibs=512 obs=1M skip="$start" count="$size" || return 1
 			;;
 		3)
-			v "Writing new rootfs to /dev/$slotdev..."
+			v "Discarding rootfs$suffix @ /dev/$slotdev..."
+			blkdiscard -f "/dev/$slotdev" 2>/dev/null || v "Discard not supported on /dev/$slotdev"
+			v "Writing new rootfs$suffix to /dev/$slotdev..."
 			platform_dualboot_dd "$1" of="/dev/$slotdev" ibs=512 obs=1M skip="$start" count="$size" conv=fsync || return 1
 			;;
 		esac
