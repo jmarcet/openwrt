@@ -261,7 +261,9 @@ platform_do_upgrade() {
 			;;
 			3)
 				[ -n "$_alt" ] && partdev=$partdevalt
-				v "Writing new rootfs to /dev/$partdev..."
+				v "Discarding rootfs${_alt} @ /dev/$partdev..."
+				blkdiscard -f "/dev/$partdev" 2>/dev/null || v "Discard not supported on /dev/$partdev"
+				v "Writing new rootfs${_alt} to /dev/$partdev..."
 				get_image_dd "$1" of="/dev/$partdev" ibs="512" obs=1M skip="$start" count="$size" conv=fsync
 			;;
 			esac
