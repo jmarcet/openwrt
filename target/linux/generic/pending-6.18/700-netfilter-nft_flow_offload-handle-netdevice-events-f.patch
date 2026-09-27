@@ -50,9 +50,9 @@ Signed-off-by: Pablo Neira Ayuso <pablo@netfilter.org>
  static void __exit nf_flow_table_module_exit(void)
  {
 +	unregister_netdevice_notifier(&flow_offload_netdev_notifier);
+ 	rcu_barrier();
  	nf_flow_table_offload_exit();
  	unregister_pernet_subsys(&nf_flow_table_net_ops);
- }
 --- a/net/netfilter/nft_flow_offload.c
 +++ b/net/netfilter/nft_flow_offload.c
 @@ -234,47 +234,14 @@ static struct nft_expr_type nft_flow_off
