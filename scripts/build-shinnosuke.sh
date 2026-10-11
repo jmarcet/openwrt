@@ -37,14 +37,15 @@ if [ ! -v SKIP_UPDATE ]; then
     git fetch --all && git log "HEAD${AHEAD:+-$AHEAD}..upstream/$BRANCH" && git rebase "upstream/$BRANCH"
 
     # Update openwrt feeds
-    for feed in luci packages routing telephony; do
+    for feed in luci mu7d packages routing telephony video; do
         echo "Updating $feed feed..."
         cd "$SRC/feeds/$feed"
         # AHEAD=$(git status | awk '/ahead of .upstream./ {print $8}')
+        [ "$feed" == "mu7d" ] && _branch=rust || _branch=$BRANCH
         if [ "$feed" == "luci" ]; then
             rebase-luci.sh
         else
-            git fetch --all && git log "HEAD${AHEAD:+-$AHEAD}..upstream/$BRANCH" && git rebase "upstream/$BRANCH"
+            git fetch --all && git log "HEAD${AHEAD:+-$AHEAD}..upstream/$_branch" && git rebase "upstream/$_branch"
         fi
     done
     cd "$SRC"
