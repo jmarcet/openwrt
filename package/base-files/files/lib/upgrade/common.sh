@@ -275,30 +275,47 @@ export_partdevice_label() {
 # so it does not depend on the name the partitioning tool gave it.
 export_partdevice_esp() {
 	local var="$1"
-	local bootpart disk part uevent line MAJOR MINOR DEVNAME DEVTYPE DISKSEQ PARTN PARTNAME
+	local bootpart disk bs uevent line MAJOR MINOR DEVNAME DEVTYPE DISKSEQ PARTN PARTNAME
 
 	export_partdevice_label bootpart openwrt_boot >/dev/null || return 1
 	disk="$(readlink -f "/sys/class/block/$bootpart/..")"
 	disk="${disk##*/}"
+	bs="$(cat "/sys/class/block/$disk/queue/logical_block_size")" || return 1
 
-	for part in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15; do
+	for uevent in /sys/class/block/$disk/*/uevent; do
+		DEVNAME= PARTN=
+		while read line; do
+			export -n "$line"
+		done < "$uevent"
+		[ -n "$PARTN" -a -b "/dev/$DEVNAME" ] || continue
 		# C12A7328-F81F-11D2-BA4B-00A0C93EC93B as stored on disk
-		[ "$(hexdump -v -n 16 -s "$((0x380 + $part * 0x80))" -e '16/1 "%02x"' "/dev/$disk")" = \
+		[ "$(get_gpt_part_type "/dev/$disk" "$bs" "$PARTN")" = \
 			"28732ac11ff8d211ba4b00a0c93ec93b" ] || continue
-
-		for uevent in /sys/class/block/$disk/*/uevent; do
-			DEVNAME= PARTN=
-			while read line; do
-				export -n "$line"
-			done < "$uevent"
-			[ "$PARTN" = "$part" -a -b "/dev/$DEVNAME" ] || continue
-			echo "Found EFI system partition @ /dev/$DEVNAME"
-			export "$var=$DEVNAME"
-			return 0
-		done
+		echo "Found EFI system partition @ /dev/$DEVNAME"
+		export "$var=$DEVNAME"
+		return 0
 	done
 
 	return 1
+}
+
+# Prints the type GUID bytes of partition <n> from the GPT header's own
+# entry location and size, which depend on the disk's logical block size.
+get_gpt_part_type() { # <disk> <logical block size> <n>
+	local disk="$1" bs="$2" n="$3"
+	local lba count size
+
+	[ "$(dd if="$disk" bs=1 count=8 skip="$bs" 2>/dev/null)" = "EFI PART" ] || return 1
+
+	# entries LBA (low 32 bits) @72, entry count @80, entry size @84
+	set -- $(hexdump -v -n 16 -s "$((bs + 72))" -e '16/1 "%u "' "$disk")
+	[ "$#" -eq 16 ] || return 1
+	lba=$(($1 | $2 << 8 | $3 << 16 | $4 << 24))
+	count=$(($9 | ${10} << 8 | ${11} << 16 | ${12} << 24))
+	size=$((${13} | ${14} << 8 | ${15} << 16 | ${16} << 24))
+	[ "$n" -ge 1 -a "$n" -le "$count" ] || return 1
+
+	hexdump -v -n 16 -s "$((lba * bs + (n - 1) * size))" -e '16/1 "%02x"' "$disk"
 }
 
 hex_le32_to_cpu() {
