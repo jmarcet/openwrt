@@ -19,6 +19,6 @@ fi
 echo "Upggrading with image $(ls -al $_image_path)"
 
 scp $_image_path root@shinnosuke:/tmp/
-ssh root@shinnosuke "sysupgrade -i -n -p -v /tmp/$_image_name"
+ssh root@shinnosuke "sysupgrade -i -n -v /tmp/$_image_name"
 
 exit 0
