@@ -20,7 +20,7 @@ rm -f "$OUTPUT"
 head=16
 sect=63
 
-[ -n "$EFI_DUALBOOT" ] && ESPPARTTYPE="ef"
+[ -n "$EFI_DUALBOOT" ] && ESPPARTTYPE="ef" KERNELPARTTYPE="ea"
 
 # create partition table
 set $(ptgen -o "$OUTPUT" -h $head -s $sect ${GUID:+-g} \
